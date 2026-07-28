@@ -1,0 +1,36 @@
+name: FastAPI MCP CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gate:
+    name: FastAPI 품질 게이트
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: 저장소 Checkout
+        uses: actions/checkout@v4
+      - name: Python 설정
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: .python-version
+      - name: uv 설정
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b
+        with:
+          version: '0.11.32'
+          cache-dependency-glob: uv.lock
+      - name: 실행 권한 설정
+        run: chmod +x scripts/quality-gate.sh
+      - name: FastAPI 품질 게이트
+        run: ./scripts/quality-gate.sh

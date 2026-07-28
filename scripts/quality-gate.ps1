@@ -19,8 +19,13 @@ $productionFiles = $pythonFiles |
 $testFiles = $pythonFiles |
   Where-Object { $_.Name -match '^(test_.*|.*_test)\.py$' }
 
+if ($testFiles) {
+  Write-Host "[FastAPI 품질 게이트] pytest"
+  uv run --frozen pytest
+}
+
 if (-not $productionFiles) {
-  Write-Host "[FastAPI 품질 게이트] 구현 파일이 없어 mypy와 pytest를 생략합니다."
+  Write-Host "[FastAPI 품질 게이트] 구현 파일이 없어 mypy를 생략합니다."
   exit 0
 }
 if (-not $testFiles) {
@@ -28,4 +33,3 @@ if (-not $testFiles) {
 }
 
 uv run --frozen mypy @($pythonFiles.FullName)
-uv run --frozen pytest
