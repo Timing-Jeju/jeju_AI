@@ -1,0 +1,35 @@
+[project]
+name = "timing-jeju-fastapi-mcp"
+version = "0.1.0"
+description = "Timing Jeju 내부 일정 계산용 FastAPI MCP 서비스"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi>=0.139.2,<0.140",
+  "mcp>=1.27,<2",
+]
+
+[dependency-groups]
+dev = [
+  "mypy>=2.3,<3",
+  "pytest>=9.1.1,<10",
+  "ruff>=0.15.22,<0.16",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
