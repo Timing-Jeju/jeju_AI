@@ -25,8 +25,13 @@ PRODUCTION_FILES=$(find . -type f -name '*.py' \
 TEST_FILES=$(find . -type f \( -name 'test_*.py' -o -name '*_test.py' \) \
   ! -path './.venv/*' -print)
 
+if [ -n "$TEST_FILES" ]; then
+  echo "[FastAPI 품질 게이트] pytest"
+  "$UV" run --frozen pytest
+fi
+
 if [ -z "$PRODUCTION_FILES" ]; then
-  echo "[FastAPI 품질 게이트] 구현 파일이 없어 mypy와 pytest를 생략합니다."
+  echo "[FastAPI 품질 게이트] 구현 파일이 없어 mypy를 생략합니다."
   exit 0
 fi
 
@@ -38,6 +43,3 @@ fi
 echo "[FastAPI 품질 게이트] mypy 타입 검사"
 find . -type f -name '*.py' ! -path './.venv/*' -print0 \
   | xargs -0 "$UV" run --frozen mypy
-
-echo "[FastAPI 품질 게이트] pytest"
-"$UV" run --frozen pytest
