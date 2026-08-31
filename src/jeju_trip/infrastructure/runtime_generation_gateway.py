@@ -174,12 +174,25 @@ class PostgresGenerationGateway:
 
     def resolve_request(self, request: RecommendDayTripsInput) -> RecommendDayTripsInput:
         accommodation = self._resolve_accommodation(request.accommodation)
+        day_boundary = (
+            request.day_boundary.model_copy(
+                update={
+                    "start_place": self._resolve_reference(
+                        request.day_boundary.start_place
+                    ),
+                    "end_place": self._resolve_reference(request.day_boundary.end_place),
+                }
+            )
+            if request.day_boundary is not None
+            else None
+        )
         required = tuple(self._resolve_reference(item) for item in request.required_places)
         preferred = tuple(self._resolve_reference(item) for item in request.preferred_places)
         excluded = tuple(self._resolve_reference(item) for item in request.excluded_places)
         return request.model_copy(
             update={
                 "accommodation": accommodation,
+                "day_boundary": day_boundary,
                 "required_places": required,
                 "preferred_places": preferred,
                 "excluded_places": excluded,
@@ -305,11 +318,17 @@ class PostgresGenerationGateway:
         )
         clustered_ids = self._clustered_candidate_ids(request)
         candidate_ids = tuple(dict.fromkeys((*requested_ids, *clustered_ids)))
-        accommodation_id = request.accommodation.place_id
+        boundary_ids = tuple(
+            dict.fromkeys(
+                item.place_id
+                for item in (request.start_boundary, request.end_boundary)
+                if item.place_id is not None
+            )
+        )
         self._prime_place_candidates(
             tuple(
                 dict.fromkeys(
-                    (*candidate_ids, *((accommodation_id,) if accommodation_id else ()))
+                    (*candidate_ids, *boundary_ids)
                 )
             ),
             request,
@@ -336,8 +355,8 @@ class PostgresGenerationGateway:
                     ),
                 )
             places.append(place)
-        if accommodation_id is not None:
-            self._entrances[accommodation_id] = self._load_entrances(accommodation_id, request)
+        for boundary_id in boundary_ids:
+            self._entrances[boundary_id] = self._load_entrances(boundary_id, request)
         return tuple(places)
 
     def dietary_safety(
@@ -426,12 +445,14 @@ class PostgresGenerationGateway:
         if any(not solutions[strategy] for strategy in Strategy):
             return {strategy: () for strategy in Strategy}
 
-        hotel_id = request.accommodation.place_id
-        assert hotel_id is not None
+        start_place_id = request.start_boundary.place_id
+        end_place_id = request.end_boundary.place_id
+        assert start_place_id is not None
+        assert end_place_id is not None
 
         def edges(order: tuple[str, ...]) -> set[tuple[str, str]]:
             return set(
-                zip((hotel_id, *order), (*order, hotel_id), strict=True)
+                zip((start_place_id, *order), (*order, end_place_id), strict=True)
             )
 
         def unknown_opening_count(order: tuple[str, ...]) -> int:
@@ -441,10 +462,10 @@ class PostgresGenerationGateway:
             )
 
         def maximum_hotel_radius_meters(order: tuple[str, ...]) -> float:
-            accommodation = request.accommodation.coordinates
-            if accommodation is None:
+            start_boundary = request.start_boundary.coordinates
+            if start_boundary is None:
                 return math.inf
-            hotel_position = (accommodation.latitude, accommodation.longitude)
+            hotel_position = (start_boundary.latitude, start_boundary.longitude)
             return max(
                 (
                     self._coordinate_distance_meters(
@@ -589,8 +610,9 @@ class PostgresGenerationGateway:
     ) -> tuple[tuple[datetime, tuple[str, ...]], ...]:
         """공식 시각과 정책 체류시간만으로 bounded 일정 뼈대를 탐색한다."""
 
-        hotel_id = request.accommodation.place_id
-        if hotel_id is None:
+        start_place_id = request.start_boundary.place_id
+        end_place_id = request.end_boundary.place_id
+        if start_place_id is None or end_place_id is None:
             return ()
         by_edge: dict[tuple[str, str], list[_BusCandidateLeg]] = {}
         for leg in legs:
@@ -644,7 +666,7 @@ class PostgresGenerationGateway:
         for use_minimum_stays in (False, True):
             for pattern in role_patterns:
                 states: list[tuple[str, datetime, tuple[str, ...], int]] = [
-                    (hotel_id, request.activity_window.start_at, (), 0)
+                    (start_place_id, request.activity_window.start_at, (), 0)
                 ]
                 for role in pattern:
                     next_states: dict[
@@ -747,7 +769,7 @@ class PostgresGenerationGateway:
                     ):
                         continue
                     return_at = self._next_bus_arrival(
-                        by_edge.get((current_id, hotel_id), ()),
+                        by_edge.get((current_id, end_place_id), ()),
                         current_at,
                         request,
                     )
@@ -835,13 +857,18 @@ class PostgresGenerationGateway:
     ) -> tuple[_BusCandidateLeg, ...]:
         """후보 endpoint의 nearest 12 stop 사이 exact 직통·1회 환승을 읽는다."""
 
-        accommodation_id = request.accommodation.place_id
-        accommodation = request.accommodation.coordinates
-        if accommodation_id is None or accommodation is None:
+        boundaries = (request.start_boundary, request.end_boundary)
+        if any(item.place_id is None or item.coordinates is None for item in boundaries):
             return ()
-        endpoint_ids = [accommodation_id, *(place.place_id for place in places)]
-        latitudes = [accommodation.latitude, *(place.position.latitude for place in places)]
-        longitudes = [accommodation.longitude, *(place.position.longitude for place in places)]
+        endpoints = {
+            item.place_id: item.coordinates
+            for item in boundaries
+            if item.place_id is not None and item.coordinates is not None
+        }
+        endpoints.update({place.place_id: place.position for place in places})
+        endpoint_ids = list(endpoints)
+        latitudes = [endpoints[place_id].latitude for place_id in endpoint_ids]
+        longitudes = [endpoints[place_id].longitude for place_id in endpoint_ids]
         day_type = (
             "SATURDAY"
             if request.trip_date.isoweekday() == 6
@@ -1247,7 +1274,7 @@ class PostgresGenerationGateway:
     def _clustered_candidate_ids(self, request: RecommendDayTripsInput) -> tuple[str, ...]:
         """제주 전역 active 장소를 8km micro-cluster와 역할별 상한으로 압축한다."""
 
-        accommodation = request.accommodation.coordinates
+        accommodation = request.start_boundary.coordinates
         if accommodation is None:
             return ()
         history = history_place_policy(request)

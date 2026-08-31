@@ -1,0 +1,41 @@
+services:
+  jeju-trip-mcp-http:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    user: "${JEJU_MCP_UID:-10001}:${JEJU_MCP_GID:-10001}"
+    environment:
+      JEJU_MCP_HTTP_ENV_FILE: /run/jeju-mcp/http.env
+    volumes:
+      - type: bind
+        source: ${JEJU_MCP_HTTP_ENV_FILE:?owner-only HTTP env file is required}
+        target: /run/jeju-mcp/http.env
+        read_only: true
+      - type: bind
+        source: ${JEJU_MCP_JWKS_FILE:?JWKS file is required}
+        target: /run/jeju-mcp/jwks.json
+        read_only: true
+      - type: bind
+        source: ${JEJU_MCP_TLS_CERT_FILE:?TLS certificate is required}
+        target: /run/jeju-mcp/tls.crt
+        read_only: true
+      - type: bind
+        source: ${JEJU_MCP_TLS_KEY_FILE:?TLS private key is required}
+        target: /run/jeju-mcp/tls.key
+        read_only: true
+    networks:
+      - mcp-private
+      - provider-egress
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+networks:
+  mcp-private:
+    internal: true
+  provider-egress:

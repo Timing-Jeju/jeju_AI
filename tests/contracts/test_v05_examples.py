@@ -1,4 +1,4 @@
-"""보관된 v0.5 예시와 현재 v0.6 synthetic 예시를 구분해 검증한다."""
+"""보관된 v0.5 예시와 현재 v0.7 synthetic 예시를 구분해 검증한다."""
 
 from __future__ import annotations
 
@@ -20,22 +20,22 @@ from jeju_trip.domain.models import (
 
 ROOT = Path(__file__).resolve().parents[2]
 EXAMPLES = ROOT / "docs/examples/v0.5/east-poc"
-CURRENT_EXAMPLES = ROOT / "docs/examples/v0.6/synthetic"
+CURRENT_EXAMPLES = ROOT / "docs/examples/v0.7/synthetic"
 
 
 def _load(name: str):
     return json.loads((EXAMPLES / name).read_text(encoding="utf-8"))
 
 
-def test_v05_input_is_archived_and_rejected_by_v06_models() -> None:
-    """보관된 v0.5 입력은 v0.6 공개 모델에 암묵 변환되지 않아야 한다."""
+def test_v05_input_is_archived_and_rejected_by_current_models() -> None:
+    """보관된 v0.5 입력은 v0.7 공개 모델에 암묵 변환되지 않아야 한다."""
 
     with pytest.raises(ValidationError):
         RecommendDayTripsInput.model_validate(_load("recommend.input.json"))
 
 
-def test_all_v06_synthetic_examples_validate_against_public_models() -> None:
-    """추천·평가·정상·지연 예시는 모두 v0.6 계약을 통과해야 한다."""
+def test_all_v07_synthetic_examples_validate_against_public_models() -> None:
+    """추천·평가·정상·지연 예시는 모두 v0.7 계약을 통과해야 한다."""
 
     def current(name: str):
         return json.loads((CURRENT_EXAMPLES / name).read_text(encoding="utf-8"))

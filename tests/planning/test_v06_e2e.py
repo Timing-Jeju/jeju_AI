@@ -112,6 +112,8 @@ def _history(day: date, visited_place_id: str, index: int) -> SelectedDayHistory
         update={
             "route_id": f"history-route-{index}",
             "place_ids": (visited_place_id,),
+            "day_start_at": source.day_start_at + offset,
+            "day_end_at": source.day_end_at + offset,
             "accommodation_departure_at": source.accommodation_departure_at + offset,
             "accommodation_return_at": source.accommodation_return_at + offset,
             "timeline": tuple(shifted),

@@ -1,4 +1,4 @@
-# 제주 전역·다일 여행 JSON 계약 v0.6.0
+# 제주 전역·다일 여행 JSON 계약 v0.7.0
 
 ## 단일 원본
 
@@ -8,18 +8,23 @@
 
 ## 공통 여행 조건
 
-생성·정확 일정 판정은 `trip_date`, `timezone`, `accommodation`,
-`activity_window`, `party`, `transport`, `walking`, `rest`를 공유한다.
+생성·정확 일정 판정은 `trip_date`, `timezone`, `accommodation`, `activity_window`,
+`day_boundary`, `place_duration_preferences`, `party`, `transport`, `walking`, `rest`를 공유한다.
 timezone은 `Asia/Seoul`만 허용하고 모든 datetime은 `+09:00`이어야 한다.
 활동 시작일은 `trip_date`와 같고 활동 창은 24시간 이하여야 한다.
 
-숙소는 같은 숙소 endpoint에서 출발하고 복귀하는 경계다. 검증 입구가 없으면 active
-TourAPI 장소 fact의 대표좌표를 사용하며 `REPRESENTATIVE_PLACE_POINT`로 표시한다. 이름만 제공된 숙소나
-장소를 하나로 확정할 수 없으면 추정하지 않고 `PLACE_AMBIGUOUS`로 중단한다.
+`day_boundary.start_place/end_place`가 하루 장소 경계다. 생략했을 때만 accommodation을
+양쪽 endpoint로 사용한다. 검증 입구가 없으면 active TourAPI 장소 fact의 대표좌표를
+사용하며 `REPRESENTATIVE_PLACE_POINT`로 표시한다. 이름만 제공된 숙소·terminal·장소를
+하나로 확정할 수 없으면 추정하지 않고 `PLACE_AMBIGUOUS`로 중단한다.
+
+`place_duration_preferences`는 `{place_id, requested_stay_minutes}`의 중복 없는 배열이다.
+사용자 값은 전략 차별화나 자동 repair 과정에서 축소할 수 없다. 이 값 때문에 일정이 맞지
+않으면 후보를 실패시키거나 evidence로 닫힌 repair option만 제안한다.
 
 ## 추천 입력
 
-`RecommendDayTripsInput`은 다음 구조화 값을 받으며 `schema_version=0.6.0`만 허용한다.
+`RecommendDayTripsInput`은 다음 구조화 값을 받으며 `schema_version=0.7.0`만 허용한다.
 
 - `request_mode`: `generate`만 허용하며 v0.4와 `improve` 입력은 schema validation에서 거부
 - `required_places`, `preferred_places`, `excluded_places`
@@ -62,7 +67,7 @@ pattern은 `BUS_ROUTE_EXISTS_STOP_TIME_UNVERIFIED` 대안으로 보존한다. `M
 
 - `activities_only`: 활동 시각만 받고 기본적으로 숙소→첫 활동→…→숙소 이동을 엔진이
   삽입한다. 실시간 남은 일정처럼 출발지가 숙소와 다르면 선택적 `start_location`을 첫 이동
-  출발점으로만 사용하고, 마지막 이동은 계속 `accommodation`으로 복귀한다.
+  출발점으로만 사용하고, 마지막 이동은 계속 `day_boundary.end_place`로 향한다.
 - `full_timeline`: 사용자가 입력한 이동까지 검증한다. 버스번호·시간·거리·정류장은
   공식 근거와 일치해야 사실로 승격된다.
 
@@ -87,14 +92,14 @@ GPS가 없는 장소 체류 상태는 검증된 이벤트 입구를 기준으로
 GPS·정류장·노선 정보가 모두 없으면 위치 기반 재경로를 만들지 않고
 `data_unavailable`과 `LOCATION_CONTEXT_INSUFFICIENT`를 반환한다.
 남은 일정은 현재 장소 또는 GPS를 `start_location`으로 변환하되 원 일정의 숙소를
-`accommodation`으로 보존한다. 현재 장소와 첫 남은 활동이 같으면 외부 경로 수치를 만들지
+`day_boundary.end_place`를 보존한다. 현재 장소와 첫 남은 활동이 같으면 외부 경로 수치를 만들지
 않고 0분 위치 연속성으로 처리한다. GPS endpoint는 요청 프로세스 메모리에만 존재한다.
 
 ## 생성 최상위 응답
 
 `DayTripResponse` 필드는 다음과 같다.
 
-- `schema_version`: 항상 `0.6.0`
+- `schema_version`: 항상 `0.7.0`
 - `request_id`, `generated_at`
 - `status`: `success | insufficient_feasible_routes`
 - `planning_context`, `request`, `assumptions`
@@ -149,8 +154,10 @@ planned_minutes = ceil(expected_minutes * speed_multiplier) + route_uncertainty_
 
 ## 시간과 합계
 
-- 추천의 `accommodation_departure_at`·`accommodation_return_at`은 각각 첫 timeline
-  이벤트 시작과 마지막 이벤트 종료에 정확히 일치한다.
+- 추천의 `day_start_at`·`day_end_at`은 각각 첫 timeline 이벤트 시작과 마지막 이벤트
+  종료에 정확히 일치하고, `start_place_id`·`end_place_id`는 확정된 하루 경계 ID다.
+  기존 `accommodation_departure_at`·`accommodation_return_at`도 v0.7 전환 기간 동안 같은
+  시각을 보존하지만 장소 경계 의미는 새 필드가 기준이다.
 - 방문의 `arrival_at`·`entry_at`·`departure_at`·`stay_minutes`는 timeline 방문
   이벤트와 일치하며, 성공 추천의 `opening_hours_conflict`는 항상 `false`다.
 - 구간별 `segment_risks`는 `risk`와 `slack_minutes`를 제공한다. 고정된 다음
@@ -167,8 +174,8 @@ planned_minutes = ceil(expected_minutes * speed_multiplier) + route_uncertainty_
 
 ## 보관된 v0.5 자료
 
-`docs/examples/v0.5`는 당시 계약 기록으로만 보관한다. 현재 Pydantic 모델로 변환하거나
-검증하지 않으며 현재 synthetic 예시는 `docs/examples/v0.6`에서 생성한다.
+`docs/examples/v0.5`와 `docs/examples/v0.6`은 당시 계약 기록으로만 보관한다. 현재 Pydantic
+모델로 변환하거나 검증하지 않으며 current synthetic 예시는 `docs/examples/v0.7`에서 생성한다.
 
 ## 단일 first-pass
 

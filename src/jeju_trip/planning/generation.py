@@ -312,9 +312,9 @@ class DynamicClusterCandidateAssembler:
             raise CandidateInfeasible("MEAL_VENUE_UNAVAILABLE")
         if request.food.auto_schedule_cafe and not rests:
             raise CandidateInfeasible("REST_VENUE_UNAVAILABLE")
-        origin = request.accommodation.coordinates
+        origin = request.start_boundary.coordinates
         if origin is None:
-            raise CandidateInfeasible("ACCOMMODATION_COORDINATES_UNRESOLVED")
+            raise CandidateInfeasible("DAY_START_COORDINATES_UNRESOLVED")
         sorted_optional = sorted(
             optional_visits,
             key=lambda place: (self._distance(origin, place.position), place.place_id),
@@ -498,7 +498,12 @@ class DeterministicDayTripGenerator:
                     (reason_code,),
                     (),
                 )
-        available_places = self._gateway.places(request)
+        available_places = tuple(
+            replace(place, stay_minutes=requested)
+            if (requested := request.requested_stay_minutes(place.place_id)) is not None
+            else place
+            for place in self._gateway.places(request)
+        )
         history_policy = history_place_policy(request)
         excluded_ids = {
             item.place_id for item in request.excluded_places if item.place_id is not None
@@ -665,7 +670,7 @@ class DeterministicDayTripGenerator:
                 diversity_valid=True,
                 checks=(
                     "REQUIRED_PLACES_INCLUDED",
-                    "HOTEL_ROUND_TRIP",
+                    "DAY_BOUNDARY_COMPLETE",
                     "ROUTING_BUDGET_ENFORCED",
                     "NO_PARTIAL_SUCCESS",
                 ),
@@ -719,7 +724,7 @@ class DeterministicDayTripGenerator:
         """19시 복귀가 넘은 경우에만 optional 체류 단축·제거 후 전 구간을 재탐색한다."""
 
         place_by_id = self._strategy_place_durations(
-            strategy, order, place_by_id, required_ids
+            request, strategy, order, place_by_id, required_ids
         )
         try:
             return self._schedule_once(
@@ -744,6 +749,8 @@ class DeterministicDayTripGenerator:
         ]
         for place_id in optional:
             place = repaired_places[place_id]
+            if request.requested_stay_minutes(place_id) is not None:
+                continue
             minimum = self._minimum_stay_minutes(place)
             if minimum >= place.stay_minutes:
                 continue
@@ -785,6 +792,7 @@ class DeterministicDayTripGenerator:
 
     def _strategy_place_durations(
         self,
+        request: RecommendDayTripsInput,
         strategy: Strategy,
         order: tuple[str, ...],
         place_by_id: dict[str, VerifiedGenerationPlace],
@@ -817,6 +825,8 @@ class DeterministicDayTripGenerator:
             if selected_id is None:
                 return place_by_id
         selected = place_by_id[selected_id]
+        if request.requested_stay_minutes(selected_id) is not None:
+            return place_by_id
         key = (
             "cafe"
             if selected.activity_type == "rest"
@@ -868,13 +878,14 @@ class DeterministicDayTripGenerator:
             raise CandidateInfeasible("REQUIRED_PLACE_MISSING")
         if any(place_id not in place_by_id for place_id in order):
             raise CandidateInfeasible("PROPOSED_PLACE_UNKNOWN")
-        hotel_id = request.accommodation.place_id
-        if hotel_id is None:
-            raise CandidateInfeasible("ACCOMMODATION_UNRESOLVED")
+        start_place_id = request.start_boundary.place_id
+        end_place_id = request.end_boundary.place_id
+        if start_place_id is None or end_place_id is None:
+            raise CandidateInfeasible("DAY_BOUNDARY_UNRESOLVED")
 
         timeline: list[TimelineEvent] = []
         sequence = 1
-        current_id = hotel_id
+        current_id = start_place_id
         current_at = request.activity_window.start_at
         walking_minutes = 0
         walking_distance = 0
@@ -1125,7 +1136,7 @@ class DeterministicDayTripGenerator:
             raise CandidateInfeasible("REST_VENUE_UNAVAILABLE")
 
         return_route = self._gateway.route(
-            current_id, hotel_id, current_at, strategy, request, budget
+            current_id, end_place_id, current_at, strategy, request, budget
         )
         if return_route is None:
             raise CandidateInfeasible("HOTEL_RETURN_ROUTE_MISSING")
@@ -1172,7 +1183,7 @@ class DeterministicDayTripGenerator:
                 start_at=current_at,
                 end_at=return_end,
                 duration_minutes=return_driving_minutes,
-                title="숙소 복귀",
+                title="하루 종료 장소 도착",
                 transfer=return_route.transfer,
                 evidence_fact_ids=return_route.evidence_fact_ids,
             )
@@ -1282,12 +1293,14 @@ class DeterministicDayTripGenerator:
             recommendation_reasons=(
                 GroundedReason(
                     text=(
-                        "문-to-문 이동 근거 안에서 숙소로 복귀하며 운영시간은 재확인이 필요합니다."
+                        "문-to-문 이동 근거 안에서 하루 종료 장소에 도착하며 "
+                        "운영시간은 재확인이 필요합니다."
                         if any(
                             place_by_id[place_id].operating_hours_status == "UNVERIFIED"
                             for place_id in order
                         )
-                        else "검증된 운영시간과 문-to-문 이동 근거 안에서 숙소로 복귀합니다."
+                        else "검증된 운영시간과 문-to-문 이동 근거 안에서 "
+                        "하루 종료 장소에 도착합니다."
                     ),
                     evidence_fact_ids=reason_fact_ids,
                 ),
@@ -1322,6 +1335,10 @@ class DeterministicDayTripGenerator:
                 for item in request.preferred_places
                 if item.place_id is not None and item.place_id not in order
             ),
+            day_start_at=timeline[0].start_at,
+            day_end_at=timeline[-1].end_at,
+            start_place_id=start_place_id,
+            end_place_id=end_place_id,
             accommodation_departure_at=timeline[0].start_at,
             accommodation_return_at=timeline[-1].end_at,
             timeline=tuple(timeline),

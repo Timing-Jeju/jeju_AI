@@ -1,4 +1,4 @@
-"""v0.6 다일 입력과 분리된 안전도 상태 계약을 검증한다."""
+"""v0.7 다일 입력과 분리된 안전도 상태 계약을 검증한다."""
 
 from __future__ import annotations
 
@@ -57,21 +57,21 @@ def _next_day_payload() -> dict[str, object]:
     }
 
 
-def test_v05_input_is_rejected_without_implicit_migration() -> None:
-    """v0.5 입력은 v0.6 공개 계약으로 암묵 변환되지 않아야 한다."""
+def test_v06_input_is_rejected_without_implicit_migration() -> None:
+    """v0.6 입력은 v0.7 공개 계약으로 암묵 변환되지 않아야 한다."""
 
     payload = make_request().model_dump(mode="python")
-    payload["schema_version"] = "0.5.0"
+    payload["schema_version"] = "0.6.0"
     with pytest.raises(ValidationError):
         RecommendDayTripsInput.model_validate(payload)
 
 
-def test_package_version_matches_public_v06_contract() -> None:
+def test_package_version_matches_public_v07_contract() -> None:
     """배포 패키지 버전은 현재 공개 JSON 계약 버전과 정확히 일치해야 한다."""
 
     metadata = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
 
-    assert metadata["project"]["version"] == "0.6.0"
+    assert metadata["project"]["version"] == "0.7.0"
 
 
 def test_previous_days_must_be_unique_and_ascending() -> None:

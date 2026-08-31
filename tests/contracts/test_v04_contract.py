@@ -18,7 +18,7 @@ KST = timezone(timedelta(hours=9))
 
 def _common_payload() -> dict[str, object]:
     return {
-        "schema_version": "0.6.0",
+        "schema_version": "0.7.0",
         "trip_date": "2026-08-15",
         "timezone": "Asia/Seoul",
         "accommodation": {
@@ -63,7 +63,7 @@ def test_revalidation_requires_checked_at_kst() -> None:
     with pytest.raises(ValidationError, match=r"\+09:00"):
         RevalidateJejuDayTripInput.model_validate(
             {
-                "schema_version": "0.6.0",
+                "schema_version": "0.7.0",
                 "checked_at": "2026-08-15T12:20:00+00:00",
                 "progress": {
                     "state": "ready_to_depart",

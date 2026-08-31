@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
+from pathlib import Path
 from typing import Any, cast
 
 import pytest
@@ -25,6 +28,8 @@ from jeju_trip.domain.models import (
 )
 from jeju_trip.interfaces.mcp.server import create_server
 from tests.factories import make_request, make_success_response
+
+ROOT = Path(__file__).resolve().parents[2]
 
 TOOL_CONTRACTS = {
     "recommend_jeju_day_trips": (RecommendDayTripsInput, DayTripResponse),
@@ -79,6 +84,26 @@ async def test_mcp_schemas_match_pydantic_contracts_without_drift() -> None:
         ).model_json_schema()
         assert tool.inputSchema == expected_input
         assert tool.outputSchema == output_model.model_json_schema()
+
+
+def test_mcp_tool_checksum_manifest_matches_fresh_generation(tmp_path: Path) -> None:
+    """여섯 도구 schema checksum manifest는 실제 FastMCP 노출 계약과 같아야 한다."""
+
+    generated = tmp_path / "mcp-tools-v0.7.json"
+    subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/generate_mcp_tool_manifest.py"),
+            "--output",
+            str(generated),
+        ],
+        cwd=ROOT,
+        check=True,
+    )
+
+    assert generated.read_bytes() == (
+        ROOT / "docs/manifests/mcp-tools-v0.7.json"
+    ).read_bytes()
 
 
 @pytest.mark.asyncio

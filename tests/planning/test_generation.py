@@ -124,8 +124,8 @@ class FixedGenerationGateway:
         ids = [f"fact-{place_id}" for place_id in self._places]
         ids.extend(
             f"fact-route-{left}-{right}"
-            for left in ("hotel", *self._places)
-            for right in ("hotel", *self._places)
+            for left in ("hotel", "airport", "port", *self._places)
+            for right in ("hotel", "airport", "port", *self._places)
             if left != right
         )
         ids.extend(
@@ -345,6 +345,7 @@ def test_experience_max_uses_versioned_maximum_for_last_rest() -> None:
     )
 
     adjusted = generator._strategy_place_durations(
+        _request(),
         Strategy.EXPERIENCE_MAX,
         ("a", "meal", "rest"),
         gateway._places,
@@ -354,6 +355,57 @@ def test_experience_max_uses_versioned_maximum_for_last_rest() -> None:
     assert adjusted["a"].stay_minutes == 60
     assert gateway._places["rest"].stay_minutes == 20
     assert adjusted["rest"].stay_minutes == 60
+
+
+def test_distinct_day_boundaries_and_requested_stay_are_preserved() -> None:
+    """terminal 시작·종료와 사용자 체류시간은 세 전략 생성에서 그대로 유지해야 한다."""
+
+    payload = _request().model_dump(mode="python")
+    payload["day_boundary"] = {
+        "start_place": {
+            "place_id": "airport",
+            "name": "제주국제공항",
+            "coordinates": {"latitude": 33.51, "longitude": 126.49},
+        },
+        "end_place": {
+            "place_id": "port",
+            "name": "제주항",
+            "coordinates": {"latitude": 33.52, "longitude": 126.54},
+        },
+    }
+    payload["place_duration_preferences"] = [
+        {"place_id": "required", "requested_stay_minutes": 90}
+    ]
+    request = RecommendDayTripsInput.model_validate(payload)
+
+    response = DeterministicDayTripGenerator(
+        FixedGenerationGateway(),
+        FixedOrderProposer(),
+        load_planning_policy(ROOT / "config/policies/planning_policy_v1.toml"),
+    ).generate(request, now=datetime(2026, 8, 10, 10, tzinfo=KST))
+
+    assert response.status == "success", response.failure
+    for recommendation in response.recommendations:
+        assert recommendation.start_place_id == "airport"
+        assert recommendation.end_place_id == "port"
+        requested_visit = next(
+            event
+            for event in recommendation.timeline
+            if event.place_id == "required" and event.type == "visit"
+        )
+        assert requested_visit.duration_minutes == 90
+        first_transfer = next(
+            event.transfer for event in recommendation.timeline if event.transfer is not None
+        )
+        last_transfer = next(
+            event.transfer
+            for event in reversed(recommendation.timeline)
+            if event.transfer is not None
+        )
+        assert first_transfer.direct_walk is not None
+        assert last_transfer.direct_walk is not None
+        assert first_transfer.direct_walk.from_id == "airport"
+        assert last_transfer.direct_walk.to_id == "port"
 
 
 def test_completed_rest_does_not_count_toward_the_next_continuous_activity_period() -> None:

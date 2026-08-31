@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "jeju-day-trip-mcp"
-version = "0.6.0"
+version = "0.7.0"
 description = "Evidence-grounded 제주 전역 하루 여행 생성·판정 MCP server"
 requires-python = ">=3.12"
 dependencies = [
@@ -23,6 +23,7 @@ dependencies = [
 jeju-data = "jeju_trip.interfaces.cli:main"
 jeju-trip-mcp = "jeju_trip.interfaces.mcp.server:main"
 jeju-trip-mcp-codex = "jeju_trip.interfaces.mcp.codex_launcher:main"
+jeju-trip-mcp-http = "jeju_trip.interfaces.mcp.http_launcher:main"
 
 [dependency-groups]
 dev = [

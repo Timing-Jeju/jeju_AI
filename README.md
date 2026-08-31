@@ -1,7 +1,7 @@
 # 제주 하루 여행 MCP
 
 공식·승인 데이터와 결정론적 검증만으로 제주 하루 일정을 생성하고 평가하는 로컬 stdio
-MCP 서버입니다. 공개 계약 버전은 `0.6.0`이며, 성공 시 `balanced`, `relaxed`,
+MCP 서버입니다. 공개 계약 버전은 `0.7.0`이며, 성공 시 `balanced`, `relaxed`,
 `experience_max` 일정 세 개를 모두 반환합니다. 세 개를 만들 수 없으면 부분 결과 없이
 `insufficient_feasible_routes`로 종료합니다.
 
@@ -53,6 +53,19 @@ importer/migrator DSN, TourAPI·Holiday, OpenAI, S3/AWS, proxy, `PYTHONPATH`, Co
 그 밖의 `JEJU_*` 값은 전달하지 않습니다. `JEJU_RUNTIME_DSN`이 importer, migrator 또는
 관리자 성격 역할을 가리키거나 필수 세 값이 비어 있으면 종료 코드 `78`로 fail-closed 합니다.
 dotenv는 shell로 실행하지 않으며 변수·명령 치환 문법을 거부합니다.
+
+## Private Streamable HTTP MCP
+
+Spring worker 연동은 `jeju-trip-mcp-http` 실행점의 stateless JSON Streamable HTTP `/mcp`를
+사용합니다. stdio와 HTTP는 같은 여섯 도구와 schema checksum을 노출합니다. HTTP launcher는
+owner-only `.env.http`에서 runtime 세 값과 bind, issuer, audience, local JWKS, TLS 인증서·키
+경로만 선택합니다. 최대 5분 RS256 JWT에 `jeju:mcp:invoke` scope와 JTI가 필요합니다.
+
+기본 bind는 `127.0.0.1:8000`입니다. 컨테이너에서 `0.0.0.0`을 사용할 때는 public port를
+publish하지 않은 private network임을 확인하고 `JEJU_MCP_PRIVATE_NETWORK_CONFIRMED=true`를
+명시해야 합니다. `/health`와 `/ready`는 인증 정보나 provider 상태 원문을 반환하지 않습니다.
+배포 예시는 `infra/compose.private-http.yml`, 운영 상세 계약은
+[`FASTAPI_MCP_CONTRACT.md`](docs/FASTAPI_MCP_CONTRACT.md)를 참고합니다.
 
 ### Codex 등록과 롤백
 

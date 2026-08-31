@@ -1,16 +1,18 @@
-"""git metadata가 없는 작업공간용 v0.6 산출물 checksum 검증."""
+"""git metadata가 없는 작업공간용 v0.7 산출물 checksum 검증."""
 
 from __future__ import annotations
 
 import hashlib
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-MANIFEST = ROOT / "docs/manifests/v06-current.sha256"
+MANIFEST = ROOT / "docs/manifests/v07-current.sha256"
 
 
-def test_v06_checksum_manifest_matches_current_artifacts() -> None:
-    """v0.6 변경 범위 파일은 고정 manifest의 SHA-256과 모두 일치해야 한다."""
+def test_v07_checksum_manifest_matches_current_artifacts(tmp_path: Path) -> None:
+    """v0.7 변경 범위 파일은 고정 manifest의 SHA-256과 모두 일치해야 한다."""
 
     entries = [
         line.split("  ", maxsplit=1)
@@ -25,3 +27,15 @@ def test_v06_checksum_manifest_matches_current_artifacts() -> None:
         hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == expected
         for expected, path in entries
     )
+    generated = tmp_path / "v07-current.sha256"
+    subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/generate_v07_checksum_manifest.py"),
+            "--output",
+            str(generated),
+        ],
+        cwd=ROOT,
+        check=True,
+    )
+    assert generated.read_bytes() == MANIFEST.read_bytes()

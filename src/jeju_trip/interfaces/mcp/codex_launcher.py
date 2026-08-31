@@ -162,7 +162,9 @@ def _parse_allowed_value(raw_value: str) -> str:
     return value
 
 
-def _parse_runtime_values(content: str) -> dict[str, str]:
+def _parse_runtime_values(
+    content: str, *, allowed_keys: tuple[str, ...] = RUNTIME_KEYS
+) -> dict[str, str]:
     selected: dict[str, str] = {}
     for line in content.splitlines():
         stripped = line.strip()
@@ -179,7 +181,7 @@ def _parse_runtime_values(content: str) -> dict[str, str]:
         key = key_text.strip()
         if not _KEY_PATTERN.fullmatch(key):
             _raise("MCP_ENV_SYNTAX_INVALID")
-        if key in RUNTIME_KEYS:
+        if key in allowed_keys:
             selected[key] = _parse_allowed_value(raw_value)
     return selected
 

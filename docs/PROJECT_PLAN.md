@@ -1,18 +1,25 @@
-# 제주 전역·다일 여행 플래너 v0.6 구현 기준
+# 제주 전역·다일 여행 플래너 v0.7 구현 기준
 
 ## 제품 범위
 
 하나의 결정론적 `ItineraryEvaluationEngine`을 중심으로 다음 여섯 MCP 도구를 제공한다.
 
-- `recommend_jeju_day_trips`: 숙소 왕복의 서로 다른 유효 일정 세 개 생성
+- `recommend_jeju_day_trips`: 명시적 하루 시작·종료 경계 사이의 서로 다른 유효 일정 세 개 생성
 - `evaluate_jeju_day_trip`: 활동-only 또는 전체 타임라인 사전 판정
 - `revalidate_jeju_day_trip`: 현재 진행상태와 선택적 GPS 기반 남은 일정 재판정
 - `search_jeju_places`: active publication 장소 검색
 - `inspect_jeju_bus_stop`: 정류장·방향·canonical mapping 검사
 - `preview_jeju_transfer`: 영속 저장 없는 문-to-문 이동 미리보기
 
-공개 계약 버전은 `0.6.0`이다. v0.5 입력은 schema validation에서 거부한다.
+공개 runtime 계약 버전은 `0.7.0`이다. v0.5·v0.6 입력은 schema validation에서 거부하며
+`docs/examples/v0.6`은 당시 결과의 감사 자료로만 보존한다.
 현재 운영 범위는 `JEJU_ALL/ALL`, 최대 5일이며 날짜별 숙소를 독립적으로 사용한다.
+
+`activity_window`가 절대 시간 경계이고 선택적 `day_boundary.start_place/end_place`가 장소
+경계다. 경계를 생략한 날짜만 숙소를 양쪽 endpoint로 사용한다. 첫날 terminal→숙소, 중간
+날짜 숙소→숙소, 마지막 날 숙소→terminal, 당일 여행 terminal→terminal 입력을 손실 없이
+받는다. `place_duration_preferences`의 사용자 체류시간은 전략별 조정이나 자동 수선으로
+축소하지 않는다.
 
 ## 절대 불변조건
 
@@ -65,7 +72,7 @@ verified 입구 coverage는 일반 요청의 차단 조건이 아닌 품질 지�
 
 ## 구현·승인 순서
 
-1. v0.6 Pydantic 계약·Schema 동기화
+1. v0.7 Pydantic 계약·Schema 동기화
 2. 공통 판정·수정안 엔진
 3. append-only publication과 복합 운영시간·시간표·정책 fact
 4. TMAP 보행/차량, 공식 시간표 버스, 버스·택시 요금 범위와 런타임 조립
@@ -77,3 +84,11 @@ verified 입구 coverage는 일반 요청의 차단 조건이 아닌 품질 지�
 drift → synthetic example drift → checksum manifest → TMAP 메모리 전용 smoke →
 Generate→Evaluate→Revalidate → 5일 이력 → 버스-only 전 구간 회귀 순서다. PostGIS/MinIO와
 승인된 외부 API live 검증은 자격 증명과 당일 데이터가 있는 환경에서만 별도로 실행한다.
+
+## MCP transport
+
+로컬 `stdio`와 인증된 stateless Streamable HTTP `/mcp`는 같은 여섯 도구와 Pydantic 생성
+schema를 노출한다. HTTP는 private network, TLS, 최대 5분 RS256 service JWT, local JWKS
+issuer·audience·scope·expiry·JTI 검증을 모두 요구한다. launcher는 세 runtime secret과
+bind/auth/JWKS/TLS 경로, 최소 시스템 환경만 자식 process에 남긴다. `/health`와 `/ready`는
+provider 원문이나 secret을 반환하지 않는다.

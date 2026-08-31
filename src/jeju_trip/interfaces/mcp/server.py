@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import os
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Iterator, Mapping
 from contextlib import ExitStack, contextmanager
 from pathlib import Path
+from typing import Any
 
 import httpx
 from mcp.server.fastmcp import FastMCP
@@ -120,7 +121,11 @@ def managed_service(
         yield _build_runtime_service(stack, client_factory)
 
 
-def create_server(service: TripPlannerService | None = None) -> FastMCP:
+def create_server(
+    service: TripPlannerService | None = None,
+    *,
+    fastmcp_options: Mapping[str, Any] | None = None,
+) -> FastMCP:
     planner = service or TripPlannerService()
     server = FastMCP(
         "jeju-day-trip-planner",
@@ -128,6 +133,7 @@ def create_server(service: TripPlannerService | None = None) -> FastMCP:
             "제주 전역의 생성·사전 판정·실시간 재판정 도구입니다. "
             "검증된 세 경로가 없으면 전체 실패합니다."
         ),
+        **dict(fastmcp_options or {}),
     )
 
     @server.tool()

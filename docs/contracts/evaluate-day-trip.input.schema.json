@@ -53,9 +53,35 @@
     "ActivitiesOnlyEvaluationInput": {
       "additionalProperties": false,
       "properties": {
+        "accommodation": {
+          "$ref": "#/$defs/AccommodationInput"
+        },
+        "activity_window": {
+          "$ref": "#/$defs/ActivityWindow"
+        },
+        "day_boundary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DayBoundary"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "place_duration_preferences": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/PlaceDurationPreference"
+          },
+          "maxItems": 40,
+          "title": "Place Duration Preferences",
+          "type": "array"
+        },
         "schema_version": {
-          "const": "0.6.0",
-          "default": "0.6.0",
+          "const": "0.7.0",
+          "default": "0.7.0",
           "title": "Schema Version",
           "type": "string"
         },
@@ -69,12 +95,6 @@
           "default": "Asia/Seoul",
           "title": "Timezone",
           "type": "string"
-        },
-        "accommodation": {
-          "$ref": "#/$defs/AccommodationInput"
-        },
-        "activity_window": {
-          "$ref": "#/$defs/ActivityWindow"
         },
         "party": {
           "$ref": "#/$defs/Party"
@@ -137,9 +157,9 @@
         }
       },
       "required": [
-        "trip_date",
         "accommodation",
         "activity_window",
+        "trip_date",
         "schedule_format",
         "scheduled_activities"
       ],
@@ -336,6 +356,24 @@
       "title": "CostRange",
       "type": "object"
     },
+    "DayBoundary": {
+      "additionalProperties": false,
+      "description": "숙소 왕복으로 제한하지 않는 하루의 canonical 시작·종료 장소.",
+      "properties": {
+        "start_place": {
+          "$ref": "#/$defs/PlaceReference"
+        },
+        "end_place": {
+          "$ref": "#/$defs/PlaceReference"
+        }
+      },
+      "required": [
+        "start_place",
+        "end_place"
+      ],
+      "title": "DayBoundary",
+      "type": "object"
+    },
     "EndpointBasis": {
       "enum": [
         "VERIFIED_ENTRANCE",
@@ -493,9 +531,35 @@
     "FullTimelineEvaluationInput": {
       "additionalProperties": false,
       "properties": {
+        "accommodation": {
+          "$ref": "#/$defs/AccommodationInput"
+        },
+        "activity_window": {
+          "$ref": "#/$defs/ActivityWindow"
+        },
+        "day_boundary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DayBoundary"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "place_duration_preferences": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/PlaceDurationPreference"
+          },
+          "maxItems": 40,
+          "title": "Place Duration Preferences",
+          "type": "array"
+        },
         "schema_version": {
-          "const": "0.6.0",
-          "default": "0.6.0",
+          "const": "0.7.0",
+          "default": "0.7.0",
           "title": "Schema Version",
           "type": "string"
         },
@@ -509,12 +573,6 @@
           "default": "Asia/Seoul",
           "title": "Timezone",
           "type": "string"
-        },
-        "accommodation": {
-          "$ref": "#/$defs/AccommodationInput"
-        },
-        "activity_window": {
-          "$ref": "#/$defs/ActivityWindow"
         },
         "party": {
           "$ref": "#/$defs/Party"
@@ -578,9 +636,9 @@
         }
       },
       "required": [
-        "trip_date",
         "accommodation",
         "activity_window",
+        "trip_date",
         "schedule_format",
         "timeline"
       ],
@@ -1135,6 +1193,29 @@
         }
       },
       "title": "Party",
+      "type": "object"
+    },
+    "PlaceDurationPreference": {
+      "additionalProperties": false,
+      "description": "사용자가 장소별로 고정한 체류시간 제약.",
+      "properties": {
+        "place_id": {
+          "minLength": 1,
+          "title": "Place Id",
+          "type": "string"
+        },
+        "requested_stay_minutes": {
+          "exclusiveMinimum": 0,
+          "maximum": 1440,
+          "title": "Requested Stay Minutes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "place_id",
+        "requested_stay_minutes"
+      ],
+      "title": "PlaceDurationPreference",
       "type": "object"
     },
     "PlaceReference": {

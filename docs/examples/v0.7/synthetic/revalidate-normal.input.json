@@ -1,0 +1,622 @@
+{
+  "schema_version": "0.7.0",
+  "checked_at": "2026-08-15T09:55:00+09:00",
+  "current_position": null,
+  "progress": {
+    "state": "at_place",
+    "current_event_id": "balanced-visit-3",
+    "completed_event_ids": [],
+    "actual_time": "2026-08-15T09:55:00+09:00",
+    "current_place_id": "required",
+    "current_stop_id": null,
+    "current_route_id": null,
+    "current_event_started_at": "2026-08-15T09:55:00+09:00"
+  },
+  "itinerary": {
+    "accommodation": {
+      "place_id": "hotel",
+      "name": "제주 숙소",
+      "address": null,
+      "coordinates": {
+        "latitude": 33.49,
+        "longitude": 126.5
+      }
+    },
+    "activity_window": {
+      "start_at": "2026-08-15T09:00:00+09:00",
+      "end_at": "2026-08-15T20:00:00+09:00"
+    },
+    "day_boundary": null,
+    "place_duration_preferences": [],
+    "schema_version": "0.7.0",
+    "trip_date": "2026-08-15",
+    "timezone": "Asia/Seoul",
+    "party": {
+      "adults": 1,
+      "children": 0,
+      "seniors": 0,
+      "mobility_support_required": false
+    },
+    "transport": {
+      "allowed_modes": [
+        "bus",
+        "taxi",
+        "walk"
+      ],
+      "preferred_mode": "bus",
+      "selection_policy": "cost_time_balance",
+      "fallback_order": [
+        "taxi",
+        "walk"
+      ],
+      "max_transfers_per_leg": 1,
+      "direct_walk_limit_minutes": 15,
+      "bus_wait_limit_minutes": 30,
+      "max_bus_extra_minutes": 30,
+      "min_bus_savings_krw": 5000,
+      "taxi_pickup_buffer_minutes": 10
+    },
+    "walking": {
+      "allow_direct_walk": true,
+      "max_access_walk_minutes": 20,
+      "max_total_distance_meters": 6000,
+      "max_single_leg_minutes": 25,
+      "avoid_stairs_required": false
+    },
+    "rest": {
+      "pace": "normal",
+      "minimum_break_minutes": 20,
+      "max_continuous_activity_minutes": 120,
+      "seat_requirement": "not_needed",
+      "restroom_requirement": "not_needed",
+      "indoor_requirement": "not_needed",
+      "unreserved_bus_seat_counts_as_rest": false
+    },
+    "food": {
+      "auto_schedule_meals": true,
+      "auto_schedule_cafe": true,
+      "excluded_foods": [],
+      "allergens": [],
+      "preferred_cuisines": []
+    },
+    "total_budget_krw": null,
+    "schedule_format": "full_timeline",
+    "timeline": [
+      {
+        "event_id": "balanced-transfer-1",
+        "type": "transfer",
+        "start_at": "2026-08-15T09:00:00+09:00",
+        "end_at": "2026-08-15T09:45:00+09:00",
+        "from_place": {
+          "place_id": "hotel",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "to_place": {
+          "place_id": "required",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "planned_mode": "bus",
+        "planned_route_number": "201",
+        "planned_route_id": "route-synthetic-201",
+        "planned_boarding_stop_id": "stop-board",
+        "planned_alighting_stop_id": "stop-alight",
+        "scheduled_departure_at": "2026-08-15T09:20:00+09:00",
+        "scheduled_arrival_at": "2026-08-15T09:35:00+09:00",
+        "planned_distance_meters": 13400,
+        "route_alternatives": [],
+        "mode_decision": {
+          "policy_id": "service-priority-v1",
+          "selected_mode": "bus",
+          "origin_basis": "VERIFIED_ENTRANCE",
+          "destination_basis": "VERIFIED_ENTRANCE",
+          "context": "generation",
+          "walk_threshold_minutes": 15,
+          "bus_wait_threshold_minutes": 30,
+          "max_bus_extra_minutes": 30,
+          "min_bus_savings_krw": 5000,
+          "planned_walk_minutes": 10,
+          "bus_wait_minutes": 8,
+          "bus_door_to_door_minutes": null,
+          "taxi_pickup_buffer_minutes": null,
+          "taxi_driving_minutes": null,
+          "taxi_door_to_door_minutes": null,
+          "bus_cost": null,
+          "taxi_cost": null,
+          "cost_midpoint_savings_krw": null,
+          "cost_savings_min_krw": null,
+          "cost_savings_max_krw": null,
+          "bus_extra_minutes": null,
+          "bus_time_threshold_margin_minutes": null,
+          "bus_savings_threshold_margin_krw": null,
+          "selection_near_threshold": false,
+          "deadline_slack_minutes": 20,
+          "reason_codes": [
+            "BUS_WITHIN_30_MINUTES"
+          ],
+          "unselected_reason_codes": {},
+          "evidence_fact_ids": [
+            "fact-route-hotel-required"
+          ]
+        },
+        "selected_transfer": {
+          "mode": "bus",
+          "direct_walk": null,
+          "access_walk": {
+            "kind": "access_walk",
+            "from_id": "entrance-hotel",
+            "to_id": "stop-board",
+            "distance_meters": 200,
+            "expected_minutes": 4,
+            "speed_multiplier": 1.0,
+            "route_uncertainty_minutes": 1,
+            "planned_minutes": 5,
+            "entrance_verification": "VERIFIED",
+            "stairs_status": "UNKNOWN",
+            "evidence_fact_ids": [
+              "fact-route-hotel-required"
+            ]
+          },
+          "bus_rides": [
+            {
+              "canonical_boarding_stop_id": "stop-board",
+              "provider_boarding_stop_id": "provider-stop-board",
+              "boarding_stop_name": "합성 승차 정류장",
+              "boarding_stop_position": {
+                "latitude": 33.45,
+                "longitude": 126.7
+              },
+              "boarding_direction": "동쪽",
+              "canonical_alighting_stop_id": "stop-alight",
+              "provider_alighting_stop_id": "provider-stop-alight",
+              "alighting_stop_name": "합성 하차 정류장",
+              "alighting_stop_position": {
+                "latitude": 33.46,
+                "longitude": 126.8
+              },
+              "route_id": "route-synthetic-201",
+              "route_number": "201",
+              "scheduled_departure_at": "2026-08-15T09:20:00+09:00",
+              "scheduled_arrival_at": "2026-08-15T09:35:00+09:00",
+              "recommended_stop_arrival_at": "2026-08-15T09:13:00+09:00",
+              "boarding_buffer_minutes": 7,
+              "mapping_status": "CONFIRMED",
+              "distance_meters": 13000,
+              "route_stop_polyline_estimate": true,
+              "distance_derivation_fact_ids": [
+                "fact-route-hotel-required"
+              ],
+              "evidence_fact_ids": [
+                "fact-route-hotel-required"
+              ]
+            }
+          ],
+          "transfer_walks": [],
+          "egress_walk": {
+            "kind": "egress_walk",
+            "from_id": "stop-alight",
+            "to_id": "entrance-required",
+            "distance_meters": 200,
+            "expected_minutes": 4,
+            "speed_multiplier": 1.0,
+            "route_uncertainty_minutes": 1,
+            "planned_minutes": 5,
+            "entrance_verification": "VERIFIED",
+            "stairs_status": "UNKNOWN",
+            "evidence_fact_ids": [
+              "fact-route-hotel-required"
+            ]
+          },
+          "taxi_alternative": null,
+          "alternatives": [],
+          "distance_meters": 13400,
+          "distance_is_estimated": true,
+          "mode_decision": {
+            "policy_id": "service-priority-v1",
+            "selected_mode": "bus",
+            "origin_basis": "VERIFIED_ENTRANCE",
+            "destination_basis": "VERIFIED_ENTRANCE",
+            "context": "generation",
+            "walk_threshold_minutes": 15,
+            "bus_wait_threshold_minutes": 30,
+            "max_bus_extra_minutes": 30,
+            "min_bus_savings_krw": 5000,
+            "planned_walk_minutes": 10,
+            "bus_wait_minutes": 8,
+            "bus_door_to_door_minutes": null,
+            "taxi_pickup_buffer_minutes": null,
+            "taxi_driving_minutes": null,
+            "taxi_door_to_door_minutes": null,
+            "bus_cost": null,
+            "taxi_cost": null,
+            "cost_midpoint_savings_krw": null,
+            "cost_savings_min_krw": null,
+            "cost_savings_max_krw": null,
+            "bus_extra_minutes": null,
+            "bus_time_threshold_margin_minutes": null,
+            "bus_savings_threshold_margin_krw": null,
+            "selection_near_threshold": false,
+            "deadline_slack_minutes": 20,
+            "reason_codes": [
+              "BUS_WITHIN_30_MINUTES"
+            ],
+            "unselected_reason_codes": {},
+            "evidence_fact_ids": [
+              "fact-route-hotel-required"
+            ]
+          }
+        },
+        "evidence_fact_ids": [
+          "fact-route-hotel-required"
+        ]
+      },
+      {
+        "event_id": "balanced-safety-buffer-2",
+        "type": "buffer",
+        "start_at": "2026-08-15T09:45:00+09:00",
+        "end_at": "2026-08-15T09:55:00+09:00",
+        "place": {
+          "place_id": "required",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "reason_code": "PLANNED_SAFETY_BUFFER",
+        "evidence_fact_ids": [
+          "fact-policy-risk-high"
+        ]
+      },
+      {
+        "event_id": "balanced-visit-3",
+        "type": "visit",
+        "start_at": "2026-08-15T09:55:00+09:00",
+        "end_at": "2026-08-15T10:55:00+09:00",
+        "place": {
+          "place_id": "required",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "required": true
+      },
+      {
+        "event_id": "balanced-transfer-4",
+        "type": "transfer",
+        "start_at": "2026-08-15T10:55:00+09:00",
+        "end_at": "2026-08-15T11:10:00+09:00",
+        "from_place": {
+          "place_id": "required",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "to_place": {
+          "place_id": "meal",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "planned_mode": "walk",
+        "planned_route_number": null,
+        "planned_route_id": null,
+        "planned_boarding_stop_id": null,
+        "planned_alighting_stop_id": null,
+        "scheduled_departure_at": null,
+        "scheduled_arrival_at": null,
+        "planned_distance_meters": 500,
+        "route_alternatives": [],
+        "mode_decision": null,
+        "selected_transfer": {
+          "mode": "walk",
+          "direct_walk": {
+            "kind": "direct_walk",
+            "from_id": "required",
+            "to_id": "meal",
+            "distance_meters": 500,
+            "expected_minutes": 10,
+            "speed_multiplier": 1.15,
+            "route_uncertainty_minutes": 3,
+            "planned_minutes": 15,
+            "entrance_verification": "VERIFIED",
+            "stairs_status": "UNKNOWN",
+            "evidence_fact_ids": [
+              "fact-route-required-meal"
+            ]
+          },
+          "access_walk": null,
+          "bus_rides": [],
+          "transfer_walks": [],
+          "egress_walk": null,
+          "taxi_alternative": null,
+          "alternatives": [],
+          "distance_meters": 500,
+          "distance_is_estimated": false,
+          "mode_decision": null
+        },
+        "evidence_fact_ids": [
+          "fact-route-required-meal"
+        ]
+      },
+      {
+        "event_id": "balanced-safety-buffer-5",
+        "type": "buffer",
+        "start_at": "2026-08-15T11:10:00+09:00",
+        "end_at": "2026-08-15T11:20:00+09:00",
+        "place": {
+          "place_id": "meal",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "reason_code": "PLANNED_SAFETY_BUFFER",
+        "evidence_fact_ids": [
+          "fact-policy-risk-high"
+        ]
+      },
+      {
+        "event_id": "balanced-buffer-6",
+        "type": "buffer",
+        "start_at": "2026-08-15T11:20:00+09:00",
+        "end_at": "2026-08-15T11:30:00+09:00",
+        "place": {
+          "place_id": "meal",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "reason_code": "OPERATING_OR_MEAL_WINDOW_WAIT",
+        "evidence_fact_ids": [
+          "fact-meal"
+        ]
+      },
+      {
+        "event_id": "balanced-meal-7",
+        "type": "meal",
+        "start_at": "2026-08-15T11:30:00+09:00",
+        "end_at": "2026-08-15T12:30:00+09:00",
+        "place": {
+          "place_id": "meal",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "required": false
+      },
+      {
+        "event_id": "balanced-transfer-8",
+        "type": "transfer",
+        "start_at": "2026-08-15T12:30:00+09:00",
+        "end_at": "2026-08-15T12:45:00+09:00",
+        "from_place": {
+          "place_id": "meal",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "to_place": {
+          "place_id": "a",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "planned_mode": "walk",
+        "planned_route_number": null,
+        "planned_route_id": null,
+        "planned_boarding_stop_id": null,
+        "planned_alighting_stop_id": null,
+        "scheduled_departure_at": null,
+        "scheduled_arrival_at": null,
+        "planned_distance_meters": 500,
+        "route_alternatives": [],
+        "mode_decision": null,
+        "selected_transfer": {
+          "mode": "walk",
+          "direct_walk": {
+            "kind": "direct_walk",
+            "from_id": "meal",
+            "to_id": "a",
+            "distance_meters": 500,
+            "expected_minutes": 10,
+            "speed_multiplier": 1.15,
+            "route_uncertainty_minutes": 3,
+            "planned_minutes": 15,
+            "entrance_verification": "VERIFIED",
+            "stairs_status": "UNKNOWN",
+            "evidence_fact_ids": [
+              "fact-route-meal-a"
+            ]
+          },
+          "access_walk": null,
+          "bus_rides": [],
+          "transfer_walks": [],
+          "egress_walk": null,
+          "taxi_alternative": null,
+          "alternatives": [],
+          "distance_meters": 500,
+          "distance_is_estimated": false,
+          "mode_decision": null
+        },
+        "evidence_fact_ids": [
+          "fact-route-meal-a"
+        ]
+      },
+      {
+        "event_id": "balanced-safety-buffer-9",
+        "type": "buffer",
+        "start_at": "2026-08-15T12:45:00+09:00",
+        "end_at": "2026-08-15T12:55:00+09:00",
+        "place": {
+          "place_id": "a",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "reason_code": "PLANNED_SAFETY_BUFFER",
+        "evidence_fact_ids": [
+          "fact-policy-risk-high"
+        ]
+      },
+      {
+        "event_id": "balanced-visit-10",
+        "type": "visit",
+        "start_at": "2026-08-15T12:55:00+09:00",
+        "end_at": "2026-08-15T13:55:00+09:00",
+        "place": {
+          "place_id": "a",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "required": false
+      },
+      {
+        "event_id": "balanced-transfer-11",
+        "type": "transfer",
+        "start_at": "2026-08-15T13:55:00+09:00",
+        "end_at": "2026-08-15T14:10:00+09:00",
+        "from_place": {
+          "place_id": "a",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "to_place": {
+          "place_id": "rest",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "planned_mode": "walk",
+        "planned_route_number": null,
+        "planned_route_id": null,
+        "planned_boarding_stop_id": null,
+        "planned_alighting_stop_id": null,
+        "scheduled_departure_at": null,
+        "scheduled_arrival_at": null,
+        "planned_distance_meters": 500,
+        "route_alternatives": [],
+        "mode_decision": null,
+        "selected_transfer": {
+          "mode": "walk",
+          "direct_walk": {
+            "kind": "direct_walk",
+            "from_id": "a",
+            "to_id": "rest",
+            "distance_meters": 500,
+            "expected_minutes": 10,
+            "speed_multiplier": 1.15,
+            "route_uncertainty_minutes": 3,
+            "planned_minutes": 15,
+            "entrance_verification": "VERIFIED",
+            "stairs_status": "UNKNOWN",
+            "evidence_fact_ids": [
+              "fact-route-a-rest"
+            ]
+          },
+          "access_walk": null,
+          "bus_rides": [],
+          "transfer_walks": [],
+          "egress_walk": null,
+          "taxi_alternative": null,
+          "alternatives": [],
+          "distance_meters": 500,
+          "distance_is_estimated": false,
+          "mode_decision": null
+        },
+        "evidence_fact_ids": [
+          "fact-route-a-rest"
+        ]
+      },
+      {
+        "event_id": "balanced-safety-buffer-12",
+        "type": "buffer",
+        "start_at": "2026-08-15T14:10:00+09:00",
+        "end_at": "2026-08-15T14:20:00+09:00",
+        "place": {
+          "place_id": "rest",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "reason_code": "PLANNED_SAFETY_BUFFER",
+        "evidence_fact_ids": [
+          "fact-policy-risk-high"
+        ]
+      },
+      {
+        "event_id": "balanced-rest-13",
+        "type": "rest",
+        "start_at": "2026-08-15T14:20:00+09:00",
+        "end_at": "2026-08-15T14:40:00+09:00",
+        "place": {
+          "place_id": "rest",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "required": false
+      },
+      {
+        "event_id": "balanced-transfer-14",
+        "type": "transfer",
+        "start_at": "2026-08-15T14:40:00+09:00",
+        "end_at": "2026-08-15T14:55:00+09:00",
+        "from_place": {
+          "place_id": "rest",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "to_place": {
+          "place_id": "hotel",
+          "name": null,
+          "address": null,
+          "coordinates": null
+        },
+        "planned_mode": "walk",
+        "planned_route_number": null,
+        "planned_route_id": null,
+        "planned_boarding_stop_id": null,
+        "planned_alighting_stop_id": null,
+        "scheduled_departure_at": null,
+        "scheduled_arrival_at": null,
+        "planned_distance_meters": 500,
+        "route_alternatives": [],
+        "mode_decision": null,
+        "selected_transfer": {
+          "mode": "walk",
+          "direct_walk": {
+            "kind": "direct_walk",
+            "from_id": "rest",
+            "to_id": "hotel",
+            "distance_meters": 500,
+            "expected_minutes": 10,
+            "speed_multiplier": 1.15,
+            "route_uncertainty_minutes": 3,
+            "planned_minutes": 15,
+            "entrance_verification": "VERIFIED",
+            "stairs_status": "UNKNOWN",
+            "evidence_fact_ids": [
+              "fact-route-rest-hotel"
+            ]
+          },
+          "access_walk": null,
+          "bus_rides": [],
+          "transfer_walks": [],
+          "egress_walk": null,
+          "taxi_alternative": null,
+          "alternatives": [],
+          "distance_meters": 500,
+          "distance_is_estimated": false,
+          "mode_decision": null
+        },
+        "evidence_fact_ids": [
+          "fact-route-rest-hotel"
+        ]
+      }
+    ]
+  }
+}

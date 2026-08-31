@@ -72,9 +72,20 @@ class ActiveTravelReadRepository:
                 }
             )
 
+        day_boundary = (
+            request.day_boundary.model_copy(
+                update={
+                    "start_place": resolve_reference(request.day_boundary.start_place),
+                    "end_place": resolve_reference(request.day_boundary.end_place),
+                }
+            )
+            if request.day_boundary is not None
+            else None
+        )
         return request.model_copy(
             update={
                 "accommodation": accommodation,
+                "day_boundary": day_boundary,
                 "required_places": tuple(
                     resolve_reference(item) for item in request.required_places
                 ),

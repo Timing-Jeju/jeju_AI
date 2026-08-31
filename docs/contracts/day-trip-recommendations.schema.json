@@ -324,11 +324,37 @@
     },
     "CommonTripInput": {
       "additionalProperties": false,
-      "description": "생성·판정이 공유하는 숙소 왕복 여행 조건.",
+      "description": "생성·판정이 공유하는 하루 시작·종료 경계 여행 조건.",
       "properties": {
+        "accommodation": {
+          "$ref": "#/$defs/AccommodationInput"
+        },
+        "activity_window": {
+          "$ref": "#/$defs/ActivityWindow"
+        },
+        "day_boundary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DayBoundary"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "place_duration_preferences": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/PlaceDurationPreference"
+          },
+          "maxItems": 40,
+          "title": "Place Duration Preferences",
+          "type": "array"
+        },
         "schema_version": {
-          "const": "0.6.0",
-          "default": "0.6.0",
+          "const": "0.7.0",
+          "default": "0.7.0",
           "title": "Schema Version",
           "type": "string"
         },
@@ -342,12 +368,6 @@
           "default": "Asia/Seoul",
           "title": "Timezone",
           "type": "string"
-        },
-        "accommodation": {
-          "$ref": "#/$defs/AccommodationInput"
-        },
-        "activity_window": {
-          "$ref": "#/$defs/ActivityWindow"
         },
         "party": {
           "$ref": "#/$defs/Party"
@@ -379,9 +399,9 @@
         }
       },
       "required": [
-        "trip_date",
         "accommodation",
-        "activity_window"
+        "activity_window",
+        "trip_date"
       ],
       "title": "CommonTripInput",
       "type": "object"
@@ -503,6 +523,24 @@
         "attribution_text"
       ],
       "title": "DataSourceMetadata",
+      "type": "object"
+    },
+    "DayBoundary": {
+      "additionalProperties": false,
+      "description": "숙소 왕복으로 제한하지 않는 하루의 canonical 시작·종료 장소.",
+      "properties": {
+        "start_place": {
+          "$ref": "#/$defs/PlaceReference"
+        },
+        "end_place": {
+          "$ref": "#/$defs/PlaceReference"
+        }
+      },
+      "required": [
+        "start_place",
+        "end_place"
+      ],
+      "title": "DayBoundary",
       "type": "object"
     },
     "Derivation": {
@@ -1312,6 +1350,29 @@
       "title": "PlaceDecision",
       "type": "object"
     },
+    "PlaceDurationPreference": {
+      "additionalProperties": false,
+      "description": "사용자가 장소별로 고정한 체류시간 제약.",
+      "properties": {
+        "place_id": {
+          "minLength": 1,
+          "title": "Place Id",
+          "type": "string"
+        },
+        "requested_stay_minutes": {
+          "exclusiveMinimum": 0,
+          "maximum": 1440,
+          "title": "Requested Stay Minutes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "place_id",
+        "requested_stay_minutes"
+      ],
+      "title": "PlaceDurationPreference",
+      "type": "object"
+    },
     "PlaceReference": {
       "additionalProperties": false,
       "properties": {
@@ -1433,9 +1494,35 @@
     "RecommendDayTripsInput": {
       "additionalProperties": false,
       "properties": {
+        "accommodation": {
+          "$ref": "#/$defs/AccommodationInput"
+        },
+        "activity_window": {
+          "$ref": "#/$defs/ActivityWindow"
+        },
+        "day_boundary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DayBoundary"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "place_duration_preferences": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/PlaceDurationPreference"
+          },
+          "maxItems": 40,
+          "title": "Place Duration Preferences",
+          "type": "array"
+        },
         "schema_version": {
-          "const": "0.6.0",
-          "default": "0.6.0",
+          "const": "0.7.0",
+          "default": "0.7.0",
           "title": "Schema Version",
           "type": "string"
         },
@@ -1455,12 +1542,6 @@
           "default": "Asia/Seoul",
           "title": "Timezone",
           "type": "string"
-        },
-        "accommodation": {
-          "$ref": "#/$defs/AccommodationInput"
-        },
-        "activity_window": {
-          "$ref": "#/$defs/ActivityWindow"
         },
         "party": {
           "$ref": "#/$defs/Party"
@@ -1545,9 +1626,9 @@
         }
       },
       "required": [
-        "trip_date",
         "accommodation",
-        "activity_window"
+        "activity_window",
+        "trip_date"
       ],
       "title": "RecommendDayTripsInput",
       "type": "object"
@@ -1658,6 +1739,26 @@
           "title": "Preferred Place Ids Excluded",
           "type": "array"
         },
+        "day_start_at": {
+          "format": "date-time",
+          "title": "Day Start At",
+          "type": "string"
+        },
+        "day_end_at": {
+          "format": "date-time",
+          "title": "Day End At",
+          "type": "string"
+        },
+        "start_place_id": {
+          "minLength": 1,
+          "title": "Start Place Id",
+          "type": "string"
+        },
+        "end_place_id": {
+          "minLength": 1,
+          "title": "End Place Id",
+          "type": "string"
+        },
         "accommodation_departure_at": {
           "format": "date-time",
           "title": "Accommodation Departure At",
@@ -1700,6 +1801,10 @@
         "recommendation_reasons",
         "place_ids",
         "feasibility",
+        "day_start_at",
+        "day_end_at",
+        "start_place_id",
+        "end_place_id",
         "accommodation_departure_at",
         "accommodation_return_at",
         "timeline",
@@ -3096,8 +3201,8 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "const": "0.6.0",
-      "default": "0.6.0",
+      "const": "0.7.0",
+      "default": "0.7.0",
       "title": "Schema Version",
       "type": "string"
     },
