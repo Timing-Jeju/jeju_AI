@@ -1,0 +1,8 @@
+place_fact_id,rule_id,service_day,valid_from,valid_to,period_kind,opens_at,closes_at,closes_day_offset,last_admission_at,last_order_at,source_reference
+tourapi.place:126435,seongsan-20260824-0830,,2026-08-24,2026-08-30,OPEN,04:30,20:00,0,19:00,,https://www.data.go.kr/data/15101578/openapi.do
+tourapi.place:2564158,gwangchigi-20260824-0830,,2026-08-24,2026-08-30,OPEN,00:00,00:00,1,,,https://www.data.go.kr/data/15101578/openapi.do
+tourapi.place:127813,seopjikoji-20260824-0830,,2026-08-24,2026-08-30,OPEN,00:00,00:00,1,,,https://www.data.go.kr/data/15101578/openapi.do
+tourapi.place:2742256,ojo-20260824-0830,,2026-08-24,2026-08-30,OPEN,00:00,00:00,1,,,https://www.data.go.kr/data/15101578/openapi.do
+tourapi.place:2705373,railbike-20260824-0830,,2026-08-24,2026-08-30,OPEN,09:00,17:30,0,,,https://www.visitjeju.net/kr/detail/view?contentsid=CNTS_000000000020139
+tourapi.place:2833201,buttumak-20260824-0830,,2026-08-24,2026-08-30,OPEN,08:00,20:00,0,,,https://www.data.go.kr/data/15101578/openapi.do
+tourapi.place:2847829,horanghorang-20260824-0830,,2026-08-24,2026-08-30,OPEN,08:00,22:00,0,,21:30,https://www.data.go.kr/data/15101578/openapi.do

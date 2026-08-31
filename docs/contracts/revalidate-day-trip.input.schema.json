@@ -1,0 +1,1990 @@
+{
+  "$defs": {
+    "AccommodationInput": {
+      "additionalProperties": false,
+      "properties": {
+        "place_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Place Id"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        },
+        "coordinates": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Coordinates"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "AccommodationInput",
+      "type": "object"
+    },
+    "ActivitiesOnlyEvaluationInput": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.6.0",
+          "default": "0.6.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "trip_date": {
+          "format": "date",
+          "title": "Trip Date",
+          "type": "string"
+        },
+        "timezone": {
+          "const": "Asia/Seoul",
+          "default": "Asia/Seoul",
+          "title": "Timezone",
+          "type": "string"
+        },
+        "accommodation": {
+          "$ref": "#/$defs/AccommodationInput"
+        },
+        "activity_window": {
+          "$ref": "#/$defs/ActivityWindow"
+        },
+        "party": {
+          "$ref": "#/$defs/Party"
+        },
+        "transport": {
+          "$ref": "#/$defs/TransportPreferences"
+        },
+        "walking": {
+          "$ref": "#/$defs/WalkingPreferences"
+        },
+        "rest": {
+          "$ref": "#/$defs/RestPreferences"
+        },
+        "food": {
+          "$ref": "#/$defs/FoodPreferences"
+        },
+        "total_budget_krw": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Budget Krw"
+        },
+        "schedule_format": {
+          "const": "activities_only",
+          "title": "Schedule Format",
+          "type": "string"
+        },
+        "start_location": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PlaceReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "scheduled_activities": {
+          "items": {
+            "$ref": "#/$defs/ScheduledActivity"
+          },
+          "title": "Scheduled Activities",
+          "type": "array"
+        },
+        "leg_constraints": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/LegConstraint"
+          },
+          "title": "Leg Constraints",
+          "type": "array"
+        }
+      },
+      "required": [
+        "trip_date",
+        "accommodation",
+        "activity_window",
+        "schedule_format",
+        "scheduled_activities"
+      ],
+      "title": "ActivitiesOnlyEvaluationInput",
+      "type": "object"
+    },
+    "ActivityWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "start_at": {
+          "format": "date-time",
+          "title": "Start At",
+          "type": "string"
+        },
+        "end_at": {
+          "format": "date-time",
+          "title": "End At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start_at",
+        "end_at"
+      ],
+      "title": "ActivityWindow",
+      "type": "object"
+    },
+    "BusRide": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_boarding_stop_id": {
+          "title": "Canonical Boarding Stop Id",
+          "type": "string"
+        },
+        "provider_boarding_stop_id": {
+          "title": "Provider Boarding Stop Id",
+          "type": "string"
+        },
+        "boarding_stop_name": {
+          "title": "Boarding Stop Name",
+          "type": "string"
+        },
+        "boarding_stop_position": {
+          "$ref": "#/$defs/Coordinates"
+        },
+        "boarding_direction": {
+          "title": "Boarding Direction",
+          "type": "string"
+        },
+        "canonical_alighting_stop_id": {
+          "title": "Canonical Alighting Stop Id",
+          "type": "string"
+        },
+        "provider_alighting_stop_id": {
+          "title": "Provider Alighting Stop Id",
+          "type": "string"
+        },
+        "alighting_stop_name": {
+          "title": "Alighting Stop Name",
+          "type": "string"
+        },
+        "alighting_stop_position": {
+          "$ref": "#/$defs/Coordinates"
+        },
+        "route_id": {
+          "title": "Route Id",
+          "type": "string"
+        },
+        "route_number": {
+          "title": "Route Number",
+          "type": "string"
+        },
+        "scheduled_departure_at": {
+          "format": "date-time",
+          "title": "Scheduled Departure At",
+          "type": "string"
+        },
+        "scheduled_arrival_at": {
+          "format": "date-time",
+          "title": "Scheduled Arrival At",
+          "type": "string"
+        },
+        "recommended_stop_arrival_at": {
+          "format": "date-time",
+          "title": "Recommended Stop Arrival At",
+          "type": "string"
+        },
+        "boarding_buffer_minutes": {
+          "exclusiveMinimum": 0,
+          "title": "Boarding Buffer Minutes",
+          "type": "integer"
+        },
+        "mapping_status": {
+          "const": "CONFIRMED",
+          "title": "Mapping Status",
+          "type": "string"
+        },
+        "distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Distance Meters",
+          "type": "integer"
+        },
+        "route_stop_polyline_estimate": {
+          "default": true,
+          "title": "Route Stop Polyline Estimate",
+          "type": "boolean"
+        },
+        "distance_derivation_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Distance Derivation Fact Ids",
+          "type": "array"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "canonical_boarding_stop_id",
+        "provider_boarding_stop_id",
+        "boarding_stop_name",
+        "boarding_stop_position",
+        "boarding_direction",
+        "canonical_alighting_stop_id",
+        "provider_alighting_stop_id",
+        "alighting_stop_name",
+        "alighting_stop_position",
+        "route_id",
+        "route_number",
+        "scheduled_departure_at",
+        "scheduled_arrival_at",
+        "recommended_stop_arrival_at",
+        "boarding_buffer_minutes",
+        "mapping_status",
+        "evidence_fact_ids"
+      ],
+      "title": "BusRide",
+      "type": "object"
+    },
+    "Coordinates": {
+      "additionalProperties": false,
+      "properties": {
+        "latitude": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Latitude",
+          "type": "number"
+        },
+        "longitude": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Longitude",
+          "type": "number"
+        }
+      },
+      "required": [
+        "latitude",
+        "longitude"
+      ],
+      "title": "Coordinates",
+      "type": "object"
+    },
+    "CostRange": {
+      "additionalProperties": false,
+      "properties": {
+        "min_krw": {
+          "minimum": 0,
+          "title": "Min Krw",
+          "type": "integer"
+        },
+        "max_krw": {
+          "minimum": 0,
+          "title": "Max Krw",
+          "type": "integer"
+        },
+        "is_estimated": {
+          "title": "Is Estimated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "min_krw",
+        "max_krw",
+        "is_estimated"
+      ],
+      "title": "CostRange",
+      "type": "object"
+    },
+    "EndpointBasis": {
+      "enum": [
+        "VERIFIED_ENTRANCE",
+        "REPRESENTATIVE_PLACE_POINT",
+        "CONFIRMED_STOP",
+        "CURRENT_GPS"
+      ],
+      "title": "EndpointBasis",
+      "type": "string"
+    },
+    "FoodPreferences": {
+      "additionalProperties": false,
+      "properties": {
+        "auto_schedule_meals": {
+          "default": true,
+          "title": "Auto Schedule Meals",
+          "type": "boolean"
+        },
+        "auto_schedule_cafe": {
+          "default": true,
+          "title": "Auto Schedule Cafe",
+          "type": "boolean"
+        },
+        "excluded_foods": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded Foods",
+          "type": "array"
+        },
+        "allergens": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Allergens",
+          "type": "array"
+        },
+        "preferred_cuisines": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Preferred Cuisines",
+          "type": "array"
+        }
+      },
+      "title": "FoodPreferences",
+      "type": "object"
+    },
+    "FullTimelineActivity": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "visit",
+            "meal",
+            "rest"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "start_at": {
+          "format": "date-time",
+          "title": "Start At",
+          "type": "string"
+        },
+        "end_at": {
+          "format": "date-time",
+          "title": "End At",
+          "type": "string"
+        },
+        "place": {
+          "$ref": "#/$defs/PlaceReference"
+        },
+        "required": {
+          "default": false,
+          "title": "Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "event_id",
+        "type",
+        "start_at",
+        "end_at",
+        "place"
+      ],
+      "title": "FullTimelineActivity",
+      "type": "object"
+    },
+    "FullTimelineBuffer": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "type": {
+          "const": "buffer",
+          "title": "Type",
+          "type": "string"
+        },
+        "start_at": {
+          "format": "date-time",
+          "title": "Start At",
+          "type": "string"
+        },
+        "end_at": {
+          "format": "date-time",
+          "title": "End At",
+          "type": "string"
+        },
+        "place": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PlaceReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reason_code": {
+          "title": "Reason Code",
+          "type": "string"
+        },
+        "evidence_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "type",
+        "start_at",
+        "end_at",
+        "reason_code"
+      ],
+      "title": "FullTimelineBuffer",
+      "type": "object"
+    },
+    "FullTimelineEvaluationInput": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.6.0",
+          "default": "0.6.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "trip_date": {
+          "format": "date",
+          "title": "Trip Date",
+          "type": "string"
+        },
+        "timezone": {
+          "const": "Asia/Seoul",
+          "default": "Asia/Seoul",
+          "title": "Timezone",
+          "type": "string"
+        },
+        "accommodation": {
+          "$ref": "#/$defs/AccommodationInput"
+        },
+        "activity_window": {
+          "$ref": "#/$defs/ActivityWindow"
+        },
+        "party": {
+          "$ref": "#/$defs/Party"
+        },
+        "transport": {
+          "$ref": "#/$defs/TransportPreferences"
+        },
+        "walking": {
+          "$ref": "#/$defs/WalkingPreferences"
+        },
+        "rest": {
+          "$ref": "#/$defs/RestPreferences"
+        },
+        "food": {
+          "$ref": "#/$defs/FoodPreferences"
+        },
+        "total_budget_krw": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Budget Krw"
+        },
+        "schedule_format": {
+          "const": "full_timeline",
+          "title": "Schedule Format",
+          "type": "string"
+        },
+        "timeline": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "buffer": "#/$defs/FullTimelineBuffer",
+                "meal": "#/$defs/FullTimelineActivity",
+                "rest": "#/$defs/FullTimelineActivity",
+                "transfer": "#/$defs/FullTimelineTransfer",
+                "visit": "#/$defs/FullTimelineActivity"
+              },
+              "propertyName": "type"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/FullTimelineActivity"
+              },
+              {
+                "$ref": "#/$defs/FullTimelineTransfer"
+              },
+              {
+                "$ref": "#/$defs/FullTimelineBuffer"
+              }
+            ]
+          },
+          "title": "Timeline",
+          "type": "array"
+        }
+      },
+      "required": [
+        "trip_date",
+        "accommodation",
+        "activity_window",
+        "schedule_format",
+        "timeline"
+      ],
+      "title": "FullTimelineEvaluationInput",
+      "type": "object"
+    },
+    "FullTimelineTransfer": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "type": {
+          "const": "transfer",
+          "title": "Type",
+          "type": "string"
+        },
+        "start_at": {
+          "format": "date-time",
+          "title": "Start At",
+          "type": "string"
+        },
+        "end_at": {
+          "format": "date-time",
+          "title": "End At",
+          "type": "string"
+        },
+        "from_place": {
+          "$ref": "#/$defs/PlaceReference"
+        },
+        "to_place": {
+          "$ref": "#/$defs/PlaceReference"
+        },
+        "planned_mode": {
+          "enum": [
+            "walk",
+            "bus",
+            "taxi"
+          ],
+          "title": "Planned Mode",
+          "type": "string"
+        },
+        "planned_route_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planned Route Number"
+        },
+        "planned_route_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planned Route Id"
+        },
+        "planned_boarding_stop_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planned Boarding Stop Id"
+        },
+        "planned_alighting_stop_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planned Alighting Stop Id"
+        },
+        "scheduled_departure_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scheduled Departure At"
+        },
+        "scheduled_arrival_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scheduled Arrival At"
+        },
+        "planned_distance_meters": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planned Distance Meters"
+        },
+        "route_alternatives": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RouteAlternativeSummary"
+          },
+          "title": "Route Alternatives",
+          "type": "array"
+        },
+        "mode_decision": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ModeDecision"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "selected_transfer": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Transfer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "type",
+        "start_at",
+        "end_at",
+        "from_place",
+        "to_place",
+        "planned_mode"
+      ],
+      "title": "FullTimelineTransfer",
+      "type": "object"
+    },
+    "LegConstraint": {
+      "additionalProperties": false,
+      "properties": {
+        "from_event_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "From Event Id"
+        },
+        "to_event_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "To Event Id"
+        },
+        "locked_mode": {
+          "anyOf": [
+            {
+              "enum": [
+                "walk",
+                "bus",
+                "taxi"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Locked Mode"
+        }
+      },
+      "required": [
+        "from_event_id",
+        "to_event_id"
+      ],
+      "title": "LegConstraint",
+      "type": "object"
+    },
+    "ModeDecision": {
+      "additionalProperties": false,
+      "description": "수단 선택의 정책 입력과 검증 결과를 보존한다.",
+      "properties": {
+        "policy_id": {
+          "default": "service-priority-v1",
+          "enum": [
+            "service-priority-v1",
+            "cost-time-balance-v1"
+          ],
+          "title": "Policy Id",
+          "type": "string"
+        },
+        "selected_mode": {
+          "enum": [
+            "walk",
+            "bus",
+            "taxi"
+          ],
+          "title": "Selected Mode",
+          "type": "string"
+        },
+        "origin_basis": {
+          "$ref": "#/$defs/EndpointBasis"
+        },
+        "destination_basis": {
+          "$ref": "#/$defs/EndpointBasis"
+        },
+        "context": {
+          "default": "generation",
+          "enum": [
+            "generation",
+            "revalidation"
+          ],
+          "title": "Context",
+          "type": "string"
+        },
+        "walk_threshold_minutes": {
+          "default": 15,
+          "minimum": 0,
+          "title": "Walk Threshold Minutes",
+          "type": "integer"
+        },
+        "bus_wait_threshold_minutes": {
+          "default": 30,
+          "minimum": 0,
+          "title": "Bus Wait Threshold Minutes",
+          "type": "integer"
+        },
+        "max_bus_extra_minutes": {
+          "default": 30,
+          "minimum": 0,
+          "title": "Max Bus Extra Minutes",
+          "type": "integer"
+        },
+        "min_bus_savings_krw": {
+          "default": 5000,
+          "minimum": 0,
+          "title": "Min Bus Savings Krw",
+          "type": "integer"
+        },
+        "planned_walk_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planned Walk Minutes"
+        },
+        "bus_wait_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bus Wait Minutes"
+        },
+        "bus_door_to_door_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bus Door To Door Minutes"
+        },
+        "taxi_pickup_buffer_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxi Pickup Buffer Minutes"
+        },
+        "taxi_driving_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxi Driving Minutes"
+        },
+        "taxi_door_to_door_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxi Door To Door Minutes"
+        },
+        "bus_cost": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CostRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "taxi_cost": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CostRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "cost_midpoint_savings_krw": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Midpoint Savings Krw"
+        },
+        "cost_savings_min_krw": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Savings Min Krw"
+        },
+        "cost_savings_max_krw": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Savings Max Krw"
+        },
+        "bus_extra_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bus Extra Minutes"
+        },
+        "bus_time_threshold_margin_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bus Time Threshold Margin Minutes"
+        },
+        "bus_savings_threshold_margin_krw": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bus Savings Threshold Margin Krw"
+        },
+        "selection_near_threshold": {
+          "default": false,
+          "title": "Selection Near Threshold",
+          "type": "boolean"
+        },
+        "deadline_slack_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Deadline Slack Minutes"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "unselected_reason_codes": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "propertyNames": {
+            "enum": [
+              "walk",
+              "bus",
+              "taxi"
+            ]
+          },
+          "title": "Unselected Reason Codes",
+          "type": "object"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "selected_mode",
+        "origin_basis",
+        "destination_basis",
+        "reason_codes",
+        "evidence_fact_ids"
+      ],
+      "title": "ModeDecision",
+      "type": "object"
+    },
+    "Party": {
+      "additionalProperties": false,
+      "properties": {
+        "adults": {
+          "default": 1,
+          "minimum": 0,
+          "title": "Adults",
+          "type": "integer"
+        },
+        "children": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Children",
+          "type": "integer"
+        },
+        "seniors": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Seniors",
+          "type": "integer"
+        },
+        "mobility_support_required": {
+          "default": false,
+          "title": "Mobility Support Required",
+          "type": "boolean"
+        }
+      },
+      "title": "Party",
+      "type": "object"
+    },
+    "PlaceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "place_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Place Id"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        },
+        "coordinates": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Coordinates"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "PlaceReference",
+      "type": "object"
+    },
+    "ProgressInput": {
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "enum": [
+            "at_place",
+            "ready_to_depart",
+            "walking",
+            "waiting_bus",
+            "on_bus",
+            "in_taxi"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "current_event_id": {
+          "title": "Current Event Id",
+          "type": "string"
+        },
+        "completed_event_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Completed Event Ids",
+          "type": "array"
+        },
+        "actual_time": {
+          "format": "date-time",
+          "title": "Actual Time",
+          "type": "string"
+        },
+        "current_place_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Place Id"
+        },
+        "current_stop_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Stop Id"
+        },
+        "current_route_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Route Id"
+        },
+        "current_event_started_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Event Started At"
+        }
+      },
+      "required": [
+        "state",
+        "current_event_id",
+        "actual_time"
+      ],
+      "title": "ProgressInput",
+      "type": "object"
+    },
+    "RestPreferences": {
+      "additionalProperties": false,
+      "properties": {
+        "pace": {
+          "default": "normal",
+          "enum": [
+            "relaxed",
+            "normal",
+            "packed"
+          ],
+          "title": "Pace",
+          "type": "string"
+        },
+        "minimum_break_minutes": {
+          "default": 20,
+          "minimum": 0,
+          "title": "Minimum Break Minutes",
+          "type": "integer"
+        },
+        "max_continuous_activity_minutes": {
+          "default": 120,
+          "exclusiveMinimum": 0,
+          "title": "Max Continuous Activity Minutes",
+          "type": "integer"
+        },
+        "seat_requirement": {
+          "default": "not_needed",
+          "enum": [
+            "required",
+            "preferred",
+            "not_needed"
+          ],
+          "title": "Seat Requirement",
+          "type": "string"
+        },
+        "restroom_requirement": {
+          "default": "not_needed",
+          "enum": [
+            "required",
+            "preferred",
+            "not_needed"
+          ],
+          "title": "Restroom Requirement",
+          "type": "string"
+        },
+        "indoor_requirement": {
+          "default": "not_needed",
+          "enum": [
+            "required",
+            "preferred",
+            "not_needed"
+          ],
+          "title": "Indoor Requirement",
+          "type": "string"
+        },
+        "unreserved_bus_seat_counts_as_rest": {
+          "const": false,
+          "default": false,
+          "title": "Unreserved Bus Seat Counts As Rest",
+          "type": "boolean"
+        }
+      },
+      "title": "RestPreferences",
+      "type": "object"
+    },
+    "RouteAlternativeSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "walk",
+            "bus",
+            "taxi"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "duration_minutes": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Minutes"
+        },
+        "walking_minutes": {
+          "minimum": 0,
+          "title": "Walking Minutes",
+          "type": "integer"
+        },
+        "cost": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CostRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transfers": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Transfers",
+          "type": "integer"
+        },
+        "status": {
+          "enum": [
+            "feasible",
+            "unverifiable",
+            "unavailable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "distance_meters": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distance Meters"
+        },
+        "wait_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wait Minutes"
+        },
+        "pickup_buffer_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pickup Buffer Minutes"
+        },
+        "driving_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Driving Minutes"
+        },
+        "route_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Route Id"
+        },
+        "route_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Route Number"
+        },
+        "selected": {
+          "default": false,
+          "title": "Selected",
+          "type": "boolean"
+        },
+        "reason_codes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "evidence_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "mode",
+        "walking_minutes",
+        "status"
+      ],
+      "title": "RouteAlternativeSummary",
+      "type": "object"
+    },
+    "ScheduledActivity": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "visit",
+            "meal",
+            "rest"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "place": {
+          "$ref": "#/$defs/PlaceReference"
+        },
+        "start_at": {
+          "format": "date-time",
+          "title": "Start At",
+          "type": "string"
+        },
+        "end_at": {
+          "format": "date-time",
+          "title": "End At",
+          "type": "string"
+        },
+        "required": {
+          "default": false,
+          "title": "Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "event_id",
+        "type",
+        "place",
+        "start_at",
+        "end_at"
+      ],
+      "title": "ScheduledActivity",
+      "type": "object"
+    },
+    "TaxiAlternative": {
+      "additionalProperties": false,
+      "properties": {
+        "duration_minutes": {
+          "exclusiveMinimum": 0,
+          "title": "Duration Minutes",
+          "type": "integer"
+        },
+        "distance_meters": {
+          "exclusiveMinimum": 0,
+          "title": "Distance Meters",
+          "type": "integer"
+        },
+        "fare_min_krw": {
+          "minimum": 0,
+          "title": "Fare Min Krw",
+          "type": "integer"
+        },
+        "fare_max_krw": {
+          "minimum": 0,
+          "title": "Fare Max Krw",
+          "type": "integer"
+        },
+        "is_estimated": {
+          "const": true,
+          "default": true,
+          "title": "Is Estimated",
+          "type": "boolean"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "duration_minutes",
+        "distance_meters",
+        "fare_min_krw",
+        "fare_max_krw",
+        "evidence_fact_ids"
+      ],
+      "title": "TaxiAlternative",
+      "type": "object"
+    },
+    "Transfer": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "walk",
+            "bus",
+            "taxi"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "direct_walk": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/WalkConnection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "access_walk": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/WalkConnection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "bus_rides": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/BusRide"
+          },
+          "title": "Bus Rides",
+          "type": "array"
+        },
+        "transfer_walks": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/WalkConnection"
+          },
+          "title": "Transfer Walks",
+          "type": "array"
+        },
+        "egress_walk": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/WalkConnection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "taxi_alternative": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaxiAlternative"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "alternatives": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RouteAlternativeSummary"
+          },
+          "title": "Alternatives",
+          "type": "array"
+        },
+        "distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Distance Meters",
+          "type": "integer"
+        },
+        "distance_is_estimated": {
+          "default": false,
+          "title": "Distance Is Estimated",
+          "type": "boolean"
+        },
+        "mode_decision": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ModeDecision"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "title": "Transfer",
+      "type": "object"
+    },
+    "TransportPreferences": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_modes": {
+          "items": {
+            "enum": [
+              "walk",
+              "bus",
+              "taxi"
+            ],
+            "type": "string"
+          },
+          "title": "Allowed Modes",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "preferred_mode": {
+          "default": "bus",
+          "enum": [
+            "walk",
+            "bus",
+            "taxi"
+          ],
+          "title": "Preferred Mode",
+          "type": "string"
+        },
+        "selection_policy": {
+          "default": "cost_time_balance",
+          "enum": [
+            "prefer_selected",
+            "fastest",
+            "lowest_cost",
+            "least_walking",
+            "fewest_transfers",
+            "balanced",
+            "service_priority",
+            "cost_time_balance"
+          ],
+          "title": "Selection Policy",
+          "type": "string"
+        },
+        "fallback_order": {
+          "default": [
+            "taxi",
+            "walk"
+          ],
+          "items": {
+            "enum": [
+              "walk",
+              "bus",
+              "taxi"
+            ],
+            "type": "string"
+          },
+          "title": "Fallback Order",
+          "type": "array"
+        },
+        "max_transfers_per_leg": {
+          "default": 1,
+          "maximum": 4,
+          "minimum": 0,
+          "title": "Max Transfers Per Leg",
+          "type": "integer"
+        },
+        "direct_walk_limit_minutes": {
+          "default": 15,
+          "minimum": 0,
+          "title": "Direct Walk Limit Minutes",
+          "type": "integer"
+        },
+        "bus_wait_limit_minutes": {
+          "default": 30,
+          "minimum": 0,
+          "title": "Bus Wait Limit Minutes",
+          "type": "integer"
+        },
+        "max_bus_extra_minutes": {
+          "default": 30,
+          "minimum": 0,
+          "title": "Max Bus Extra Minutes",
+          "type": "integer"
+        },
+        "min_bus_savings_krw": {
+          "default": 5000,
+          "minimum": 0,
+          "title": "Min Bus Savings Krw",
+          "type": "integer"
+        },
+        "taxi_pickup_buffer_minutes": {
+          "default": 10,
+          "minimum": 0,
+          "title": "Taxi Pickup Buffer Minutes",
+          "type": "integer"
+        }
+      },
+      "title": "TransportPreferences",
+      "type": "object"
+    },
+    "WalkConnection": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "access_walk",
+            "egress_walk",
+            "transfer_walk",
+            "direct_walk"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "from_id": {
+          "title": "From Id",
+          "type": "string"
+        },
+        "to_id": {
+          "title": "To Id",
+          "type": "string"
+        },
+        "distance_meters": {
+          "minimum": 0,
+          "title": "Distance Meters",
+          "type": "integer"
+        },
+        "expected_minutes": {
+          "minimum": 0,
+          "title": "Expected Minutes",
+          "type": "integer"
+        },
+        "speed_multiplier": {
+          "minimum": 1,
+          "title": "Speed Multiplier",
+          "type": "number"
+        },
+        "route_uncertainty_minutes": {
+          "minimum": 0,
+          "title": "Route Uncertainty Minutes",
+          "type": "integer"
+        },
+        "planned_minutes": {
+          "minimum": 0,
+          "title": "Planned Minutes",
+          "type": "integer"
+        },
+        "entrance_verification": {
+          "enum": [
+            "VERIFIED",
+            "PROVISIONAL_PLACE_POINT"
+          ],
+          "title": "Entrance Verification",
+          "type": "string"
+        },
+        "stairs_status": {
+          "default": "UNKNOWN",
+          "enum": [
+            "CLEAR",
+            "PRESENT",
+            "UNKNOWN"
+          ],
+          "title": "Stairs Status",
+          "type": "string"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "from_id",
+        "to_id",
+        "distance_meters",
+        "expected_minutes",
+        "speed_multiplier",
+        "route_uncertainty_minutes",
+        "planned_minutes",
+        "entrance_verification",
+        "evidence_fact_ids"
+      ],
+      "title": "WalkConnection",
+      "type": "object"
+    },
+    "WalkingPreferences": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_direct_walk": {
+          "default": true,
+          "title": "Allow Direct Walk",
+          "type": "boolean"
+        },
+        "max_access_walk_minutes": {
+          "default": 20,
+          "minimum": 0,
+          "title": "Max Access Walk Minutes",
+          "type": "integer"
+        },
+        "max_total_distance_meters": {
+          "default": 6000,
+          "minimum": 0,
+          "title": "Max Total Distance Meters",
+          "type": "integer"
+        },
+        "max_single_leg_minutes": {
+          "default": 25,
+          "minimum": 0,
+          "title": "Max Single Leg Minutes",
+          "type": "integer"
+        },
+        "avoid_stairs_required": {
+          "default": false,
+          "title": "Avoid Stairs Required",
+          "type": "boolean"
+        }
+      },
+      "title": "WalkingPreferences",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.6.0",
+      "default": "0.6.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "checked_at": {
+      "format": "date-time",
+      "title": "Checked At",
+      "type": "string"
+    },
+    "current_position": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Coordinates"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "progress": {
+      "$ref": "#/$defs/ProgressInput"
+    },
+    "itinerary": {
+      "discriminator": {
+        "mapping": {
+          "activities_only": "#/$defs/ActivitiesOnlyEvaluationInput",
+          "full_timeline": "#/$defs/FullTimelineEvaluationInput"
+        },
+        "propertyName": "schedule_format"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ActivitiesOnlyEvaluationInput"
+        },
+        {
+          "$ref": "#/$defs/FullTimelineEvaluationInput"
+        }
+      ],
+      "title": "Itinerary"
+    }
+  },
+  "required": [
+    "checked_at",
+    "progress",
+    "itinerary"
+  ],
+  "title": "RevalidateJejuDayTripInput",
+  "type": "object"
+}

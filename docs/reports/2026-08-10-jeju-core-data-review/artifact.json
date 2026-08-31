@@ -1,0 +1,253 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "제주 하루 일정 데이터 심층 검토 — 1차 최종본",
+    "description": "현재 엔진 목적에 필요한 데이터만 남기고 제주 전역 적합성, 공식성, 완전성 및 운영 차단 조건을 재검토한 결과",
+    "generatedAt": "2026-08-10T18:00:00+09:00",
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# 제주 하루 일정 데이터 심층 검토 — 1차 최종본",
+        "layout": "full"
+      },
+      {
+        "id": "executive-summary",
+        "type": "markdown",
+        "body": "## Executive Summary\n\n핵심 소스 선택 방향은 타당하다. 장소는 TourAPI, 버스 식별·실시간은 TAGO, 실제 미래 시간표는 제주버스정보시스템, 문-to-문 보행·차량은 TMAP을 쓰는 조합이 현재 목적에 가장 적합하다. 다만 ‘공식 소스가 등록됨’과 ‘제주 전역 일정 생성이 준비됨’은 다르다. 실제 publication과 권역별 coverage가 없으므로 운영 성공 응답은 계속 차단해야 한다.\n\n이번 재검토에서 화장실·날씨·한라산 통제·제주 ITS·VisitJeju·TMAP 대중교통은 현재 결정 엔진이 소비하지 않는 비핵심 데이터로 분류해 승인 catalog와 수집 경로에서 제거했다. 또한 TAGO 정류장 수집을 단일 좌표 500m 검색에서 제주 도시코드 전체 목록으로 교체하고, 제주 전역 장소·노선 snapshot의 최소 행 품질 기준을 강화했다.",
+        "layout": "full"
+      },
+      {
+        "id": "metrics",
+        "type": "metric-strip",
+        "cardIds": ["approved-card", "pending-card", "removed-card", "profiles-card"],
+        "layout": "full"
+      },
+      {
+        "id": "source-composition-heading",
+        "type": "markdown",
+        "body": "## 핵심 데이터 구성\n\n승인 수 자체보다 역할 분리가 중요하다. 공공 원천은 장소·교통 식별과 실시간 사실, TMAP은 경로 계산, 내부 검증 publication은 출입구·운영시간·정류장 동일성만 담당한다.",
+        "layout": "full"
+      },
+      {
+        "id": "source-composition-chart-block",
+        "type": "chart",
+        "chartId": "source-composition-chart",
+        "layout": "full"
+      },
+      {
+        "id": "source-assessment-heading",
+        "type": "markdown",
+        "body": "## 소스별 최종 판정\n\n아래 표의 `APPROVED`는 호출·저장 계약이 승인됐다는 뜻이지 운영 준비 완료를 뜻하지 않는다. 실제 데이터가 없는 현재 단계에서는 각 소스의 차단 조건을 모두 해소하기 전 capability를 켜면 안 된다.",
+        "layout": "full"
+      },
+      {
+        "id": "source-assessment-table-block",
+        "type": "table",
+        "tableId": "source-assessment-table",
+        "layout": "full"
+      },
+      {
+        "id": "critical-findings",
+        "type": "markdown",
+        "body": "## 심층 점검 결과\n\n### 잘 선택된 부분\n\n- TourAPI는 공식 ID·분류·주소·좌표를 제공하는 전국 공공 관광 원천으로 제주 후보 풀의 기준에 적합하다. 음식점과 카페도 별도 비공식 POI를 추가하지 않고 같은 공식 분류를 사용한다.\n- 제주 미래 버스는 TAGO의 배차간격을 시간표처럼 쓰지 않고 제주버스정보시스템의 시행일 있는 시간표·변경 공지를 요구한다. 이 분리는 정확하다.\n- TAGO 실시간 `arrtime`은 출발 직전 재판정에만 사용하고 60초 뒤 stale로 처리한다.\n- TMAP은 보행·차량 문-to-문 수치에만 쓰며 원문과 geometry를 영속 저장하지 않는다.\n\n### 이번에 수정한 결함\n\n- 단일 좌표 주변 정류장 조회를 제주 전역 정류소 목록 조회로 교체했다.\n- 한두 행짜리 잘린 제주 장소·노선 응답이 통과하지 않도록 최소 행 기준을 강화했다.\n- 화장실 수집·정규화·publication·CLI·테스트 경로를 제거했다. 공개 v0.4 필드는 호환용으로만 남고 기본값은 `not_needed`다.\n- 실제 엔진이 쓰지 않던 TMAP 대중교통과 후보 보강 소스를 승인 catalog에서 제거했다.\n\n### 아직 차단해야 하는 부분\n\n- 제주 공식 시간표 파일의 저장·파생 이용조건과 변경공지 병합 규칙이 확정되지 않았다.\n- 제주 polygon publication이 없어 현재 사각형 좌표 검사는 최종 서비스영역 판정이 될 수 없다.\n- TourAPI 상세소개 운영시간은 콘텐츠 유형별 표현을 모두 확정하지 못하므로 검증된 수동 보정 publication이 여전히 필요하다.\n- 장소 입구, 정류장 canonical mapping, 실제 timetable trip/stop time, 권역별 coverage가 비어 있으면 생성 성공을 열 수 없다.\n- TAGO 노선별 경유정류소 순서는 공식 교차검증 데이터로 추가 수집할 가치가 있지만, 미래 시각의 근거는 제주 공식 시간표 publication이어야 한다.",
+        "layout": "full"
+      },
+      {
+        "id": "decision",
+        "type": "markdown",
+        "body": "## 1차 최종 결론과 다음 승인 순서\n\n현재 아키텍처는 제주 기반이 맞고, 핵심 원천 조합도 목적 대비 최선에 가깝다. 그러나 현 상태는 ‘코드 준비 완료, 실제 제주 데이터 준비 전’이다. 다음 순서만 허용한다.\n\n1. 제주 경계와 공식 시간표의 이용조건·변환 계약을 승인한다.\n2. TourAPI 제주 전체 장소, TAGO 제주 전체 정류장·노선을 수집한다.\n3. 운영시간·입구·정류장 mapping·시간표를 raw-first publication으로 넣는다.\n4. 제주시·동부·서부·남부·남동부 권역별 coverage를 실제 행으로 측정한다.\n5. 대표 구간 PoC에서 장소·입구·경로·시간표 fact lineage가 100%일 때만 capability를 연다.\n\n이 순서 전에는 실패 응답이 정상이며, 빈칸을 AI나 직선거리로 채우면 안 된다.",
+        "layout": "full"
+      },
+      {
+        "id": "methodology",
+        "type": "markdown",
+        "body": "## Methodology and Limitations\n\n검토 범위는 승인 source catalog, 자동 refresh profile, 정규화·publication 코드, readiness gate, 일정 생성·판정 엔진, 공식 공공데이터 및 TMAP 약관이다. 외부 API key와 운영 DB 연결이 제공되지 않아 실제 행 수·결측률·권역 coverage는 측정하지 못했다. 따라서 이 보고서는 소스 선택과 코드 경로의 1차 최종본이며, 데이터 자체의 최종 품질 승인은 publication 이후 별도 PoC가 필요하다.",
+        "layout": "full"
+      }
+    ],
+    "cards": [
+      {
+        "id": "approved-card",
+        "description": "현재 목적에 필요하고 호출 또는 수동 publication 계약이 승인된 소스",
+        "dataset": "headline_metrics",
+        "sourceId": "audit-summary",
+        "metrics": [{"label": "승인 핵심 소스", "field": "approved_sources", "format": "number"}]
+      },
+      {
+        "id": "pending-card",
+        "description": "경계와 공식 미래 버스 시간표처럼 승인 전 사용을 차단한 핵심 소스",
+        "dataset": "headline_metrics",
+        "sourceId": "audit-summary",
+        "metrics": [{"label": "필수 PENDING", "field": "pending_sources", "format": "number"}]
+      },
+      {
+        "id": "removed-card",
+        "description": "현재 엔진이 소비하지 않아 이번 검토에서 catalog에서 제거한 소스",
+        "dataset": "headline_metrics",
+        "sourceId": "audit-summary",
+        "metrics": [{"label": "비핵심 제거", "field": "removed_sources", "format": "number"}]
+      },
+      {
+        "id": "profiles-card",
+        "description": "현재 승인된 자동 수집 profile 수",
+        "dataset": "headline_metrics",
+        "sourceId": "audit-summary",
+        "metrics": [{"label": "자동 수집 프로필", "field": "refresh_profiles", "format": "number"}]
+      }
+    ],
+    "charts": [
+      {
+        "id": "source-composition-chart",
+        "title": "핵심 데이터 소스의 역할별 구성",
+        "subtitle": "공식 사실, 경로 계산, 내부 검증, 승인 대기 역할을 분리한다.",
+        "type": "bar",
+        "dataset": "source_composition",
+        "sourceId": "source-composition",
+        "encodings": {
+          "x": {"field": "role", "type": "nominal", "label": "역할"},
+          "y": {"field": "source_count", "type": "quantitative", "label": "소스 수", "format": "number"},
+          "tooltip": [
+            {"field": "approved_count", "type": "quantitative", "label": "승인"},
+            {"field": "pending_count", "type": "quantitative", "label": "대기"}
+          ]
+        },
+        "valueFormat": "number",
+        "layout": "full"
+      }
+    ],
+    "tables": [
+      {
+        "id": "source-assessment-table",
+        "title": "핵심 소스별 적합성 및 차단 조건",
+        "dataset": "source_assessment",
+        "defaultSort": {"field": "priority", "direction": "asc"},
+        "density": "dense",
+        "sourceId": "source-assessment",
+        "layout": "full",
+        "columns": [
+          {"field": "priority", "label": "순서", "type": "number"},
+          {"field": "source_id", "label": "소스", "type": "text"},
+          {"field": "purpose", "label": "핵심 용도", "type": "text"},
+          {"field": "status", "label": "계약", "type": "text"},
+          {"field": "judgement", "label": "최종 판정", "type": "text"},
+          {"field": "blocking_condition", "label": "운영 전 조건", "type": "text"}
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "audit-summary",
+        "label": "핵심 소스 감사 요약",
+        "path": "docs/reports/2026-08-10-jeju-core-data-review/audit-summary.csv",
+        "query": {
+          "sql": "SELECT approved_sources, pending_sources, removed_sources, refresh_profiles FROM read_csv_auto('docs/reports/2026-08-10-jeju-core-data-review/audit-summary.csv')",
+          "description": "검토 후 승인·대기·제거 소스와 자동 수집 profile 수를 집계했다.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "executed_at": "2026-08-10T18:00:00+09:00",
+          "filters": ["현재 일정 엔진이 소비하는 소스만 포함", "비핵심 7개 소스 제외"],
+          "tables_used": ["docs/reports/2026-08-10-jeju-core-data-review/audit-summary.csv"],
+          "metric_definitions": ["승인 핵심 소스 = license.status가 APPROVED인 현재 핵심 catalog 행", "필수 PENDING = 핵심이지만 승인 전 호출을 차단한 source 행", "비핵심 제거 = 이번 검토에서 catalog에서 제거한 source ID", "자동 수집 프로필 = refresh_profiles.toml의 profile 수"]
+        }
+      },
+      {
+        "id": "source-composition",
+        "label": "핵심 소스 역할별 구성",
+        "path": "docs/reports/2026-08-10-jeju-core-data-review/source-composition.csv",
+        "query": {
+          "sql": "SELECT role, source_count, approved_count, pending_count, scope FROM read_csv_auto('docs/reports/2026-08-10-jeju-core-data-review/source-composition.csv') ORDER BY source_count DESC",
+          "description": "현재 핵심 source catalog를 책임 역할별로 집계했다.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "executed_at": "2026-08-10T18:00:00+09:00",
+          "tables_used": ["docs/reports/2026-08-10-jeju-core-data-review/source-composition.csv"]
+        }
+      },
+      {
+        "id": "source-assessment",
+        "label": "핵심 소스별 적합성 판정",
+        "path": "docs/reports/2026-08-10-jeju-core-data-review/source-assessment.csv",
+        "query": {
+          "sql": "SELECT priority, source_id, purpose, status, judgement, blocking_condition FROM read_csv_auto('docs/reports/2026-08-10-jeju-core-data-review/source-assessment.csv') ORDER BY priority",
+          "description": "공식 문서와 코드 소비 경로를 기준으로 소스별 용도와 운영 차단 조건을 정리했다.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "executed_at": "2026-08-10T18:00:00+09:00",
+          "tables_used": ["docs/reports/2026-08-10-jeju-core-data-review/source-assessment.csv"]
+        }
+      },
+      {
+        "id": "official-tourapi",
+        "label": "한국관광공사 TourAPI 공식 상세",
+        "href": "https://www.data.go.kr/data/15101578/openapi.do"
+      },
+      {
+        "id": "official-tago-route",
+        "label": "국토교통부 TAGO 버스노선정보",
+        "href": "https://www.data.go.kr/data/15098529/openapi.do"
+      },
+      {
+        "id": "official-tago-stop",
+        "label": "국토교통부 TAGO 버스정류소정보",
+        "href": "https://www.data.go.kr/data/15098534/openapi.do"
+      },
+      {
+        "id": "official-tago-arrival",
+        "label": "국토교통부 TAGO 버스도착정보",
+        "href": "https://www.data.go.kr/data/15098530/openapi.do"
+      },
+      {
+        "id": "official-jeju-bus",
+        "label": "제주버스정보시스템 공식 시간표",
+        "href": "https://bus.jeju.go.kr/publicTrafficInformation/generalBusSchedule"
+      },
+      {
+        "id": "official-tmap-terms",
+        "label": "TMAP API 약관",
+        "href": "https://tmapapi.tmapmobility.com/terms.html"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-10T18:00:00+09:00",
+    "status": "partial",
+    "datasets": {
+      "headline_metrics": [
+        {"approved_sources": 13, "pending_sources": 2, "removed_sources": 7, "refresh_profiles": 5}
+      ],
+      "source_composition": [
+        {"role": "공식·공공 사실", "source_count": 10, "approved_count": 8, "pending_count": 2, "scope": "장소·버스·공휴일·요금·제주 경계"},
+        {"role": "상용 경로", "source_count": 2, "approved_count": 2, "pending_count": 0, "scope": "보행·차량 문-to-문"},
+        {"role": "내부 검증", "source_count": 3, "approved_count": 3, "pending_count": 0, "scope": "출입구·운영시간·정류장 동일성"}
+      ],
+      "source_assessment": [
+        {"priority": 1, "source_id": "tourapi.place / place-intro", "purpose": "제주 장소·분류·기본 운영정보", "status": "APPROVED", "judgement": "최선의 공식 기준 원천", "blocking_condition": "제주 전체 수집과 콘텐츠 유형별 상세 검증"},
+        {"priority": 2, "source_id": "travel.place-hours-map", "purpose": "날짜별 운영시간·입장마감", "status": "APPROVED", "judgement": "TourAPI 불완전성을 보완하는 필수 curated fact", "blocking_condition": "행별 공식 source_reference와 8일 freshness"},
+        {"priority": 3, "source_id": "travel.place-entrance-map", "purpose": "문-to-문 출발·도착점", "status": "APPROVED", "judgement": "중심좌표 오판 방지에 필수", "blocking_condition": "보행·차량·접근가능 입구의 검증과 만료"},
+        {"priority": 4, "source_id": "tago.bus-stop", "purpose": "제주 전체 정류장 ID·좌표", "status": "APPROVED", "judgement": "공식 식별 원천으로 적합", "blocking_condition": "도시코드 39 전체 목록 실수집과 좌표 품질"},
+        {"priority": 5, "source_id": "tago.bus-route", "purpose": "노선 ID·번호·기종점", "status": "APPROVED", "judgement": "공식 노선 식별·교차검증에 적합", "blocking_condition": "노선별 경유정류소 순서 PoC"},
+        {"priority": 6, "source_id": "transport.stop-identity-map", "purpose": "정적·실시간·시간표 정류장 연결", "status": "APPROVED", "judgement": "이름 추정 방지에 필수", "blocking_condition": "방향 포함 CONFIRMED mapping 100%"},
+        {"priority": 7, "source_id": "jeju.bus-timetable", "purpose": "여행일 미래 trip/stop time", "status": "PENDING", "judgement": "제주 미래 버스의 최우선 원천", "blocking_condition": "저장·파생 이용조건, 시행일·변경공지 병합 승인"},
+        {"priority": 8, "source_id": "holiday.special-day", "purpose": "공휴일 여부", "status": "APPROVED", "judgement": "서비스데이 보조 사실로 적합", "blocking_condition": "버스 service calendar와 결합"},
+        {"priority": 9, "source_id": "tago.bus-arrival", "purpose": "출발 직전 버스 도착예상", "status": "APPROVED", "judgement": "실시간 재판정 최선의 공식 공통 API", "blocking_condition": "제주 coverage·ID mapping PoC와 60초 TTL"},
+        {"priority": 10, "source_id": "tmap.pedestrian / driving", "purpose": "입구 기반 보행·차량 시간·거리", "status": "APPROVED", "judgement": "현재 목적에 맞는 상용 경로 원천", "blocking_condition": "원문·geometry 비영속, 목적별 메모리 TTL"},
+        {"priority": 11, "source_id": "jeju.taxi-fare-policy / bus-fare-policy", "purpose": "이동 비용 검증", "status": "APPROVED", "judgement": "코드 상수 대신 버전 정책으로 적합", "blocking_condition": "시행일·만료 재검증"},
+        {"priority": 12, "source_id": "spatial.jeju-boundary", "purpose": "제주 서비스영역 최종 판정", "status": "PENDING", "judgement": "공식 polygon이 필요", "blocking_condition": "변환·publication·라이선스 승인"}
+      ]
+    },
+    "accessIssues": [
+      {
+        "id": "operational-data-not-loaded",
+        "scope": "production-readiness",
+        "message": "운영 DB와 외부 API key가 연결되지 않아 실제 제주 행 수, 결측률, freshness 및 권역 coverage를 측정하지 못했다."
+      }
+    ]
+  },
+  "sources": [
+    {"id": "artifact-source", "label": "1차 최종 분석 artifact", "path": "docs/reports/2026-08-10-jeju-core-data-review/artifact.json"}
+  ]
+}

@@ -1,0 +1,1 @@
+exception_id,route_fact_id,notice_fact_id,starts_at,ends_at,exception_type,affected_stop_fact_ids,source_reference

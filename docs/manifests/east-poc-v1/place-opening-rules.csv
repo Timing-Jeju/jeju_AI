@@ -1,0 +1,3 @@
+place_fact_id,rule_id,service_day,valid_from,valid_to,period_kind,opens_at,closes_at,closes_day_offset,last_admission_at,last_order_at,source_reference
+tourapi.place:126435,seongsan-20260815,6,2026-08-15,2026-08-15,OPEN,04:30,20:00,0,19:00,,https://www.visitjeju.net/kr/detail/view?contentsid=CONT_000000000500349
+tourapi.place:2705373,railbike-20260815,6,2026-08-15,2026-08-15,OPEN,09:00,17:00,0,,,https://www.visitjeju.net/kr/detail/view?contentsid=CNTS_000000000020139

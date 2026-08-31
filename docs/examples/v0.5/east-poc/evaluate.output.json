@@ -1,0 +1,343 @@
+{
+  "schema_version": "0.5.0",
+  "status": "feasible",
+  "overall_risk": "low",
+  "schedule_window_fit": true,
+  "normalized_schedule": {
+    "events": [
+      {
+        "event_id": "balanced-transfer-1",
+        "type": "transfer",
+        "start_at": "2026-08-15T09:00:00+09:00",
+        "end_at": "2026-08-15T09:45:00+09:00",
+        "from_place_id": "hotel",
+        "to_place_id": "required",
+        "place_id": null,
+        "mode": "bus",
+        "source_event_id": "balanced-transfer-1"
+      },
+      {
+        "event_id": "balanced-buffer-2",
+        "type": "buffer",
+        "start_at": "2026-08-15T09:45:00+09:00",
+        "end_at": "2026-08-15T10:05:00+09:00",
+        "from_place_id": null,
+        "to_place_id": null,
+        "place_id": "required",
+        "mode": null,
+        "source_event_id": "balanced-buffer-2"
+      },
+      {
+        "event_id": "balanced-visit-3",
+        "type": "visit",
+        "start_at": "2026-08-15T10:05:00+09:00",
+        "end_at": "2026-08-15T11:05:00+09:00",
+        "from_place_id": null,
+        "to_place_id": null,
+        "place_id": "required",
+        "mode": null,
+        "source_event_id": "balanced-visit-3"
+      },
+      {
+        "event_id": "balanced-transfer-4",
+        "type": "transfer",
+        "start_at": "2026-08-15T11:05:00+09:00",
+        "end_at": "2026-08-15T11:20:00+09:00",
+        "from_place_id": "required",
+        "to_place_id": "meal",
+        "place_id": null,
+        "mode": "walk",
+        "source_event_id": "balanced-transfer-4"
+      },
+      {
+        "event_id": "balanced-buffer-5",
+        "type": "buffer",
+        "start_at": "2026-08-15T11:20:00+09:00",
+        "end_at": "2026-08-15T11:40:00+09:00",
+        "from_place_id": null,
+        "to_place_id": null,
+        "place_id": "meal",
+        "mode": null,
+        "source_event_id": "balanced-buffer-5"
+      },
+      {
+        "event_id": "balanced-meal-6",
+        "type": "meal",
+        "start_at": "2026-08-15T11:40:00+09:00",
+        "end_at": "2026-08-15T12:40:00+09:00",
+        "from_place_id": null,
+        "to_place_id": null,
+        "place_id": "meal",
+        "mode": null,
+        "source_event_id": "balanced-meal-6"
+      },
+      {
+        "event_id": "balanced-transfer-7",
+        "type": "transfer",
+        "start_at": "2026-08-15T12:40:00+09:00",
+        "end_at": "2026-08-15T12:55:00+09:00",
+        "from_place_id": "meal",
+        "to_place_id": "a",
+        "place_id": null,
+        "mode": "walk",
+        "source_event_id": "balanced-transfer-7"
+      },
+      {
+        "event_id": "balanced-buffer-8",
+        "type": "buffer",
+        "start_at": "2026-08-15T12:55:00+09:00",
+        "end_at": "2026-08-15T13:15:00+09:00",
+        "from_place_id": null,
+        "to_place_id": null,
+        "place_id": "a",
+        "mode": null,
+        "source_event_id": "balanced-buffer-8"
+      },
+      {
+        "event_id": "balanced-visit-9",
+        "type": "visit",
+        "start_at": "2026-08-15T13:15:00+09:00",
+        "end_at": "2026-08-15T14:15:00+09:00",
+        "from_place_id": null,
+        "to_place_id": null,
+        "place_id": "a",
+        "mode": null,
+        "source_event_id": "balanced-visit-9"
+      },
+      {
+        "event_id": "balanced-transfer-10",
+        "type": "transfer",
+        "start_at": "2026-08-15T14:15:00+09:00",
+        "end_at": "2026-08-15T14:30:00+09:00",
+        "from_place_id": "a",
+        "to_place_id": "rest",
+        "place_id": null,
+        "mode": "walk",
+        "source_event_id": "balanced-transfer-10"
+      },
+      {
+        "event_id": "balanced-buffer-11",
+        "type": "buffer",
+        "start_at": "2026-08-15T14:30:00+09:00",
+        "end_at": "2026-08-15T14:50:00+09:00",
+        "from_place_id": null,
+        "to_place_id": null,
+        "place_id": "rest",
+        "mode": null,
+        "source_event_id": "balanced-buffer-11"
+      },
+      {
+        "event_id": "balanced-rest-12",
+        "type": "rest",
+        "start_at": "2026-08-15T14:50:00+09:00",
+        "end_at": "2026-08-15T15:10:00+09:00",
+        "from_place_id": null,
+        "to_place_id": null,
+        "place_id": "rest",
+        "mode": null,
+        "source_event_id": "balanced-rest-12"
+      },
+      {
+        "event_id": "balanced-transfer-13",
+        "type": "transfer",
+        "start_at": "2026-08-15T15:10:00+09:00",
+        "end_at": "2026-08-15T15:25:00+09:00",
+        "from_place_id": "rest",
+        "to_place_id": "hotel",
+        "place_id": null,
+        "mode": "walk",
+        "source_event_id": "balanced-transfer-13"
+      }
+    ]
+  },
+  "issues": [
+    {
+      "issue_id": "issue-rest_recommended-0",
+      "category": "meal_rest",
+      "severity": "low",
+      "event_ids": [],
+      "reason_code": "REST_RECOMMENDED",
+      "slack_minutes": null,
+      "message": "연속 활동 시간이 휴식 정책 한도를 넘습니다.",
+      "evidence_fact_ids": []
+    }
+  ],
+  "segment_evaluations": [
+    {
+      "segment_id": "balanced-transfer-1",
+      "from_event_id": null,
+      "to_event_id": null,
+      "mode": "bus",
+      "status": "feasible",
+      "risk": "low",
+      "available_minutes": 65,
+      "required_minutes": 45,
+      "slack_minutes": 20,
+      "walking_minutes": 10,
+      "walking_distance_meters": 400,
+      "distance_meters": 13400,
+      "cost_krw": 1200,
+      "transfers": 0,
+      "evidence_fact_ids": [
+        "fact-route-hotel-required"
+      ],
+      "cost": {
+        "min_krw": 1200,
+        "max_krw": 1200,
+        "is_estimated": false
+      },
+      "reason_codes": []
+    },
+    {
+      "segment_id": "balanced-transfer-4",
+      "from_event_id": null,
+      "to_event_id": null,
+      "mode": "walk",
+      "status": "feasible",
+      "risk": "low",
+      "available_minutes": 35,
+      "required_minutes": 15,
+      "slack_minutes": 20,
+      "walking_minutes": 15,
+      "walking_distance_meters": 500,
+      "distance_meters": 500,
+      "cost_krw": 0,
+      "transfers": 0,
+      "evidence_fact_ids": [
+        "fact-route-required-meal"
+      ],
+      "cost": {
+        "min_krw": 0,
+        "max_krw": 0,
+        "is_estimated": false
+      },
+      "reason_codes": []
+    },
+    {
+      "segment_id": "balanced-transfer-7",
+      "from_event_id": null,
+      "to_event_id": null,
+      "mode": "walk",
+      "status": "feasible",
+      "risk": "low",
+      "available_minutes": 35,
+      "required_minutes": 15,
+      "slack_minutes": 20,
+      "walking_minutes": 15,
+      "walking_distance_meters": 500,
+      "distance_meters": 500,
+      "cost_krw": 0,
+      "transfers": 0,
+      "evidence_fact_ids": [
+        "fact-route-meal-a"
+      ],
+      "cost": {
+        "min_krw": 0,
+        "max_krw": 0,
+        "is_estimated": false
+      },
+      "reason_codes": []
+    },
+    {
+      "segment_id": "balanced-transfer-10",
+      "from_event_id": null,
+      "to_event_id": null,
+      "mode": "walk",
+      "status": "feasible",
+      "risk": "low",
+      "available_minutes": 35,
+      "required_minutes": 15,
+      "slack_minutes": 20,
+      "walking_minutes": 15,
+      "walking_distance_meters": 500,
+      "distance_meters": 500,
+      "cost_krw": 0,
+      "transfers": 0,
+      "evidence_fact_ids": [
+        "fact-route-a-rest"
+      ],
+      "cost": {
+        "min_krw": 0,
+        "max_krw": 0,
+        "is_estimated": false
+      },
+      "reason_codes": []
+    },
+    {
+      "segment_id": "balanced-transfer-13",
+      "from_event_id": null,
+      "to_event_id": null,
+      "mode": "walk",
+      "status": "feasible",
+      "risk": "low",
+      "available_minutes": 290,
+      "required_minutes": 15,
+      "slack_minutes": 275,
+      "walking_minutes": 15,
+      "walking_distance_meters": 500,
+      "distance_meters": 500,
+      "cost_krw": 0,
+      "transfers": 0,
+      "evidence_fact_ids": [
+        "fact-route-rest-hotel"
+      ],
+      "cost": {
+        "min_krw": 0,
+        "max_krw": 0,
+        "is_estimated": false
+      },
+      "reason_codes": []
+    }
+  ],
+  "activity_evaluations": [
+    {
+      "event_id": "balanced-visit-3",
+      "place_id": "required",
+      "operating_hours_status": "VERIFIED_OPEN",
+      "reason_codes": [],
+      "evidence_fact_ids": []
+    },
+    {
+      "event_id": "balanced-meal-6",
+      "place_id": "meal",
+      "operating_hours_status": "VERIFIED_OPEN",
+      "reason_codes": [],
+      "evidence_fact_ids": []
+    },
+    {
+      "event_id": "balanced-visit-9",
+      "place_id": "a",
+      "operating_hours_status": "VERIFIED_OPEN",
+      "reason_codes": [],
+      "evidence_fact_ids": []
+    },
+    {
+      "event_id": "balanced-rest-12",
+      "place_id": "rest",
+      "operating_hours_status": "VERIFIED_OPEN",
+      "reason_codes": [],
+      "evidence_fact_ids": []
+    }
+  ],
+  "repair_options": [],
+  "evidence_facts": [],
+  "data_sources": [],
+  "validation": {
+    "schema_valid": true,
+    "timeline_valid": true,
+    "provenance_valid": true,
+    "transit_connections_valid": true,
+    "diversity_valid": true,
+    "checks": [
+      "HOTEL_ROUND_TRIP",
+      "NO_SILENT_MODE_CHANGE"
+    ]
+  },
+  "failure": null,
+  "total_distance_meters": 15400,
+  "total_cost": {
+    "min_krw": 1200,
+    "max_krw": 1200,
+    "is_estimated": false
+  }
+}

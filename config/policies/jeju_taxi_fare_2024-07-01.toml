@@ -1,0 +1,45 @@
+schema_version = "jeju-taxi-fare-v1"
+source_id = "jeju.taxi-fare-policy"
+source_url = "https://bus.jeju.go.kr/publicTrafficInformation/taxiInfo"
+verified_on = 2026-08-30
+effective_from = "2024-07-01"
+applies_to_region = "제주특별자치도 전역"
+night_start = "23:00"
+night_end = "04:00"
+night_surcharge_ratio = 0.20
+call_fee_max_krw = 1000
+dispatch_guaranteed = false
+
+[[vehicle_types]]
+vehicle_type = "SMALL"
+base_fare_krw = 3000
+base_distance_meters = 2000
+distance_unit_meters = 167
+distance_unit_fare_krw = 100
+time_speed_threshold_kph = 15
+time_unit_seconds = 41
+time_unit_fare_krw = 100
+long_distance_threshold_meters = 20000
+long_distance_unit_fare_krw = 120
+
+[[vehicle_types]]
+vehicle_type = "STANDARD"
+base_fare_krw = 4300
+base_distance_meters = 2000
+distance_unit_meters = 126
+distance_unit_fare_krw = 100
+time_speed_threshold_kph = 15
+time_unit_seconds = 31
+time_unit_fare_krw = 100
+long_distance_threshold_meters = 20000
+long_distance_unit_fare_krw = 120
+
+[[vehicle_types]]
+vehicle_type = "LARGE"
+base_fare_krw = 6000
+base_distance_meters = 2000
+distance_unit_meters = 120
+distance_unit_fare_krw = 200
+time_speed_threshold_kph = 15
+time_unit_seconds = 29
+time_unit_fare_krw = 200

@@ -1,0 +1,98 @@
+{
+  "status": "staging_entrance_candidates",
+  "production_activation_allowed": false,
+  "items": [
+    {
+      "place_fact_id": "tourapi.place:127813",
+      "name": "섭지코지",
+      "category": "12",
+      "candidate_basis": "tourapi_place_center_reference",
+      "verification_status": "UNVERIFIED",
+      "usable_for_routing": false,
+      "required_follow_up": [
+        "OFFICIAL_OR_CURATED_ENTRANCE_SOURCE",
+        "PEDESTRIAN_ENDPOINT_CONFIRMATION",
+        "VEHICLE_PICKUP_ENDPOINT_CONFIRMATION"
+      ]
+    },
+    {
+      "place_fact_id": "tourapi.place:2742256",
+      "name": "오조포구",
+      "category": "12",
+      "candidate_basis": "tourapi_place_center_reference",
+      "verification_status": "UNVERIFIED",
+      "usable_for_routing": false,
+      "required_follow_up": [
+        "OFFICIAL_OR_CURATED_ENTRANCE_SOURCE",
+        "PEDESTRIAN_ENDPOINT_CONFIRMATION",
+        "VEHICLE_PICKUP_ENDPOINT_CONFIRMATION"
+      ]
+    },
+    {
+      "place_fact_id": "tourapi.place:2564158",
+      "name": "광치기해변",
+      "category": "12",
+      "candidate_basis": "tourapi_place_center_reference",
+      "verification_status": "UNVERIFIED",
+      "usable_for_routing": false,
+      "required_follow_up": [
+        "OFFICIAL_OR_CURATED_ENTRANCE_SOURCE",
+        "PEDESTRIAN_ENDPOINT_CONFIRMATION",
+        "VEHICLE_PICKUP_ENDPOINT_CONFIRMATION"
+      ]
+    },
+    {
+      "place_fact_id": "tourapi.place:2705373",
+      "name": "제주레일바이크",
+      "category": "28",
+      "candidate_basis": "tourapi_place_center_reference",
+      "verification_status": "UNVERIFIED",
+      "usable_for_routing": false,
+      "required_follow_up": [
+        "OFFICIAL_OR_CURATED_ENTRANCE_SOURCE",
+        "PEDESTRIAN_ENDPOINT_CONFIRMATION",
+        "VEHICLE_PICKUP_ENDPOINT_CONFIRMATION"
+      ]
+    },
+    {
+      "place_fact_id": "tourapi.place:126435",
+      "name": "성산일출봉 [유네스코 세계자연유산]",
+      "category": "12",
+      "candidate_basis": "tourapi_place_center_reference",
+      "verification_status": "UNVERIFIED",
+      "usable_for_routing": false,
+      "required_follow_up": [
+        "OFFICIAL_OR_CURATED_ENTRANCE_SOURCE",
+        "PEDESTRIAN_ENDPOINT_CONFIRMATION",
+        "VEHICLE_PICKUP_ENDPOINT_CONFIRMATION"
+      ]
+    },
+    {
+      "place_fact_id": "tourapi.place:2847829",
+      "name": "호랑호랑 성산카페",
+      "category": "39",
+      "candidate_basis": "tourapi_place_center_reference",
+      "verification_status": "UNVERIFIED",
+      "usable_for_routing": false,
+      "required_follow_up": [
+        "OFFICIAL_OR_CURATED_ENTRANCE_SOURCE",
+        "PEDESTRIAN_ENDPOINT_CONFIRMATION",
+        "VEHICLE_PICKUP_ENDPOINT_CONFIRMATION"
+      ]
+    },
+    {
+      "place_fact_id": "tourapi.place:2757210",
+      "name": "플레이스 캠프 제주(Playce camp Jeju)",
+      "category": "32",
+      "candidate_basis": "tourapi_place_center_reference",
+      "verification_status": "UNVERIFIED",
+      "usable_for_routing": false,
+      "required_follow_up": [
+        "OFFICIAL_OR_CURATED_ENTRANCE_SOURCE",
+        "PEDESTRIAN_ENDPOINT_CONFIRMATION",
+        "VEHICLE_PICKUP_ENDPOINT_CONFIRMATION"
+      ]
+    }
+  ],
+  "generated_at": "2026-08-11T03:12:36.422439+00:00"
+}

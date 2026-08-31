@@ -1,0 +1,4 @@
+interface:
+  display_name: "제주 하루 여행 MCP 빌더"
+  short_description: "공공데이터 기반 제주 MCP 일정 구현과 검증 안내"
+  default_prompt: "Use $build-jeju-day-trip-planner to implement and verify the next 제주 하루 여행 MCP slice."

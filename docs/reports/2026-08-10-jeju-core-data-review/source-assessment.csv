@@ -1,0 +1,13 @@
+priority,source_id,purpose,status,judgement,blocking_condition
+1,tourapi.place / place-intro,제주 장소·분류·기본 운영정보,APPROVED,최선의 공식 기준 원천,제주 전체 수집과 콘텐츠 유형별 상세 검증
+2,travel.place-hours-map,날짜별 운영시간·입장마감,APPROVED,TourAPI 불완전성을 보완하는 필수 curated fact,행별 공식 source_reference와 8일 freshness
+3,travel.place-entrance-map,문-to-문 출발·도착점,APPROVED,중심좌표 오판 방지에 필수,보행·차량·접근가능 입구의 검증과 만료
+4,tago.bus-stop,제주 전체 정류장 ID·좌표,APPROVED,공식 식별 원천으로 적합,도시코드 39 전체 목록 실수집과 좌표 품질
+5,tago.bus-route,노선 ID·번호·기종점,APPROVED,공식 노선 식별·교차검증에 적합,노선별 경유정류소 순서 PoC
+6,transport.stop-identity-map,정적·실시간·시간표 정류장 연결,APPROVED,이름 추정 방지에 필수,방향 포함 CONFIRMED mapping 100%
+7,jeju.bus-timetable,여행일 미래 trip/stop time,PENDING,제주 미래 버스의 최우선 원천,저장·파생 이용조건과 시행일·변경공지 병합 승인
+8,holiday.special-day,공휴일 여부,APPROVED,서비스데이 보조 사실로 적합,버스 service calendar와 결합
+9,tago.bus-arrival,출발 직전 버스 도착예상,APPROVED,실시간 재판정 최선의 공식 공통 API,제주 coverage·ID mapping PoC와 60초 TTL
+10,tmap.pedestrian / driving,입구 기반 보행·차량 시간·거리,APPROVED,현재 목적에 맞는 상용 경로 원천,원문·geometry 비영속과 목적별 메모리 TTL
+11,jeju.taxi-fare-policy / bus-fare-policy,이동 비용 검증,APPROVED,코드 상수 대신 버전 정책으로 적합,시행일·만료 재검증
+12,spatial.jeju-boundary,제주 서비스영역 최종 판정,PENDING,공식 polygon이 필요,변환·publication·라이선스 승인

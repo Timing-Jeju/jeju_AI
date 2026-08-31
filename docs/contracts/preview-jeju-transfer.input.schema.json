@@ -1,0 +1,38 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "origin_place_id": {
+      "title": "Origin Place Id",
+      "type": "string"
+    },
+    "destination_place_id": {
+      "title": "Destination Place Id",
+      "type": "string"
+    },
+    "departure_at": {
+      "format": "date-time",
+      "title": "Departure At",
+      "type": "string"
+    },
+    "allowed_modes": {
+      "items": {
+        "enum": [
+          "walk",
+          "bus",
+          "taxi"
+        ],
+        "type": "string"
+      },
+      "title": "Allowed Modes",
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "origin_place_id",
+    "destination_place_id",
+    "departure_at"
+  ],
+  "title": "PreviewTransferInput",
+  "type": "object"
+}

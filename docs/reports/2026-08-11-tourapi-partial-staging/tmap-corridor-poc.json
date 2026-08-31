@@ -1,0 +1,37 @@
+{
+  "status": "pass",
+  "source_id": "tmap.driving",
+  "endpoint_basis": "place_center_not_verified_entrance",
+  "total_segments": 3,
+  "passed_segments": 3,
+  "segments": [
+    {
+      "from_place_fact_id": "tourapi.place:126451",
+      "from_name": "함덕해수욕장 (함덕 서우봉 해변)",
+      "to_place_fact_id": "tourapi.place:126435",
+      "to_name": "성산일출봉 [유네스코 세계자연유산]",
+      "status": "pass",
+      "route_metrics_persisted": false
+    },
+    {
+      "from_place_fact_id": "tourapi.place:126435",
+      "from_name": "성산일출봉 [유네스코 세계자연유산]",
+      "to_place_fact_id": "tourapi.place:126449",
+      "to_name": "중문색달해수욕장",
+      "status": "pass",
+      "route_metrics_persisted": false
+    },
+    {
+      "from_place_fact_id": "tourapi.place:126449",
+      "from_name": "중문색달해수욕장",
+      "to_place_fact_id": "tourapi.place:127490",
+      "to_name": "협재해수욕장",
+      "status": "pass",
+      "route_metrics_persisted": false
+    }
+  ],
+  "safe_log_count": 3,
+  "route_metrics_persisted": false,
+  "production_activation_allowed": false,
+  "generated_at": "2026-08-11T02:31:25.254297+00:00"
+}

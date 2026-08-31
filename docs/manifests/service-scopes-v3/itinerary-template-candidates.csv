@@ -1,0 +1,17 @@
+fact_id,region_code,grid_id,candidate_group,place_fact_id,priority,source_reference
+east-poc-candidate-required,JEJU_EAST,POC_V1,east-required,tourapi.place:126435,1,internal://policy/jeju-east-poc-v1
+east-poc-candidate-meal-1,JEJU_EAST,POC_V1,east-meal,tourapi.place:2833201,1,internal://policy/jeju-east-poc-v1
+east-poc-candidate-meal-2,JEJU_EAST,POC_V1,east-meal,tourapi.place:2791481,2,internal://policy/jeju-east-poc-v1
+east-poc-candidate-meal-3,JEJU_EAST,POC_V1,east-meal,tourapi.place:1984236,3,internal://policy/jeju-east-poc-v1
+east-poc-candidate-meal-4,JEJU_EAST,POC_V1,east-meal,tourapi.place:2836808,4,internal://policy/jeju-east-poc-v1
+east-poc-candidate-meal-5,JEJU_EAST,POC_V1,east-meal,tourapi.place:2847894,5,internal://policy/jeju-east-poc-v1
+east-poc-candidate-gwangchigi,JEJU_EAST,POC_V1,east-gwangchigi,tourapi.place:2564158,1,internal://policy/jeju-east-poc-v1
+east-poc-candidate-seopjikoji,JEJU_EAST,POC_V1,east-seopjikoji,tourapi.place:127813,1,internal://policy/jeju-east-poc-v1
+east-poc-candidate-ojo,JEJU_EAST,POC_V1,east-ojo,tourapi.place:2742256,1,internal://policy/jeju-east-poc-v1
+east-poc-candidate-railbike,JEJU_EAST,POC_V1,east-railbike,tourapi.place:2705373,1,internal://policy/jeju-east-poc-v1
+east-poc-candidate-rest-1,JEJU_EAST,POC_V1,east-rest,tourapi.place:2847829,1,internal://policy/jeju-east-poc-v1
+east-poc-candidate-rest-2,JEJU_EAST,POC_V1,east-rest,tourapi.place:2830228,2,internal://policy/jeju-east-poc-v1
+r-hotel-candidate-market,JEJU_R_HOTEL,BUS_CANDIDATE_V1,r-hotel-visit,tourapi.place:992309,1,https://www.data.go.kr/data/15101578/openapi.do
+r-hotel-candidate-seongji,JEJU_R_HOTEL,BUS_CANDIDATE_V1,r-hotel-visit,tourapi.place:129384,2,https://www.data.go.kr/data/15101578/openapi.do
+r-hotel-candidate-meal,JEJU_R_HOTEL,BUS_CANDIDATE_V1,r-hotel-meal,tourapi.place:1872476,1,https://www.data.go.kr/data/15101578/openapi.do
+r-hotel-candidate-rest,JEJU_R_HOTEL,BUS_CANDIDATE_V1,r-hotel-rest,tourapi.place:2853982,1,https://www.data.go.kr/data/15101578/openapi.do

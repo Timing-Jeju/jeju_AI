@@ -1,0 +1,104 @@
+{
+  "schema_version": "0.6.0",
+  "request_mode": "generate",
+  "trip_date": "2026-08-15",
+  "timezone": "Asia/Seoul",
+  "accommodation": {
+    "place_id": "hotel",
+    "name": "제주 숙소",
+    "address": null,
+    "coordinates": {
+      "latitude": 33.49,
+      "longitude": 126.5
+    }
+  },
+  "activity_window": {
+    "start_at": "2026-08-15T09:00:00+09:00",
+    "end_at": "2026-08-15T20:00:00+09:00"
+  },
+  "party": {
+    "adults": 1,
+    "children": 0,
+    "seniors": 0,
+    "mobility_support_required": false
+  },
+  "transport": {
+    "allowed_modes": [
+      "bus",
+      "taxi",
+      "walk"
+    ],
+    "preferred_mode": "bus",
+    "selection_policy": "cost_time_balance",
+    "fallback_order": [
+      "taxi",
+      "walk"
+    ],
+    "max_transfers_per_leg": 1,
+    "direct_walk_limit_minutes": 15,
+    "bus_wait_limit_minutes": 30,
+    "max_bus_extra_minutes": 30,
+    "min_bus_savings_krw": 5000,
+    "taxi_pickup_buffer_minutes": 10
+  },
+  "walking": {
+    "allow_direct_walk": true,
+    "max_access_walk_minutes": 20,
+    "max_total_distance_meters": 6000,
+    "max_single_leg_minutes": 25,
+    "avoid_stairs_required": false
+  },
+  "rest": {
+    "pace": "normal",
+    "minimum_break_minutes": 20,
+    "max_continuous_activity_minutes": 120,
+    "seat_requirement": "not_needed",
+    "restroom_requirement": "not_needed",
+    "indoor_requirement": "not_needed",
+    "unreserved_bus_seat_counts_as_rest": false
+  },
+  "required_places": [
+    {
+      "place_id": "required",
+      "name": "필수",
+      "address": null,
+      "coordinates": null
+    }
+  ],
+  "preferred_places": [
+    {
+      "place_id": "a",
+      "name": "선호 A",
+      "address": null,
+      "coordinates": null
+    },
+    {
+      "place_id": "b",
+      "name": "선호 B",
+      "address": null,
+      "coordinates": null
+    }
+  ],
+  "excluded_places": [],
+  "discovery": {
+    "allow_additional_attractions": true,
+    "preferred_categories": [],
+    "maximum_additional_places": 3
+  },
+  "food": {
+    "auto_schedule_meals": true,
+    "auto_schedule_cafe": true,
+    "excluded_foods": [],
+    "allergens": [],
+    "preferred_cuisines": []
+  },
+  "total_budget_krw": null,
+  "original_text": null,
+  "previous_days": [],
+  "multi_day": {
+    "avoid_repeated_visits": true,
+    "soft_avoid_repeated_meals_and_rests": true,
+    "minimum_overnight_rest_minutes": 600,
+    "trip_transport_budget_krw": null
+  }
+}

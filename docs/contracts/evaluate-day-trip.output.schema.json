@@ -1,0 +1,1118 @@
+{
+  "$defs": {
+    "ActivityEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "place_id": {
+          "title": "Place Id",
+          "type": "string"
+        },
+        "operating_hours_status": {
+          "enum": [
+            "VERIFIED_OPEN",
+            "CONFLICT",
+            "UNVERIFIABLE"
+          ],
+          "title": "Operating Hours Status",
+          "type": "string"
+        },
+        "reason_codes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "evidence_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "place_id",
+        "operating_hours_status"
+      ],
+      "title": "ActivityEvaluation",
+      "type": "object"
+    },
+    "CostRange": {
+      "additionalProperties": false,
+      "properties": {
+        "min_krw": {
+          "minimum": 0,
+          "title": "Min Krw",
+          "type": "integer"
+        },
+        "max_krw": {
+          "minimum": 0,
+          "title": "Max Krw",
+          "type": "integer"
+        },
+        "is_estimated": {
+          "title": "Is Estimated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "min_krw",
+        "max_krw",
+        "is_estimated"
+      ],
+      "title": "CostRange",
+      "type": "object"
+    },
+    "DataSourceMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "dataset_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Dataset Version"
+        },
+        "data_as_of": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Data As Of"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ACTIVE",
+            "PENDING",
+            "STALE",
+            "UNAVAILABLE"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "attribution_text": {
+          "title": "Attribution Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "provider",
+        "dataset_version",
+        "data_as_of",
+        "retrieved_at",
+        "status",
+        "attribution_text"
+      ],
+      "title": "DataSourceMetadata",
+      "type": "object"
+    },
+    "Derivation": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "source",
+            "policy",
+            "computed"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "formula": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Formula"
+        },
+        "input_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "Derivation",
+      "type": "object"
+    },
+    "EvaluationIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "issue_id": {
+          "title": "Issue Id",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "timeline",
+            "opening_hours",
+            "transit_connection",
+            "walking",
+            "accessibility",
+            "budget",
+            "hotel_return",
+            "meal_rest",
+            "data_freshness",
+            "realtime_progress"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low",
+            "unknown"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "event_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Event Ids",
+          "type": "array"
+        },
+        "reason_code": {
+          "title": "Reason Code",
+          "type": "string"
+        },
+        "slack_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slack Minutes"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "evidence_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "issue_id",
+        "category",
+        "severity",
+        "reason_code",
+        "message"
+      ],
+      "title": "EvaluationIssue",
+      "type": "object"
+    },
+    "EvaluationResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "0.6.0",
+          "default": "0.6.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "feasible",
+            "feasible_with_caution",
+            "infeasible",
+            "unverifiable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "timing_status": {
+          "enum": [
+            "on_schedule",
+            "at_risk",
+            "disrupted",
+            "unknown"
+          ],
+          "title": "Timing Status",
+          "type": "string"
+        },
+        "evidence_status": {
+          "enum": [
+            "verified",
+            "partial",
+            "unavailable"
+          ],
+          "title": "Evidence Status",
+          "type": "string"
+        },
+        "overall_risk": {
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low",
+            "unknown"
+          ],
+          "title": "Overall Risk",
+          "type": "string"
+        },
+        "schedule_window_fit": {
+          "default": false,
+          "title": "Schedule Window Fit",
+          "type": "boolean"
+        },
+        "normalized_schedule": {
+          "$ref": "#/$defs/NormalizedSchedule"
+        },
+        "issues": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EvaluationIssue"
+          },
+          "title": "Issues",
+          "type": "array"
+        },
+        "segment_evaluations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SegmentEvaluation"
+          },
+          "title": "Segment Evaluations",
+          "type": "array"
+        },
+        "activity_evaluations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ActivityEvaluation"
+          },
+          "title": "Activity Evaluations",
+          "type": "array"
+        },
+        "repair_options": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RepairOption"
+          },
+          "title": "Repair Options",
+          "type": "array"
+        },
+        "evidence_facts": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EvidenceFact"
+          },
+          "title": "Evidence Facts",
+          "type": "array"
+        },
+        "data_sources": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DataSourceMetadata"
+          },
+          "title": "Data Sources",
+          "type": "array"
+        },
+        "validation": {
+          "$ref": "#/$defs/ValidationSummary"
+        },
+        "failure": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Failure"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "total_distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Total Distance Meters",
+          "type": "integer"
+        },
+        "total_cost": {
+          "$ref": "#/$defs/CostRange"
+        },
+        "totals": {
+          "$ref": "#/$defs/EvaluationTotals"
+        }
+      },
+      "required": [
+        "status",
+        "timing_status",
+        "evidence_status",
+        "overall_risk",
+        "normalized_schedule",
+        "validation"
+      ],
+      "title": "EvaluationResponse",
+      "type": "object"
+    },
+    "EvaluationTotals": {
+      "additionalProperties": false,
+      "description": "전체 타임라인에서 재계산한 판정용 합계.",
+      "properties": {
+        "walking_distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Walking Distance Meters",
+          "type": "integer"
+        },
+        "total_distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Total Distance Meters",
+          "type": "integer"
+        },
+        "activity_minutes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Activity Minutes",
+          "type": "integer"
+        },
+        "transfer_minutes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Transfer Minutes",
+          "type": "integer"
+        },
+        "taxi_pickup_buffer_minutes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Taxi Pickup Buffer Minutes",
+          "type": "integer"
+        },
+        "bus_wait_minutes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Bus Wait Minutes",
+          "type": "integer"
+        },
+        "transport_cost": {
+          "$ref": "#/$defs/CostRange"
+        },
+        "return_slack_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Return Slack Minutes"
+        },
+        "mismatch_fields": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Mismatch Fields",
+          "type": "array"
+        }
+      },
+      "title": "EvaluationTotals",
+      "type": "object"
+    },
+    "EvidenceFact": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "source_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "data_as_of": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "format": "date-time",
+              "type": "string"
+            }
+          ],
+          "title": "Data As Of"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "is_estimated": {
+          "default": false,
+          "title": "Is Estimated",
+          "type": "boolean"
+        },
+        "derivation": {
+          "$ref": "#/$defs/Derivation"
+        }
+      },
+      "required": [
+        "fact_id",
+        "category",
+        "value",
+        "data_as_of",
+        "retrieved_at",
+        "confidence",
+        "derivation"
+      ],
+      "title": "EvidenceFact",
+      "type": "object"
+    },
+    "Failure": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "insufficient_feasible_routes",
+            "DATA_NOT_READY",
+            "ENTRANCE_UNVERIFIED",
+            "STOP_MAPPING_UNCONFIRMED",
+            "SOURCE_PENDING",
+            "PLACE_AMBIGUOUS",
+            "PLANNING_TIMEOUT",
+            "ROUTING_BUDGET_EXHAUSTED",
+            "REGION_SCOPE_NOT_READY",
+            "DATE_SCOPE_NOT_READY",
+            "BUS_SERVICE_DAY_UNVERIFIED",
+            "REQUEST_MODE_REMOVED"
+          ],
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "reason_codes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "missing_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Capabilities",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "Failure",
+      "type": "object"
+    },
+    "NormalizedSchedule": {
+      "additionalProperties": false,
+      "properties": {
+        "events": {
+          "items": {
+            "$ref": "#/$defs/NormalizedScheduleEvent"
+          },
+          "title": "Events",
+          "type": "array"
+        }
+      },
+      "required": [
+        "events"
+      ],
+      "title": "NormalizedSchedule",
+      "type": "object"
+    },
+    "NormalizedScheduleEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "visit",
+            "meal",
+            "rest",
+            "transfer",
+            "buffer",
+            "unplanned_gap"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "start_at": {
+          "format": "date-time",
+          "title": "Start At",
+          "type": "string"
+        },
+        "end_at": {
+          "format": "date-time",
+          "title": "End At",
+          "type": "string"
+        },
+        "from_place_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "From Place Id"
+        },
+        "to_place_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "To Place Id"
+        },
+        "place_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Place Id"
+        },
+        "mode": {
+          "anyOf": [
+            {
+              "enum": [
+                "walk",
+                "bus",
+                "taxi"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mode"
+        },
+        "reason_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason Code"
+        },
+        "source_event_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Event Id"
+        }
+      },
+      "required": [
+        "event_id",
+        "type",
+        "start_at",
+        "end_at"
+      ],
+      "title": "NormalizedScheduleEvent",
+      "type": "object"
+    },
+    "RepairChange": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "before": {
+          "title": "Before"
+        },
+        "after": {
+          "title": "After"
+        }
+      },
+      "required": [
+        "event_id",
+        "field",
+        "before",
+        "after"
+      ],
+      "title": "RepairChange",
+      "type": "object"
+    },
+    "RepairOption": {
+      "additionalProperties": false,
+      "properties": {
+        "repair_id": {
+          "title": "Repair Id",
+          "type": "string"
+        },
+        "repair_type": {
+          "enum": [
+            "DEPART_EARLIER",
+            "USE_FASTER_VERIFIED_ALTERNATIVE",
+            "SHORTEN_STAY",
+            "SKIP_OPTIONAL_ACTIVITY",
+            "TAXI_AFTER_BUS_TIMEOUT"
+          ],
+          "title": "Repair Type",
+          "type": "string"
+        },
+        "changes": {
+          "items": {
+            "$ref": "#/$defs/RepairChange"
+          },
+          "title": "Changes",
+          "type": "array"
+        },
+        "result_if_applied": {
+          "enum": [
+            "feasible",
+            "feasible_with_caution"
+          ],
+          "title": "Result If Applied",
+          "type": "string"
+        },
+        "new_overall_risk": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "title": "New Overall Risk",
+          "type": "string"
+        },
+        "tradeoffs": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tradeoffs",
+          "type": "array"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        },
+        "time_gained_minutes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Time Gained Minutes",
+          "type": "integer"
+        },
+        "cost_increase": {
+          "$ref": "#/$defs/CostRange"
+        },
+        "changed_activity_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Changed Activity Ids",
+          "type": "array"
+        },
+        "new_evidence_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "New Evidence Fact Ids",
+          "type": "array"
+        },
+        "revalidated_evaluation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EvaluationResponse"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "repair_id",
+        "repair_type",
+        "changes",
+        "result_if_applied",
+        "new_overall_risk",
+        "evidence_fact_ids"
+      ],
+      "title": "RepairOption",
+      "type": "object"
+    },
+    "SegmentEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "segment_id": {
+          "title": "Segment Id",
+          "type": "string"
+        },
+        "from_event_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "From Event Id"
+        },
+        "to_event_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "To Event Id"
+        },
+        "mode": {
+          "anyOf": [
+            {
+              "enum": [
+                "walk",
+                "bus",
+                "taxi"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mode"
+        },
+        "status": {
+          "enum": [
+            "feasible",
+            "infeasible",
+            "unverifiable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "risk": {
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low",
+            "unknown"
+          ],
+          "title": "Risk",
+          "type": "string"
+        },
+        "available_minutes": {
+          "title": "Available Minutes",
+          "type": "integer"
+        },
+        "required_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Required Minutes"
+        },
+        "slack_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Slack Minutes"
+        },
+        "walking_minutes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Walking Minutes",
+          "type": "integer"
+        },
+        "walking_distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Walking Distance Meters",
+          "type": "integer"
+        },
+        "distance_meters": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distance Meters"
+        },
+        "cost_krw": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Cost Krw",
+          "type": "integer"
+        },
+        "bus_wait_minutes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Bus Wait Minutes",
+          "type": "integer"
+        },
+        "transfers": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Transfers",
+          "type": "integer"
+        },
+        "evidence_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        },
+        "cost": {
+          "$ref": "#/$defs/CostRange"
+        },
+        "reason_codes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "segment_id",
+        "from_event_id",
+        "to_event_id",
+        "mode",
+        "status",
+        "risk",
+        "available_minutes",
+        "required_minutes",
+        "slack_minutes"
+      ],
+      "title": "SegmentEvaluation",
+      "type": "object"
+    },
+    "SourceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "publication_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Publication Id"
+        },
+        "source_fact_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Fact Id"
+        }
+      },
+      "required": [
+        "source_id"
+      ],
+      "title": "SourceRef",
+      "type": "object"
+    },
+    "ValidationSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_valid": {
+          "title": "Schema Valid",
+          "type": "boolean"
+        },
+        "timeline_valid": {
+          "title": "Timeline Valid",
+          "type": "boolean"
+        },
+        "provenance_valid": {
+          "title": "Provenance Valid",
+          "type": "boolean"
+        },
+        "transit_connections_valid": {
+          "title": "Transit Connections Valid",
+          "type": "boolean"
+        },
+        "diversity_valid": {
+          "title": "Diversity Valid",
+          "type": "boolean"
+        },
+        "checks": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Checks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_valid",
+        "timeline_valid",
+        "provenance_valid",
+        "transit_connections_valid",
+        "diversity_valid"
+      ],
+      "title": "ValidationSummary",
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/EvaluationResponse"
+}
