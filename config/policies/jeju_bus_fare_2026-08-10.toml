@@ -1,0 +1,17 @@
+schema_version = "jeju-bus-fare-v1"
+source_id = "jeju.bus-fare-policy"
+source_url = "https://bus.jeju.go.kr/publicTrafficInformation/generalBusSchedule"
+verified_on = 2026-08-10
+effective_from = 2026-08-10
+
+[standard]
+adult_min_krw = 1150
+adult_max_krw = 1200
+child_min_krw = 350
+child_max_krw = 400
+
+[express]
+adult_min_krw = 2000
+adult_max_krw = 3000
+child_min_krw = 1000
+child_max_krw = 1500

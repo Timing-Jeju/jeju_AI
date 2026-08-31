@@ -1,0 +1,15 @@
+fact_id,region_code,grid_id,strategy,sequence,activity_type,candidate_group,required,source_reference
+east-poc-balanced-1,JEJU_EAST,POC_V1,balanced,1,visit,east-required,true,internal://policy/jeju-east-poc-v1
+east-poc-balanced-2,JEJU_EAST,POC_V1,balanced,2,meal,east-meal,true,internal://policy/jeju-east-poc-v1
+east-poc-balanced-3,JEJU_EAST,POC_V1,balanced,3,visit,east-gwangchigi,true,internal://policy/jeju-east-poc-v1
+east-poc-balanced-4,JEJU_EAST,POC_V1,balanced,4,visit,east-seopjikoji,true,internal://policy/jeju-east-poc-v1
+east-poc-balanced-5,JEJU_EAST,POC_V1,balanced,5,rest,east-rest,true,internal://policy/jeju-east-poc-v1
+east-poc-relaxed-1,JEJU_EAST,POC_V1,relaxed,1,visit,east-required,true,internal://policy/jeju-east-poc-v1
+east-poc-relaxed-2,JEJU_EAST,POC_V1,relaxed,2,meal,east-meal,true,internal://policy/jeju-east-poc-v1
+east-poc-relaxed-3,JEJU_EAST,POC_V1,relaxed,3,visit,east-ojo,true,internal://policy/jeju-east-poc-v1
+east-poc-relaxed-4,JEJU_EAST,POC_V1,relaxed,4,rest,east-rest,true,internal://policy/jeju-east-poc-v1
+east-poc-experience-1,JEJU_EAST,POC_V1,experience_max,1,visit,east-required,true,internal://policy/jeju-east-poc-v1
+east-poc-experience-2,JEJU_EAST,POC_V1,experience_max,2,meal,east-meal,true,internal://policy/jeju-east-poc-v1
+east-poc-experience-3,JEJU_EAST,POC_V1,experience_max,3,visit,east-seopjikoji,true,internal://policy/jeju-east-poc-v1
+east-poc-experience-4,JEJU_EAST,POC_V1,experience_max,4,visit,east-railbike,true,internal://policy/jeju-east-poc-v1
+east-poc-experience-5,JEJU_EAST,POC_V1,experience_max,5,rest,east-rest,true,internal://policy/jeju-east-poc-v1

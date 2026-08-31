@@ -1,0 +1,3014 @@
+{
+  "schema_version": "0.5.0",
+  "request_id": "req-8e82e72d-5dcf-45be-b7ad-248e415b1d20",
+  "generated_at": "2026-08-11T12:00:00+09:00",
+  "status": "success",
+  "planning_context": {
+    "mode": "advance_planning",
+    "planned_at": "2026-08-11T12:00:00+09:00",
+    "trip_date": "2026-08-15",
+    "days_before_trip": 4,
+    "schedule_basis": "service_calendar",
+    "realtime_used": false,
+    "plan_expires_at": "2026-08-12T12:00:00+09:00",
+    "revalidate_at": []
+  },
+  "request": {
+    "schema_version": "0.5.0",
+    "request_mode": "generate",
+    "trip_date": "2026-08-15",
+    "timezone": "Asia/Seoul",
+    "accommodation": {
+      "place_id": "hotel",
+      "name": "제주 숙소",
+      "address": null,
+      "coordinates": {
+        "latitude": 33.49,
+        "longitude": 126.5
+      }
+    },
+    "activity_window": {
+      "start_at": "2026-08-15T09:00:00+09:00",
+      "end_at": "2026-08-15T20:00:00+09:00"
+    },
+    "party": {
+      "adults": 1,
+      "children": 0,
+      "seniors": 0,
+      "mobility_support_required": false
+    },
+    "transport": {
+      "allowed_modes": [
+        "walk",
+        "bus",
+        "taxi"
+      ],
+      "preferred_mode": "bus",
+      "selection_policy": "service_priority",
+      "fallback_order": [
+        "taxi",
+        "walk"
+      ],
+      "max_transfers_per_leg": 1,
+      "direct_walk_limit_minutes": 15,
+      "bus_wait_limit_minutes": 30,
+      "max_bus_extra_minutes": 30,
+      "min_bus_savings_krw": 5000,
+      "taxi_pickup_buffer_minutes": 10
+    },
+    "walking": {
+      "allow_direct_walk": true,
+      "max_access_walk_minutes": 20,
+      "max_total_distance_meters": 6000,
+      "max_single_leg_minutes": 25,
+      "avoid_stairs_required": false
+    },
+    "rest": {
+      "pace": "normal",
+      "minimum_break_minutes": 20,
+      "max_continuous_activity_minutes": 120,
+      "seat_requirement": "not_needed",
+      "restroom_requirement": "not_needed",
+      "indoor_requirement": "not_needed",
+      "unreserved_bus_seat_counts_as_rest": false
+    },
+    "required_places": [
+      {
+        "place_id": "required",
+        "name": "필수",
+        "address": null,
+        "coordinates": null
+      }
+    ],
+    "preferred_places": [
+      {
+        "place_id": "a",
+        "name": "선호 A",
+        "address": null,
+        "coordinates": null
+      },
+      {
+        "place_id": "b",
+        "name": "선호 B",
+        "address": null,
+        "coordinates": null
+      }
+    ],
+    "excluded_places": [],
+    "discovery": {
+      "allow_additional_attractions": true,
+      "preferred_categories": [],
+      "maximum_additional_places": 3
+    },
+    "food": {
+      "auto_schedule_meals": true,
+      "auto_schedule_cafe": true,
+      "excluded_foods": [],
+      "allergens": [],
+      "preferred_cuisines": []
+    },
+    "total_budget_krw": null,
+    "original_text": null
+  },
+  "assumptions": [],
+  "recommendations": [
+    {
+      "route_id": "route-experience_max",
+      "rank": 1,
+      "strategy": "experience_max",
+      "title": "experience_max 제주 하루 일정",
+      "score": {
+        "total": 92.95,
+        "components": {
+          "preferred_places": {
+            "value": 100.0,
+            "weight": 40,
+            "weighted_value": 40.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "travel_efficiency": {
+            "value": 86.36,
+            "weight": 15,
+            "weighted_value": 12.95,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "reliability": {
+            "value": 100.0,
+            "weight": 15,
+            "weighted_value": 15.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "comfort": {
+            "value": 50.0,
+            "weight": 10,
+            "weighted_value": 5.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "cost_efficiency": {
+            "value": 100.0,
+            "weight": 10,
+            "weighted_value": 10.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "data_confidence": {
+            "value": 100.0,
+            "weight": 10,
+            "weighted_value": 10.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          }
+        }
+      },
+      "recommendation_reasons": [
+        {
+          "text": "검증된 운영시간과 문-to-문 이동 근거 안에서 숙소로 복귀합니다.",
+          "evidence_fact_ids": [
+            "fact-route-hotel-required",
+            "fact-required",
+            "fact-route-required-meal",
+            "fact-meal",
+            "fact-route-meal-a",
+            "fact-a",
+            "fact-route-a-b",
+            "fact-b",
+            "fact-route-b-rest",
+            "fact-rest",
+            "fact-route-rest-hotel"
+          ]
+        }
+      ],
+      "tradeoffs": [
+        "총 환승 0회"
+      ],
+      "place_ids": [
+        "required",
+        "meal",
+        "a",
+        "b",
+        "rest"
+      ],
+      "feasibility": "feasible",
+      "overall_risk": "high",
+      "segment_risks": [
+        {
+          "event_id": "experience_max-transfer-1",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-hotel-required"
+          ]
+        },
+        {
+          "event_id": "experience_max-transfer-4",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-required-meal"
+          ]
+        },
+        {
+          "event_id": "experience_max-transfer-7",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-meal-a"
+          ]
+        },
+        {
+          "event_id": "experience_max-transfer-10",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-a-b"
+          ]
+        },
+        {
+          "event_id": "experience_max-transfer-13",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-b-rest"
+          ]
+        },
+        {
+          "event_id": "experience_max-transfer-16",
+          "risk": "low",
+          "slack_minutes": 190,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-rest-hotel"
+          ]
+        }
+      ],
+      "revalidate_at": [
+        "2026-08-08T09:00:00+09:00",
+        "2026-08-14T09:00:00+09:00",
+        "2026-08-15T07:00:00+09:00"
+      ],
+      "required_place_ids_included": [
+        "required"
+      ],
+      "preferred_place_ids_included": [
+        "a",
+        "b"
+      ],
+      "preferred_place_ids_excluded": [],
+      "accommodation_departure_at": "2026-08-15T09:00:00+09:00",
+      "accommodation_return_at": "2026-08-15T16:50:00+09:00",
+      "timeline": [
+        {
+          "event_id": "experience_max-transfer-1",
+          "sequence": 1,
+          "type": "transfer",
+          "start_at": "2026-08-15T09:00:00+09:00",
+          "end_at": "2026-08-15T09:15:00+09:00",
+          "duration_minutes": 15,
+          "title": "required 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "hotel",
+              "to_id": "required",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-hotel-required"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-hotel-required"
+          ]
+        },
+        {
+          "event_id": "experience_max-buffer-2",
+          "sequence": 2,
+          "type": "buffer",
+          "start_at": "2026-08-15T09:15:00+09:00",
+          "end_at": "2026-08-15T09:35:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "required",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-required"
+          ]
+        },
+        {
+          "event_id": "experience_max-visit-3",
+          "sequence": 3,
+          "type": "visit",
+          "start_at": "2026-08-15T09:35:00+09:00",
+          "end_at": "2026-08-15T10:35:00+09:00",
+          "duration_minutes": 60,
+          "title": "required",
+          "place_id": "required",
+          "visit": {
+            "place_id": "required",
+            "name": "required",
+            "position": {
+              "latitude": 33.46,
+              "longitude": 126.7
+            },
+            "entrance_id": "entrance-required",
+            "arrival_at": "2026-08-15T09:35:00+09:00",
+            "entry_at": "2026-08-15T09:35:00+09:00",
+            "departure_at": "2026-08-15T10:35:00+09:00",
+            "stay_minutes": 60,
+            "operating_hours_status": "VERIFIED",
+            "opening_hours_conflict": false,
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "last_admission_at": "2026-08-15T18:30:00+09:00",
+            "evidence_fact_ids": [
+              "fact-required"
+            ]
+          },
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-required"
+          ]
+        },
+        {
+          "event_id": "experience_max-transfer-4",
+          "sequence": 4,
+          "type": "transfer",
+          "start_at": "2026-08-15T10:35:00+09:00",
+          "end_at": "2026-08-15T10:50:00+09:00",
+          "duration_minutes": 15,
+          "title": "검증 식당 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "required",
+              "to_id": "meal",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-required-meal"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-required-meal"
+          ]
+        },
+        {
+          "event_id": "experience_max-buffer-5",
+          "sequence": 5,
+          "type": "buffer",
+          "start_at": "2026-08-15T10:50:00+09:00",
+          "end_at": "2026-08-15T11:30:00+09:00",
+          "duration_minutes": 40,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "meal",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-meal"
+          ]
+        },
+        {
+          "event_id": "experience_max-meal-6",
+          "sequence": 6,
+          "type": "meal",
+          "start_at": "2026-08-15T11:30:00+09:00",
+          "end_at": "2026-08-15T12:30:00+09:00",
+          "duration_minutes": 60,
+          "title": "검증 식당",
+          "place_id": "meal",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": {
+            "place_id": "meal",
+            "venue_name": "검증 식당",
+            "position": {
+              "latitude": 33.46,
+              "longitude": 126.71
+            },
+            "entrance_id": "entrance-meal",
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "last_order_at": "2026-08-15T18:30:00+09:00",
+            "operating_hours_status": "VERIFIED",
+            "evidence_fact_ids": [
+              "fact-meal"
+            ]
+          },
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-meal"
+          ]
+        },
+        {
+          "event_id": "experience_max-transfer-7",
+          "sequence": 7,
+          "type": "transfer",
+          "start_at": "2026-08-15T12:30:00+09:00",
+          "end_at": "2026-08-15T12:45:00+09:00",
+          "duration_minutes": 15,
+          "title": "a 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "meal",
+              "to_id": "a",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-meal-a"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-meal-a"
+          ]
+        },
+        {
+          "event_id": "experience_max-buffer-8",
+          "sequence": 8,
+          "type": "buffer",
+          "start_at": "2026-08-15T12:45:00+09:00",
+          "end_at": "2026-08-15T13:05:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "a",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-a"
+          ]
+        },
+        {
+          "event_id": "experience_max-visit-9",
+          "sequence": 9,
+          "type": "visit",
+          "start_at": "2026-08-15T13:05:00+09:00",
+          "end_at": "2026-08-15T14:05:00+09:00",
+          "duration_minutes": 60,
+          "title": "a",
+          "place_id": "a",
+          "visit": {
+            "place_id": "a",
+            "name": "a",
+            "position": {
+              "latitude": 33.470000000000006,
+              "longitude": 126.7
+            },
+            "entrance_id": "entrance-a",
+            "arrival_at": "2026-08-15T13:05:00+09:00",
+            "entry_at": "2026-08-15T13:05:00+09:00",
+            "departure_at": "2026-08-15T14:05:00+09:00",
+            "stay_minutes": 60,
+            "operating_hours_status": "VERIFIED",
+            "opening_hours_conflict": false,
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "last_admission_at": "2026-08-15T18:30:00+09:00",
+            "evidence_fact_ids": [
+              "fact-a"
+            ]
+          },
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-a"
+          ]
+        },
+        {
+          "event_id": "experience_max-transfer-10",
+          "sequence": 10,
+          "type": "transfer",
+          "start_at": "2026-08-15T14:05:00+09:00",
+          "end_at": "2026-08-15T14:20:00+09:00",
+          "duration_minutes": 15,
+          "title": "b 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "a",
+              "to_id": "b",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-a-b"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-a-b"
+          ]
+        },
+        {
+          "event_id": "experience_max-buffer-11",
+          "sequence": 11,
+          "type": "buffer",
+          "start_at": "2026-08-15T14:20:00+09:00",
+          "end_at": "2026-08-15T14:40:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "b",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-b"
+          ]
+        },
+        {
+          "event_id": "experience_max-visit-12",
+          "sequence": 12,
+          "type": "visit",
+          "start_at": "2026-08-15T14:40:00+09:00",
+          "end_at": "2026-08-15T15:40:00+09:00",
+          "duration_minutes": 60,
+          "title": "b",
+          "place_id": "b",
+          "visit": {
+            "place_id": "b",
+            "name": "b",
+            "position": {
+              "latitude": 33.480000000000004,
+              "longitude": 126.7
+            },
+            "entrance_id": "entrance-b",
+            "arrival_at": "2026-08-15T14:40:00+09:00",
+            "entry_at": "2026-08-15T14:40:00+09:00",
+            "departure_at": "2026-08-15T15:40:00+09:00",
+            "stay_minutes": 60,
+            "operating_hours_status": "VERIFIED",
+            "opening_hours_conflict": false,
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "last_admission_at": "2026-08-15T18:30:00+09:00",
+            "evidence_fact_ids": [
+              "fact-b"
+            ]
+          },
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-b"
+          ]
+        },
+        {
+          "event_id": "experience_max-transfer-13",
+          "sequence": 13,
+          "type": "transfer",
+          "start_at": "2026-08-15T15:40:00+09:00",
+          "end_at": "2026-08-15T15:55:00+09:00",
+          "duration_minutes": 15,
+          "title": "검증 카페 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "b",
+              "to_id": "rest",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-b-rest"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-b-rest"
+          ]
+        },
+        {
+          "event_id": "experience_max-buffer-14",
+          "sequence": 14,
+          "type": "buffer",
+          "start_at": "2026-08-15T15:55:00+09:00",
+          "end_at": "2026-08-15T16:15:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "rest",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-rest"
+          ]
+        },
+        {
+          "event_id": "experience_max-rest-15",
+          "sequence": 15,
+          "type": "rest",
+          "start_at": "2026-08-15T16:15:00+09:00",
+          "end_at": "2026-08-15T16:35:00+09:00",
+          "duration_minutes": 20,
+          "title": "검증 카페",
+          "place_id": "rest",
+          "visit": null,
+          "transfer": null,
+          "rest": {
+            "place_id": "rest",
+            "venue_name": "검증 카페",
+            "position": {
+              "latitude": 33.47,
+              "longitude": 126.72
+            },
+            "entrance_id": "entrance-rest",
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "operating_hours_status": "VERIFIED",
+            "seat": "AVAILABLE",
+            "restroom": "UNKNOWN",
+            "indoor": "AVAILABLE",
+            "guarantee": "not_guaranteed",
+            "evidence_fact_ids": [
+              "fact-rest"
+            ]
+          },
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-rest"
+          ]
+        },
+        {
+          "event_id": "experience_max-transfer-16",
+          "sequence": 16,
+          "type": "transfer",
+          "start_at": "2026-08-15T16:35:00+09:00",
+          "end_at": "2026-08-15T16:50:00+09:00",
+          "duration_minutes": 15,
+          "title": "숙소 복귀",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "rest",
+              "to_id": "hotel",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-rest-hotel"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-rest-hotel"
+          ]
+        }
+      ],
+      "totals": {
+        "total_minutes": 470,
+        "visit_minutes": 180,
+        "transfer_minutes": 90,
+        "rest_minutes": 20,
+        "meal_minutes": 60,
+        "buffer_minutes": 120,
+        "walking_minutes": 90,
+        "walking_distance_meters": 3000,
+        "estimated_cost": {
+          "min_krw": 0,
+          "max_krw": 0,
+          "is_estimated": false
+        },
+        "bus_distance_meters": 0,
+        "taxi_distance_meters": 0,
+        "total_distance_meters": 3000,
+        "bus_cost": {
+          "min_krw": 0,
+          "max_krw": 0,
+          "is_estimated": false
+        },
+        "taxi_cost": {
+          "min_krw": 0,
+          "max_krw": 0,
+          "is_estimated": false
+        },
+        "derivation_evidence_fact_ids": [
+          "fact-route-hotel-required",
+          "fact-required",
+          "fact-route-required-meal",
+          "fact-meal",
+          "fact-route-meal-a",
+          "fact-a",
+          "fact-route-a-b",
+          "fact-b",
+          "fact-route-b-rest",
+          "fact-rest",
+          "fact-route-rest-hotel"
+        ]
+      }
+    },
+    {
+      "route_id": "route-relaxed",
+      "rank": 2,
+      "strategy": "relaxed",
+      "title": "relaxed 제주 하루 일정",
+      "score": {
+        "total": 80.38,
+        "components": {
+          "preferred_places": {
+            "value": 50.0,
+            "weight": 15,
+            "weighted_value": 7.5,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "travel_efficiency": {
+            "value": 88.64,
+            "weight": 15,
+            "weighted_value": 13.3,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "reliability": {
+            "value": 100.0,
+            "weight": 25,
+            "weighted_value": 25.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "comfort": {
+            "value": 58.33,
+            "weight": 25,
+            "weighted_value": 14.58,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "cost_efficiency": {
+            "value": 100.0,
+            "weight": 10,
+            "weighted_value": 10.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "data_confidence": {
+            "value": 100.0,
+            "weight": 10,
+            "weighted_value": 10.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-b",
+              "fact-b",
+              "fact-route-b-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          }
+        }
+      },
+      "recommendation_reasons": [
+        {
+          "text": "검증된 운영시간과 문-to-문 이동 근거 안에서 숙소로 복귀합니다.",
+          "evidence_fact_ids": [
+            "fact-route-hotel-required",
+            "fact-required",
+            "fact-route-required-meal",
+            "fact-meal",
+            "fact-route-meal-b",
+            "fact-b",
+            "fact-route-b-rest",
+            "fact-rest",
+            "fact-route-rest-hotel"
+          ]
+        }
+      ],
+      "tradeoffs": [
+        "총 환승 0회"
+      ],
+      "place_ids": [
+        "required",
+        "meal",
+        "b",
+        "rest"
+      ],
+      "feasibility": "feasible",
+      "overall_risk": "high",
+      "segment_risks": [
+        {
+          "event_id": "relaxed-transfer-1",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-hotel-required"
+          ]
+        },
+        {
+          "event_id": "relaxed-transfer-4",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-required-meal"
+          ]
+        },
+        {
+          "event_id": "relaxed-transfer-7",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-meal-b"
+          ]
+        },
+        {
+          "event_id": "relaxed-transfer-10",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-b-rest"
+          ]
+        },
+        {
+          "event_id": "relaxed-transfer-13",
+          "risk": "low",
+          "slack_minutes": 285,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-rest-hotel"
+          ]
+        }
+      ],
+      "revalidate_at": [
+        "2026-08-08T09:00:00+09:00",
+        "2026-08-14T09:00:00+09:00",
+        "2026-08-15T07:00:00+09:00"
+      ],
+      "required_place_ids_included": [
+        "required"
+      ],
+      "preferred_place_ids_included": [
+        "b"
+      ],
+      "preferred_place_ids_excluded": [
+        "a"
+      ],
+      "accommodation_departure_at": "2026-08-15T09:00:00+09:00",
+      "accommodation_return_at": "2026-08-15T15:15:00+09:00",
+      "timeline": [
+        {
+          "event_id": "relaxed-transfer-1",
+          "sequence": 1,
+          "type": "transfer",
+          "start_at": "2026-08-15T09:00:00+09:00",
+          "end_at": "2026-08-15T09:15:00+09:00",
+          "duration_minutes": 15,
+          "title": "required 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "hotel",
+              "to_id": "required",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-hotel-required"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-hotel-required"
+          ]
+        },
+        {
+          "event_id": "relaxed-buffer-2",
+          "sequence": 2,
+          "type": "buffer",
+          "start_at": "2026-08-15T09:15:00+09:00",
+          "end_at": "2026-08-15T09:35:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "required",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-required"
+          ]
+        },
+        {
+          "event_id": "relaxed-visit-3",
+          "sequence": 3,
+          "type": "visit",
+          "start_at": "2026-08-15T09:35:00+09:00",
+          "end_at": "2026-08-15T10:35:00+09:00",
+          "duration_minutes": 60,
+          "title": "required",
+          "place_id": "required",
+          "visit": {
+            "place_id": "required",
+            "name": "required",
+            "position": {
+              "latitude": 33.46,
+              "longitude": 126.7
+            },
+            "entrance_id": "entrance-required",
+            "arrival_at": "2026-08-15T09:35:00+09:00",
+            "entry_at": "2026-08-15T09:35:00+09:00",
+            "departure_at": "2026-08-15T10:35:00+09:00",
+            "stay_minutes": 60,
+            "operating_hours_status": "VERIFIED",
+            "opening_hours_conflict": false,
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "last_admission_at": "2026-08-15T18:30:00+09:00",
+            "evidence_fact_ids": [
+              "fact-required"
+            ]
+          },
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-required"
+          ]
+        },
+        {
+          "event_id": "relaxed-transfer-4",
+          "sequence": 4,
+          "type": "transfer",
+          "start_at": "2026-08-15T10:35:00+09:00",
+          "end_at": "2026-08-15T10:50:00+09:00",
+          "duration_minutes": 15,
+          "title": "검증 식당 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "required",
+              "to_id": "meal",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-required-meal"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-required-meal"
+          ]
+        },
+        {
+          "event_id": "relaxed-buffer-5",
+          "sequence": 5,
+          "type": "buffer",
+          "start_at": "2026-08-15T10:50:00+09:00",
+          "end_at": "2026-08-15T11:30:00+09:00",
+          "duration_minutes": 40,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "meal",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-meal"
+          ]
+        },
+        {
+          "event_id": "relaxed-meal-6",
+          "sequence": 6,
+          "type": "meal",
+          "start_at": "2026-08-15T11:30:00+09:00",
+          "end_at": "2026-08-15T12:30:00+09:00",
+          "duration_minutes": 60,
+          "title": "검증 식당",
+          "place_id": "meal",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": {
+            "place_id": "meal",
+            "venue_name": "검증 식당",
+            "position": {
+              "latitude": 33.46,
+              "longitude": 126.71
+            },
+            "entrance_id": "entrance-meal",
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "last_order_at": "2026-08-15T18:30:00+09:00",
+            "operating_hours_status": "VERIFIED",
+            "evidence_fact_ids": [
+              "fact-meal"
+            ]
+          },
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-meal"
+          ]
+        },
+        {
+          "event_id": "relaxed-transfer-7",
+          "sequence": 7,
+          "type": "transfer",
+          "start_at": "2026-08-15T12:30:00+09:00",
+          "end_at": "2026-08-15T12:45:00+09:00",
+          "duration_minutes": 15,
+          "title": "b 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "meal",
+              "to_id": "b",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-meal-b"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-meal-b"
+          ]
+        },
+        {
+          "event_id": "relaxed-buffer-8",
+          "sequence": 8,
+          "type": "buffer",
+          "start_at": "2026-08-15T12:45:00+09:00",
+          "end_at": "2026-08-15T13:05:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "b",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-b"
+          ]
+        },
+        {
+          "event_id": "relaxed-visit-9",
+          "sequence": 9,
+          "type": "visit",
+          "start_at": "2026-08-15T13:05:00+09:00",
+          "end_at": "2026-08-15T14:05:00+09:00",
+          "duration_minutes": 60,
+          "title": "b",
+          "place_id": "b",
+          "visit": {
+            "place_id": "b",
+            "name": "b",
+            "position": {
+              "latitude": 33.480000000000004,
+              "longitude": 126.7
+            },
+            "entrance_id": "entrance-b",
+            "arrival_at": "2026-08-15T13:05:00+09:00",
+            "entry_at": "2026-08-15T13:05:00+09:00",
+            "departure_at": "2026-08-15T14:05:00+09:00",
+            "stay_minutes": 60,
+            "operating_hours_status": "VERIFIED",
+            "opening_hours_conflict": false,
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "last_admission_at": "2026-08-15T18:30:00+09:00",
+            "evidence_fact_ids": [
+              "fact-b"
+            ]
+          },
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-b"
+          ]
+        },
+        {
+          "event_id": "relaxed-transfer-10",
+          "sequence": 10,
+          "type": "transfer",
+          "start_at": "2026-08-15T14:05:00+09:00",
+          "end_at": "2026-08-15T14:20:00+09:00",
+          "duration_minutes": 15,
+          "title": "검증 카페 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "b",
+              "to_id": "rest",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-b-rest"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-b-rest"
+          ]
+        },
+        {
+          "event_id": "relaxed-buffer-11",
+          "sequence": 11,
+          "type": "buffer",
+          "start_at": "2026-08-15T14:20:00+09:00",
+          "end_at": "2026-08-15T14:40:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "rest",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-rest"
+          ]
+        },
+        {
+          "event_id": "relaxed-rest-12",
+          "sequence": 12,
+          "type": "rest",
+          "start_at": "2026-08-15T14:40:00+09:00",
+          "end_at": "2026-08-15T15:00:00+09:00",
+          "duration_minutes": 20,
+          "title": "검증 카페",
+          "place_id": "rest",
+          "visit": null,
+          "transfer": null,
+          "rest": {
+            "place_id": "rest",
+            "venue_name": "검증 카페",
+            "position": {
+              "latitude": 33.47,
+              "longitude": 126.72
+            },
+            "entrance_id": "entrance-rest",
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "operating_hours_status": "VERIFIED",
+            "seat": "AVAILABLE",
+            "restroom": "UNKNOWN",
+            "indoor": "AVAILABLE",
+            "guarantee": "not_guaranteed",
+            "evidence_fact_ids": [
+              "fact-rest"
+            ]
+          },
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-rest"
+          ]
+        },
+        {
+          "event_id": "relaxed-transfer-13",
+          "sequence": 13,
+          "type": "transfer",
+          "start_at": "2026-08-15T15:00:00+09:00",
+          "end_at": "2026-08-15T15:15:00+09:00",
+          "duration_minutes": 15,
+          "title": "숙소 복귀",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "rest",
+              "to_id": "hotel",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-rest-hotel"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-rest-hotel"
+          ]
+        }
+      ],
+      "totals": {
+        "total_minutes": 375,
+        "visit_minutes": 120,
+        "transfer_minutes": 75,
+        "rest_minutes": 20,
+        "meal_minutes": 60,
+        "buffer_minutes": 100,
+        "walking_minutes": 75,
+        "walking_distance_meters": 2500,
+        "estimated_cost": {
+          "min_krw": 0,
+          "max_krw": 0,
+          "is_estimated": false
+        },
+        "bus_distance_meters": 0,
+        "taxi_distance_meters": 0,
+        "total_distance_meters": 2500,
+        "bus_cost": {
+          "min_krw": 0,
+          "max_krw": 0,
+          "is_estimated": false
+        },
+        "taxi_cost": {
+          "min_krw": 0,
+          "max_krw": 0,
+          "is_estimated": false
+        },
+        "derivation_evidence_fact_ids": [
+          "fact-route-hotel-required",
+          "fact-required",
+          "fact-route-required-meal",
+          "fact-meal",
+          "fact-route-meal-b",
+          "fact-b",
+          "fact-route-b-rest",
+          "fact-rest",
+          "fact-route-rest-hotel"
+        ]
+      }
+    },
+    {
+      "route_id": "route-balanced",
+      "rank": 3,
+      "strategy": "balanced",
+      "title": "balanced 제주 하루 일정",
+      "score": {
+        "total": 68.32,
+        "components": {
+          "preferred_places": {
+            "value": 50.0,
+            "weight": 25,
+            "weighted_value": 12.5,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "travel_efficiency": {
+            "value": 84.09,
+            "weight": 20,
+            "weighted_value": 16.82,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "reliability": {
+            "value": 100.0,
+            "weight": 20,
+            "weighted_value": 20.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "comfort": {
+            "value": 60.0,
+            "weight": 15,
+            "weighted_value": 9.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "cost_efficiency": {
+            "value": 0.0,
+            "weight": 10,
+            "weighted_value": 0.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          },
+          "data_confidence": {
+            "value": 100.0,
+            "weight": 10,
+            "weighted_value": 10.0,
+            "evidence_fact_ids": [
+              "fact-policy-score",
+              "fact-route-hotel-required",
+              "fact-required",
+              "fact-route-required-meal",
+              "fact-meal",
+              "fact-route-meal-a",
+              "fact-a",
+              "fact-route-a-rest",
+              "fact-rest",
+              "fact-route-rest-hotel"
+            ]
+          }
+        }
+      },
+      "recommendation_reasons": [
+        {
+          "text": "검증된 운영시간과 문-to-문 이동 근거 안에서 숙소로 복귀합니다.",
+          "evidence_fact_ids": [
+            "fact-route-hotel-required",
+            "fact-required",
+            "fact-route-required-meal",
+            "fact-meal",
+            "fact-route-meal-a",
+            "fact-a",
+            "fact-route-a-rest",
+            "fact-rest",
+            "fact-route-rest-hotel"
+          ]
+        }
+      ],
+      "tradeoffs": [
+        "총 환승 0회"
+      ],
+      "place_ids": [
+        "required",
+        "meal",
+        "a",
+        "rest"
+      ],
+      "feasibility": "feasible",
+      "overall_risk": "high",
+      "segment_risks": [
+        {
+          "event_id": "balanced-transfer-1",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-hotel-required"
+          ]
+        },
+        {
+          "event_id": "balanced-transfer-4",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-required-meal"
+          ]
+        },
+        {
+          "event_id": "balanced-transfer-7",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-meal-a"
+          ]
+        },
+        {
+          "event_id": "balanced-transfer-10",
+          "risk": "high",
+          "slack_minutes": 0,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-a-rest"
+          ]
+        },
+        {
+          "event_id": "balanced-transfer-13",
+          "risk": "low",
+          "slack_minutes": 275,
+          "reason_codes": [],
+          "evidence_fact_ids": [
+            "fact-route-rest-hotel"
+          ]
+        }
+      ],
+      "revalidate_at": [
+        "2026-08-08T09:00:00+09:00",
+        "2026-08-14T09:00:00+09:00",
+        "2026-08-15T07:00:00+09:00"
+      ],
+      "required_place_ids_included": [
+        "required"
+      ],
+      "preferred_place_ids_included": [
+        "a"
+      ],
+      "preferred_place_ids_excluded": [
+        "b"
+      ],
+      "accommodation_departure_at": "2026-08-15T09:00:00+09:00",
+      "accommodation_return_at": "2026-08-15T15:25:00+09:00",
+      "timeline": [
+        {
+          "event_id": "balanced-transfer-1",
+          "sequence": 1,
+          "type": "transfer",
+          "start_at": "2026-08-15T09:00:00+09:00",
+          "end_at": "2026-08-15T09:45:00+09:00",
+          "duration_minutes": 45,
+          "title": "required 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "bus",
+            "direct_walk": null,
+            "access_walk": {
+              "kind": "access_walk",
+              "from_id": "entrance-hotel",
+              "to_id": "stop-board",
+              "distance_meters": 200,
+              "expected_minutes": 4,
+              "speed_multiplier": 1.0,
+              "route_uncertainty_minutes": 1,
+              "planned_minutes": 5,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-hotel-required"
+              ]
+            },
+            "bus_rides": [
+              {
+                "canonical_boarding_stop_id": "stop-board",
+                "provider_boarding_stop_id": "provider-stop-board",
+                "boarding_stop_name": "합성 승차 정류장",
+                "boarding_stop_position": {
+                  "latitude": 33.45,
+                  "longitude": 126.7
+                },
+                "boarding_direction": "동쪽",
+                "canonical_alighting_stop_id": "stop-alight",
+                "provider_alighting_stop_id": "provider-stop-alight",
+                "alighting_stop_name": "합성 하차 정류장",
+                "alighting_stop_position": {
+                  "latitude": 33.46,
+                  "longitude": 126.8
+                },
+                "route_id": "route-synthetic-201",
+                "route_number": "201",
+                "scheduled_departure_at": "2026-08-15T09:20:00+09:00",
+                "scheduled_arrival_at": "2026-08-15T09:35:00+09:00",
+                "recommended_stop_arrival_at": "2026-08-15T09:13:00+09:00",
+                "boarding_buffer_minutes": 7,
+                "mapping_status": "CONFIRMED",
+                "distance_meters": 13000,
+                "route_stop_polyline_estimate": true,
+                "distance_derivation_fact_ids": [
+                  "fact-route-hotel-required"
+                ],
+                "evidence_fact_ids": [
+                  "fact-route-hotel-required"
+                ]
+              }
+            ],
+            "transfer_walks": [],
+            "egress_walk": {
+              "kind": "egress_walk",
+              "from_id": "stop-alight",
+              "to_id": "entrance-required",
+              "distance_meters": 200,
+              "expected_minutes": 4,
+              "speed_multiplier": 1.0,
+              "route_uncertainty_minutes": 1,
+              "planned_minutes": 5,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-hotel-required"
+              ]
+            },
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 13400,
+            "distance_is_estimated": true,
+            "mode_decision": {
+              "policy_id": "service-priority-v1",
+              "selected_mode": "bus",
+              "origin_basis": "VERIFIED_ENTRANCE",
+              "destination_basis": "VERIFIED_ENTRANCE",
+              "context": "generation",
+              "walk_threshold_minutes": 15,
+              "bus_wait_threshold_minutes": 30,
+              "max_bus_extra_minutes": 30,
+              "min_bus_savings_krw": 5000,
+              "planned_walk_minutes": 10,
+              "bus_wait_minutes": 8,
+              "bus_door_to_door_minutes": null,
+              "taxi_pickup_buffer_minutes": null,
+              "taxi_driving_minutes": null,
+              "taxi_door_to_door_minutes": null,
+              "bus_cost": null,
+              "taxi_cost": null,
+              "cost_midpoint_savings_krw": null,
+              "cost_savings_min_krw": null,
+              "cost_savings_max_krw": null,
+              "bus_extra_minutes": null,
+              "bus_time_threshold_margin_minutes": null,
+              "bus_savings_threshold_margin_krw": null,
+              "selection_near_threshold": false,
+              "deadline_slack_minutes": 20,
+              "reason_codes": [
+                "BUS_WITHIN_30_MINUTES"
+              ],
+              "unselected_reason_codes": {},
+              "evidence_fact_ids": [
+                "fact-route-hotel-required"
+              ]
+            }
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-hotel-required"
+          ]
+        },
+        {
+          "event_id": "balanced-buffer-2",
+          "sequence": 2,
+          "type": "buffer",
+          "start_at": "2026-08-15T09:45:00+09:00",
+          "end_at": "2026-08-15T10:05:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "required",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-required"
+          ]
+        },
+        {
+          "event_id": "balanced-visit-3",
+          "sequence": 3,
+          "type": "visit",
+          "start_at": "2026-08-15T10:05:00+09:00",
+          "end_at": "2026-08-15T11:05:00+09:00",
+          "duration_minutes": 60,
+          "title": "required",
+          "place_id": "required",
+          "visit": {
+            "place_id": "required",
+            "name": "required",
+            "position": {
+              "latitude": 33.46,
+              "longitude": 126.7
+            },
+            "entrance_id": "entrance-required",
+            "arrival_at": "2026-08-15T10:05:00+09:00",
+            "entry_at": "2026-08-15T10:05:00+09:00",
+            "departure_at": "2026-08-15T11:05:00+09:00",
+            "stay_minutes": 60,
+            "operating_hours_status": "VERIFIED",
+            "opening_hours_conflict": false,
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "last_admission_at": "2026-08-15T18:30:00+09:00",
+            "evidence_fact_ids": [
+              "fact-required"
+            ]
+          },
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-required"
+          ]
+        },
+        {
+          "event_id": "balanced-transfer-4",
+          "sequence": 4,
+          "type": "transfer",
+          "start_at": "2026-08-15T11:05:00+09:00",
+          "end_at": "2026-08-15T11:20:00+09:00",
+          "duration_minutes": 15,
+          "title": "검증 식당 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "required",
+              "to_id": "meal",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-required-meal"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-required-meal"
+          ]
+        },
+        {
+          "event_id": "balanced-buffer-5",
+          "sequence": 5,
+          "type": "buffer",
+          "start_at": "2026-08-15T11:20:00+09:00",
+          "end_at": "2026-08-15T11:40:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "meal",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-meal"
+          ]
+        },
+        {
+          "event_id": "balanced-meal-6",
+          "sequence": 6,
+          "type": "meal",
+          "start_at": "2026-08-15T11:40:00+09:00",
+          "end_at": "2026-08-15T12:40:00+09:00",
+          "duration_minutes": 60,
+          "title": "검증 식당",
+          "place_id": "meal",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": {
+            "place_id": "meal",
+            "venue_name": "검증 식당",
+            "position": {
+              "latitude": 33.46,
+              "longitude": 126.71
+            },
+            "entrance_id": "entrance-meal",
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "last_order_at": "2026-08-15T18:30:00+09:00",
+            "operating_hours_status": "VERIFIED",
+            "evidence_fact_ids": [
+              "fact-meal"
+            ]
+          },
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-meal"
+          ]
+        },
+        {
+          "event_id": "balanced-transfer-7",
+          "sequence": 7,
+          "type": "transfer",
+          "start_at": "2026-08-15T12:40:00+09:00",
+          "end_at": "2026-08-15T12:55:00+09:00",
+          "duration_minutes": 15,
+          "title": "a 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "meal",
+              "to_id": "a",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-meal-a"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-meal-a"
+          ]
+        },
+        {
+          "event_id": "balanced-buffer-8",
+          "sequence": 8,
+          "type": "buffer",
+          "start_at": "2026-08-15T12:55:00+09:00",
+          "end_at": "2026-08-15T13:15:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "a",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-a"
+          ]
+        },
+        {
+          "event_id": "balanced-visit-9",
+          "sequence": 9,
+          "type": "visit",
+          "start_at": "2026-08-15T13:15:00+09:00",
+          "end_at": "2026-08-15T14:15:00+09:00",
+          "duration_minutes": 60,
+          "title": "a",
+          "place_id": "a",
+          "visit": {
+            "place_id": "a",
+            "name": "a",
+            "position": {
+              "latitude": 33.470000000000006,
+              "longitude": 126.7
+            },
+            "entrance_id": "entrance-a",
+            "arrival_at": "2026-08-15T13:15:00+09:00",
+            "entry_at": "2026-08-15T13:15:00+09:00",
+            "departure_at": "2026-08-15T14:15:00+09:00",
+            "stay_minutes": 60,
+            "operating_hours_status": "VERIFIED",
+            "opening_hours_conflict": false,
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "last_admission_at": "2026-08-15T18:30:00+09:00",
+            "evidence_fact_ids": [
+              "fact-a"
+            ]
+          },
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-a"
+          ]
+        },
+        {
+          "event_id": "balanced-transfer-10",
+          "sequence": 10,
+          "type": "transfer",
+          "start_at": "2026-08-15T14:15:00+09:00",
+          "end_at": "2026-08-15T14:30:00+09:00",
+          "duration_minutes": 15,
+          "title": "검증 카페 이동",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "a",
+              "to_id": "rest",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-a-rest"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-a-rest"
+          ]
+        },
+        {
+          "event_id": "balanced-buffer-11",
+          "sequence": 11,
+          "type": "buffer",
+          "start_at": "2026-08-15T14:30:00+09:00",
+          "end_at": "2026-08-15T14:50:00+09:00",
+          "duration_minutes": 20,
+          "title": "다음 hard deadline 전 검증 안전 여유",
+          "place_id": "rest",
+          "visit": null,
+          "transfer": null,
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-rest"
+          ]
+        },
+        {
+          "event_id": "balanced-rest-12",
+          "sequence": 12,
+          "type": "rest",
+          "start_at": "2026-08-15T14:50:00+09:00",
+          "end_at": "2026-08-15T15:10:00+09:00",
+          "duration_minutes": 20,
+          "title": "검증 카페",
+          "place_id": "rest",
+          "visit": null,
+          "transfer": null,
+          "rest": {
+            "place_id": "rest",
+            "venue_name": "검증 카페",
+            "position": {
+              "latitude": 33.47,
+              "longitude": 126.72
+            },
+            "entrance_id": "entrance-rest",
+            "opens_at": "2026-08-15T09:00:00+09:00",
+            "closes_at": "2026-08-15T19:00:00+09:00",
+            "operating_hours_status": "VERIFIED",
+            "seat": "AVAILABLE",
+            "restroom": "UNKNOWN",
+            "indoor": "AVAILABLE",
+            "guarantee": "not_guaranteed",
+            "evidence_fact_ids": [
+              "fact-rest"
+            ]
+          },
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-rest"
+          ]
+        },
+        {
+          "event_id": "balanced-transfer-13",
+          "sequence": 13,
+          "type": "transfer",
+          "start_at": "2026-08-15T15:10:00+09:00",
+          "end_at": "2026-08-15T15:25:00+09:00",
+          "duration_minutes": 15,
+          "title": "숙소 복귀",
+          "place_id": null,
+          "visit": null,
+          "transfer": {
+            "mode": "walk",
+            "direct_walk": {
+              "kind": "direct_walk",
+              "from_id": "rest",
+              "to_id": "hotel",
+              "distance_meters": 500,
+              "expected_minutes": 10,
+              "speed_multiplier": 1.15,
+              "route_uncertainty_minutes": 3,
+              "planned_minutes": 15,
+              "entrance_verification": "VERIFIED",
+              "stairs_status": "UNKNOWN",
+              "evidence_fact_ids": [
+                "fact-route-rest-hotel"
+              ]
+            },
+            "access_walk": null,
+            "bus_rides": [],
+            "transfer_walks": [],
+            "egress_walk": null,
+            "taxi_alternative": null,
+            "alternatives": [],
+            "distance_meters": 500,
+            "distance_is_estimated": false,
+            "mode_decision": null
+          },
+          "rest": null,
+          "meal": null,
+          "reason_code": null,
+          "evidence_fact_ids": [
+            "fact-route-rest-hotel"
+          ]
+        }
+      ],
+      "totals": {
+        "total_minutes": 385,
+        "visit_minutes": 120,
+        "transfer_minutes": 105,
+        "rest_minutes": 20,
+        "meal_minutes": 60,
+        "buffer_minutes": 80,
+        "walking_minutes": 70,
+        "walking_distance_meters": 2400,
+        "estimated_cost": {
+          "min_krw": 1200,
+          "max_krw": 1200,
+          "is_estimated": false
+        },
+        "bus_distance_meters": 13400,
+        "taxi_distance_meters": 0,
+        "total_distance_meters": 15800,
+        "bus_cost": {
+          "min_krw": 1200,
+          "max_krw": 1200,
+          "is_estimated": false
+        },
+        "taxi_cost": {
+          "min_krw": 0,
+          "max_krw": 0,
+          "is_estimated": false
+        },
+        "derivation_evidence_fact_ids": [
+          "fact-route-hotel-required",
+          "fact-required",
+          "fact-route-required-meal",
+          "fact-meal",
+          "fact-route-meal-a",
+          "fact-a",
+          "fact-route-a-rest",
+          "fact-rest",
+          "fact-route-rest-hotel"
+        ]
+      }
+    }
+  ],
+  "evidence_facts": [
+    {
+      "fact_id": "fact-required",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-a",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-b",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-meal",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-rest",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-hotel-required",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-hotel-a",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-hotel-b",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-hotel-meal",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-hotel-rest",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-required-hotel",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-required-a",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-required-b",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-required-meal",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-required-rest",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-a-hotel",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-a-required",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-a-b",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-a-meal",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-a-rest",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-b-hotel",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-b-required",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-b-a",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-b-meal",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-b-rest",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-meal-hotel",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-meal-required",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-meal-a",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-meal-b",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-meal-rest",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-rest-hotel",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-rest-required",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-rest-a",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-rest-b",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-route-rest-meal",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-policy-meal",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-policy-rest",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    },
+    {
+      "fact_id": "fact-policy-score",
+      "category": "fixture",
+      "value": true,
+      "unit": null,
+      "source_refs": [],
+      "data_as_of": "2026-08-10",
+      "retrieved_at": "2026-08-10T10:00:00+09:00",
+      "confidence": 1.0,
+      "is_estimated": false,
+      "derivation": {
+        "kind": "policy",
+        "formula": null,
+        "input_fact_ids": []
+      }
+    }
+  ],
+  "data_sources": [],
+  "place_decisions": [
+    {
+      "place_id": "required",
+      "requested_priority": "required",
+      "decision": "included",
+      "reason_codes": [],
+      "evidence_fact_ids": []
+    },
+    {
+      "place_id": "a",
+      "requested_priority": "preferred",
+      "decision": "included",
+      "reason_codes": [],
+      "evidence_fact_ids": []
+    },
+    {
+      "place_id": "b",
+      "requested_priority": "preferred",
+      "decision": "included",
+      "reason_codes": [],
+      "evidence_fact_ids": []
+    }
+  ],
+  "capability_coverage": [],
+  "global_warnings": [],
+  "validation": {
+    "schema_valid": true,
+    "timeline_valid": true,
+    "provenance_valid": true,
+    "transit_connections_valid": true,
+    "diversity_valid": true,
+    "checks": [
+      "REQUIRED_PLACES_INCLUDED",
+      "HOTEL_ROUND_TRIP",
+      "ROUTING_BUDGET_ENFORCED",
+      "NO_PARTIAL_SUCCESS"
+    ]
+  },
+  "failure": null
+}

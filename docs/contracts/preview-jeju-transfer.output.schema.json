@@ -1,0 +1,1165 @@
+{
+  "$defs": {
+    "BusRide": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_boarding_stop_id": {
+          "title": "Canonical Boarding Stop Id",
+          "type": "string"
+        },
+        "provider_boarding_stop_id": {
+          "title": "Provider Boarding Stop Id",
+          "type": "string"
+        },
+        "boarding_stop_name": {
+          "title": "Boarding Stop Name",
+          "type": "string"
+        },
+        "boarding_stop_position": {
+          "$ref": "#/$defs/Coordinates"
+        },
+        "boarding_direction": {
+          "title": "Boarding Direction",
+          "type": "string"
+        },
+        "canonical_alighting_stop_id": {
+          "title": "Canonical Alighting Stop Id",
+          "type": "string"
+        },
+        "provider_alighting_stop_id": {
+          "title": "Provider Alighting Stop Id",
+          "type": "string"
+        },
+        "alighting_stop_name": {
+          "title": "Alighting Stop Name",
+          "type": "string"
+        },
+        "alighting_stop_position": {
+          "$ref": "#/$defs/Coordinates"
+        },
+        "route_id": {
+          "title": "Route Id",
+          "type": "string"
+        },
+        "route_number": {
+          "title": "Route Number",
+          "type": "string"
+        },
+        "scheduled_departure_at": {
+          "format": "date-time",
+          "title": "Scheduled Departure At",
+          "type": "string"
+        },
+        "scheduled_arrival_at": {
+          "format": "date-time",
+          "title": "Scheduled Arrival At",
+          "type": "string"
+        },
+        "recommended_stop_arrival_at": {
+          "format": "date-time",
+          "title": "Recommended Stop Arrival At",
+          "type": "string"
+        },
+        "boarding_buffer_minutes": {
+          "exclusiveMinimum": 0,
+          "title": "Boarding Buffer Minutes",
+          "type": "integer"
+        },
+        "mapping_status": {
+          "const": "CONFIRMED",
+          "title": "Mapping Status",
+          "type": "string"
+        },
+        "distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Distance Meters",
+          "type": "integer"
+        },
+        "route_stop_polyline_estimate": {
+          "default": true,
+          "title": "Route Stop Polyline Estimate",
+          "type": "boolean"
+        },
+        "distance_derivation_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Distance Derivation Fact Ids",
+          "type": "array"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "canonical_boarding_stop_id",
+        "provider_boarding_stop_id",
+        "boarding_stop_name",
+        "boarding_stop_position",
+        "boarding_direction",
+        "canonical_alighting_stop_id",
+        "provider_alighting_stop_id",
+        "alighting_stop_name",
+        "alighting_stop_position",
+        "route_id",
+        "route_number",
+        "scheduled_departure_at",
+        "scheduled_arrival_at",
+        "recommended_stop_arrival_at",
+        "boarding_buffer_minutes",
+        "mapping_status",
+        "evidence_fact_ids"
+      ],
+      "title": "BusRide",
+      "type": "object"
+    },
+    "Coordinates": {
+      "additionalProperties": false,
+      "properties": {
+        "latitude": {
+          "maximum": 90,
+          "minimum": -90,
+          "title": "Latitude",
+          "type": "number"
+        },
+        "longitude": {
+          "maximum": 180,
+          "minimum": -180,
+          "title": "Longitude",
+          "type": "number"
+        }
+      },
+      "required": [
+        "latitude",
+        "longitude"
+      ],
+      "title": "Coordinates",
+      "type": "object"
+    },
+    "CostRange": {
+      "additionalProperties": false,
+      "properties": {
+        "min_krw": {
+          "minimum": 0,
+          "title": "Min Krw",
+          "type": "integer"
+        },
+        "max_krw": {
+          "minimum": 0,
+          "title": "Max Krw",
+          "type": "integer"
+        },
+        "is_estimated": {
+          "title": "Is Estimated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "min_krw",
+        "max_krw",
+        "is_estimated"
+      ],
+      "title": "CostRange",
+      "type": "object"
+    },
+    "DataSourceMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "dataset_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Dataset Version"
+        },
+        "data_as_of": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Data As Of"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ACTIVE",
+            "PENDING",
+            "STALE",
+            "UNAVAILABLE"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "attribution_text": {
+          "title": "Attribution Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "provider",
+        "dataset_version",
+        "data_as_of",
+        "retrieved_at",
+        "status",
+        "attribution_text"
+      ],
+      "title": "DataSourceMetadata",
+      "type": "object"
+    },
+    "Derivation": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "source",
+            "policy",
+            "computed"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "formula": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Formula"
+        },
+        "input_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "Derivation",
+      "type": "object"
+    },
+    "EndpointBasis": {
+      "enum": [
+        "VERIFIED_ENTRANCE",
+        "REPRESENTATIVE_PLACE_POINT",
+        "CONFIRMED_STOP",
+        "CURRENT_GPS"
+      ],
+      "title": "EndpointBasis",
+      "type": "string"
+    },
+    "EvidenceFact": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "source_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "title": "Source Refs",
+          "type": "array"
+        },
+        "data_as_of": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "format": "date-time",
+              "type": "string"
+            }
+          ],
+          "title": "Data As Of"
+        },
+        "retrieved_at": {
+          "format": "date-time",
+          "title": "Retrieved At",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "is_estimated": {
+          "default": false,
+          "title": "Is Estimated",
+          "type": "boolean"
+        },
+        "derivation": {
+          "$ref": "#/$defs/Derivation"
+        }
+      },
+      "required": [
+        "fact_id",
+        "category",
+        "value",
+        "data_as_of",
+        "retrieved_at",
+        "confidence",
+        "derivation"
+      ],
+      "title": "EvidenceFact",
+      "type": "object"
+    },
+    "ModeDecision": {
+      "additionalProperties": false,
+      "description": "수단 선택의 정책 입력과 검증 결과를 보존한다.",
+      "properties": {
+        "policy_id": {
+          "default": "service-priority-v1",
+          "enum": [
+            "service-priority-v1",
+            "cost-time-balance-v1"
+          ],
+          "title": "Policy Id",
+          "type": "string"
+        },
+        "selected_mode": {
+          "enum": [
+            "walk",
+            "bus",
+            "taxi"
+          ],
+          "title": "Selected Mode",
+          "type": "string"
+        },
+        "origin_basis": {
+          "$ref": "#/$defs/EndpointBasis"
+        },
+        "destination_basis": {
+          "$ref": "#/$defs/EndpointBasis"
+        },
+        "context": {
+          "default": "generation",
+          "enum": [
+            "generation",
+            "revalidation"
+          ],
+          "title": "Context",
+          "type": "string"
+        },
+        "walk_threshold_minutes": {
+          "default": 15,
+          "minimum": 0,
+          "title": "Walk Threshold Minutes",
+          "type": "integer"
+        },
+        "bus_wait_threshold_minutes": {
+          "default": 30,
+          "minimum": 0,
+          "title": "Bus Wait Threshold Minutes",
+          "type": "integer"
+        },
+        "max_bus_extra_minutes": {
+          "default": 30,
+          "minimum": 0,
+          "title": "Max Bus Extra Minutes",
+          "type": "integer"
+        },
+        "min_bus_savings_krw": {
+          "default": 5000,
+          "minimum": 0,
+          "title": "Min Bus Savings Krw",
+          "type": "integer"
+        },
+        "planned_walk_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planned Walk Minutes"
+        },
+        "bus_wait_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bus Wait Minutes"
+        },
+        "bus_door_to_door_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bus Door To Door Minutes"
+        },
+        "taxi_pickup_buffer_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxi Pickup Buffer Minutes"
+        },
+        "taxi_driving_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxi Driving Minutes"
+        },
+        "taxi_door_to_door_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxi Door To Door Minutes"
+        },
+        "bus_cost": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CostRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "taxi_cost": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CostRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "cost_midpoint_savings_krw": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Midpoint Savings Krw"
+        },
+        "cost_savings_min_krw": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Savings Min Krw"
+        },
+        "cost_savings_max_krw": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cost Savings Max Krw"
+        },
+        "bus_extra_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bus Extra Minutes"
+        },
+        "bus_time_threshold_margin_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bus Time Threshold Margin Minutes"
+        },
+        "bus_savings_threshold_margin_krw": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bus Savings Threshold Margin Krw"
+        },
+        "selection_near_threshold": {
+          "default": false,
+          "title": "Selection Near Threshold",
+          "type": "boolean"
+        },
+        "deadline_slack_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Deadline Slack Minutes"
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "unselected_reason_codes": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "propertyNames": {
+            "enum": [
+              "walk",
+              "bus",
+              "taxi"
+            ]
+          },
+          "title": "Unselected Reason Codes",
+          "type": "object"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "selected_mode",
+        "origin_basis",
+        "destination_basis",
+        "reason_codes",
+        "evidence_fact_ids"
+      ],
+      "title": "ModeDecision",
+      "type": "object"
+    },
+    "RouteAlternativeSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "walk",
+            "bus",
+            "taxi"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "duration_minutes": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Minutes"
+        },
+        "walking_minutes": {
+          "minimum": 0,
+          "title": "Walking Minutes",
+          "type": "integer"
+        },
+        "cost": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CostRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "transfers": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Transfers",
+          "type": "integer"
+        },
+        "status": {
+          "enum": [
+            "feasible",
+            "unverifiable",
+            "unavailable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "distance_meters": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distance Meters"
+        },
+        "wait_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wait Minutes"
+        },
+        "pickup_buffer_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pickup Buffer Minutes"
+        },
+        "driving_minutes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Driving Minutes"
+        },
+        "route_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Route Id"
+        },
+        "route_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Route Number"
+        },
+        "selected": {
+          "default": false,
+          "title": "Selected",
+          "type": "boolean"
+        },
+        "reason_codes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "evidence_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "mode",
+        "walking_minutes",
+        "status"
+      ],
+      "title": "RouteAlternativeSummary",
+      "type": "object"
+    },
+    "SourceRef": {
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "publication_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Publication Id"
+        },
+        "source_fact_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Fact Id"
+        }
+      },
+      "required": [
+        "source_id"
+      ],
+      "title": "SourceRef",
+      "type": "object"
+    },
+    "TaxiAlternative": {
+      "additionalProperties": false,
+      "properties": {
+        "duration_minutes": {
+          "exclusiveMinimum": 0,
+          "title": "Duration Minutes",
+          "type": "integer"
+        },
+        "distance_meters": {
+          "exclusiveMinimum": 0,
+          "title": "Distance Meters",
+          "type": "integer"
+        },
+        "fare_min_krw": {
+          "minimum": 0,
+          "title": "Fare Min Krw",
+          "type": "integer"
+        },
+        "fare_max_krw": {
+          "minimum": 0,
+          "title": "Fare Max Krw",
+          "type": "integer"
+        },
+        "is_estimated": {
+          "const": true,
+          "default": true,
+          "title": "Is Estimated",
+          "type": "boolean"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "duration_minutes",
+        "distance_meters",
+        "fare_min_krw",
+        "fare_max_krw",
+        "evidence_fact_ids"
+      ],
+      "title": "TaxiAlternative",
+      "type": "object"
+    },
+    "Transfer": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "walk",
+            "bus",
+            "taxi"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "direct_walk": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/WalkConnection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "access_walk": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/WalkConnection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "bus_rides": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/BusRide"
+          },
+          "title": "Bus Rides",
+          "type": "array"
+        },
+        "transfer_walks": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/WalkConnection"
+          },
+          "title": "Transfer Walks",
+          "type": "array"
+        },
+        "egress_walk": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/WalkConnection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "taxi_alternative": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TaxiAlternative"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "alternatives": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RouteAlternativeSummary"
+          },
+          "title": "Alternatives",
+          "type": "array"
+        },
+        "distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Distance Meters",
+          "type": "integer"
+        },
+        "distance_is_estimated": {
+          "default": false,
+          "title": "Distance Is Estimated",
+          "type": "boolean"
+        },
+        "mode_decision": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ModeDecision"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "title": "Transfer",
+      "type": "object"
+    },
+    "WalkConnection": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "access_walk",
+            "egress_walk",
+            "transfer_walk",
+            "direct_walk"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "from_id": {
+          "title": "From Id",
+          "type": "string"
+        },
+        "to_id": {
+          "title": "To Id",
+          "type": "string"
+        },
+        "distance_meters": {
+          "minimum": 0,
+          "title": "Distance Meters",
+          "type": "integer"
+        },
+        "expected_minutes": {
+          "minimum": 0,
+          "title": "Expected Minutes",
+          "type": "integer"
+        },
+        "speed_multiplier": {
+          "minimum": 1,
+          "title": "Speed Multiplier",
+          "type": "number"
+        },
+        "route_uncertainty_minutes": {
+          "minimum": 0,
+          "title": "Route Uncertainty Minutes",
+          "type": "integer"
+        },
+        "planned_minutes": {
+          "minimum": 0,
+          "title": "Planned Minutes",
+          "type": "integer"
+        },
+        "entrance_verification": {
+          "enum": [
+            "VERIFIED",
+            "PROVISIONAL_PLACE_POINT"
+          ],
+          "title": "Entrance Verification",
+          "type": "string"
+        },
+        "stairs_status": {
+          "default": "UNKNOWN",
+          "enum": [
+            "CLEAR",
+            "PRESENT",
+            "UNKNOWN"
+          ],
+          "title": "Stairs Status",
+          "type": "string"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "from_id",
+        "to_id",
+        "distance_meters",
+        "expected_minutes",
+        "speed_multiplier",
+        "route_uncertainty_minutes",
+        "planned_minutes",
+        "entrance_verification",
+        "evidence_fact_ids"
+      ],
+      "title": "WalkConnection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "status": {
+      "enum": [
+        "success",
+        "unavailable"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "transfer": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Transfer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "evidence_facts": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/EvidenceFact"
+      },
+      "title": "Evidence Facts",
+      "type": "array"
+    },
+    "data_sources": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/DataSourceMetadata"
+      },
+      "title": "Data Sources",
+      "type": "array"
+    },
+    "reason_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reason Code"
+    }
+  },
+  "required": [
+    "status"
+  ],
+  "title": "PreviewTransferResponse",
+  "type": "object"
+}

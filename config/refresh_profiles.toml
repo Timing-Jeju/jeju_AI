@@ -1,0 +1,85 @@
+profile_version = "1"
+
+[[profiles]]
+name = "tourapi-jeju-places"
+source_id = "tourapi.place"
+endpoint = "areaBasedList2"
+rows_per_page = 1000
+normalizer = "tour_places"
+publisher = "places"
+required_parameters = []
+[profiles.query]
+MobileOS = "ETC"
+MobileApp = "jeju-day-trip-planner"
+areaCode = "39"
+arrange = "A"
+
+[[profiles]]
+name = "tourapi-jeju-place-intro-hours"
+source_id = "tourapi.place-intro"
+endpoint = "detailIntro2"
+rows_per_page = 10
+normalizer = "tour_intro_opening_rules"
+publisher = "opening_hours"
+required_parameters = ["contentId", "contentTypeId"]
+snapshot_mode = "aggregate"
+[profiles.query]
+MobileOS = "ETC"
+MobileApp = "jeju-day-trip-planner"
+
+[[profiles]]
+name = "tago-jeju-bus-routes"
+source_id = "tago.bus-route"
+endpoint = "getRouteNoList"
+rows_per_page = 1000
+normalizer = "tago_routes"
+publisher = "routes"
+required_parameters = []
+[profiles.query]
+cityCode = "39"
+
+[[profiles]]
+name = "tago-east-bus-route-stops"
+source_id = "tago.bus-route-stops"
+endpoint = "getRouteAcctoThrghSttnList"
+rows_per_page = 1000
+normalizer = "tago_route_stops"
+publisher = "route_stops"
+required_parameters = ["routeId"]
+snapshot_mode = "aggregate"
+[profiles.query]
+cityCode = "39"
+
+[[profiles]]
+name = "tago-jeju-bus-route-stops"
+source_id = "tago.bus-route-stops"
+endpoint = "getRouteAcctoThrghSttnList"
+rows_per_page = 1000
+normalizer = "tago_route_stops"
+publisher = "route_stops"
+required_parameters = ["routeId"]
+snapshot_mode = "aggregate"
+[profiles.query]
+cityCode = "39"
+
+[[profiles]]
+name = "holiday-special-days"
+source_id = "holiday.special-day"
+endpoint = "getRestDeInfo"
+rows_per_page = 100
+normalizer = "holidays"
+publisher = "holidays"
+required_parameters = ["solYear"]
+snapshot_mode = "aggregate"
+[profiles.query]
+
+[[profiles]]
+name = "tago-jeju-bus-stops"
+source_id = "tago.bus-stop"
+endpoint = "getSttnNoList"
+rows_per_page = 1000
+normalizer = "tago_jeju_stops"
+publisher = "bus_stops"
+required_parameters = []
+[profiles.query]
+cityCode = "39"

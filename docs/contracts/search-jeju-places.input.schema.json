@@ -1,0 +1,22 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "query": {
+      "minLength": 1,
+      "title": "Query",
+      "type": "string"
+    },
+    "limit": {
+      "default": 10,
+      "maximum": 50,
+      "minimum": 1,
+      "title": "Limit",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "query"
+  ],
+  "title": "SearchPlacesInput",
+  "type": "object"
+}

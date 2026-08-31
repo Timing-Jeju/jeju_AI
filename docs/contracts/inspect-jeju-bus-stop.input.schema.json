@@ -1,0 +1,14 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "stop_id": {
+      "title": "Stop Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "stop_id"
+  ],
+  "title": "InspectBusStopInput",
+  "type": "object"
+}

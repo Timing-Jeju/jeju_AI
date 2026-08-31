@@ -1,0 +1,740 @@
+catalog_version = "3"
+
+[[sources]]
+id = "tourapi.place"
+provider = "한국관광공사"
+source_name = "국문 관광정보 서비스 TourAPI"
+landing_url = "https://www.data.go.kr/data/15101578/openapi.do"
+evidence_grade = "OFFICIAL_AGGREGATOR"
+owner = "data-importer"
+normalization_schema_version = "tour-place-v1"
+[sources.acquisition]
+mode = "API"
+base_url = "https://apis.data.go.kr/B551011/KorService2"
+allowed_hosts = ["apis.data.go.kr"]
+allowed_path_prefixes = ["/B551011/KorService2/"]
+format = "JSON"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 20971520
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = ["JEJU_TOURAPI_SERVICE_KEY"]
+[sources.temporal]
+basis = "OBSERVED_AT"
+freshness_days = 8
+refresh_profile = "WEEKLY"
+[sources.quality]
+minimum_rows = 100
+maximum_rows = 1000000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.9
+maximum_rejected_ratio = 0.05
+[sources.license]
+status = "APPROVED"
+terms_url = "https://www.data.go.kr/data/15101578/openapi.do"
+terms_fingerprint = "db6b27b7cd360c5710b9bf2d4c92f5ac7682acc70b7204cc02d48fe3dad070b6"
+reviewed_on = "2026-07-21"
+reviewed_by = "source-review-2026-07-21"
+attribution_text = "한국관광공사 TourAPI"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "tago.bus-route-stops"
+provider = "국토교통부"
+source_name = "TAGO 노선별 경유정류소 목록"
+landing_url = "https://www.data.go.kr/data/15098529/openapi.do"
+evidence_grade = "OFFICIAL"
+owner = "data-importer"
+normalization_schema_version = "tago-route-stops-v2"
+[sources.acquisition]
+mode = "API"
+base_url = "https://apis.data.go.kr/1613000/BusRouteInfoInqireService"
+allowed_hosts = ["apis.data.go.kr"]
+allowed_path_prefixes = ["/1613000/BusRouteInfoInqireService/"]
+format = "JSON"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 20971520
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = ["JEJU_TAGO_SERVICE_KEY"]
+[sources.temporal]
+basis = "OBSERVED_AT"
+freshness_days = 45
+refresh_profile = "MONTHLY"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 100000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.98
+maximum_rejected_ratio = 0.02
+[sources.license]
+status = "APPROVED"
+terms_url = "https://www.data.go.kr/data/15098529/openapi.do"
+terms_fingerprint = "7eb307c0c724e75446c8e603ea50609122674a387eff8db1c1614bad594c9c13"
+reviewed_on = "2026-08-11"
+reviewed_by = "official-source-review-2026-08-11"
+attribution_text = "국토교통부 TAGO"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "travel.service-scope-manifest"
+provider = "내부 검증"
+source_name = "JEJU_EAST POC_V1 구성원과 일정 template"
+landing_url = "internal://travel/service-scope-manifest"
+evidence_grade = "CURATED"
+owner = "data-importer"
+normalization_schema_version = "service-scope-v2"
+[sources.acquisition]
+mode = "MANUAL"
+base_url = "internal://travel/service-scope-manifest"
+allowed_hosts = []
+allowed_path_prefixes = []
+format = "ZIP"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 10485760
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = []
+[sources.temporal]
+basis = "SOURCE_DATE"
+freshness_days = 370
+refresh_profile = "MANUAL"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 10000
+maximum_row_change_ratio = 1.0
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "internal://policy/curated-data"
+terms_fingerprint = "internal-v1"
+reviewed_on = "2026-08-11"
+reviewed_by = "project-owner"
+attribution_text = "내부 검증 scope manifest"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "spatial.jeju-boundary"
+provider = "국가데이터처"
+source_name = "SGIS 행정구역 경계 중 제주특별자치도"
+landing_url = "https://www.data.go.kr/data/15129688/fileData.do"
+evidence_grade = "OFFICIAL"
+owner = "data-importer"
+normalization_schema_version = "jeju-boundary-v1"
+[sources.acquisition]
+mode = "MANUAL"
+base_url = "internal://manual/sgis-jeju-boundary"
+allowed_hosts = []
+allowed_path_prefixes = []
+format = "ZIP"
+encoding = "UTF-8"
+source_crs = "EPSG:5179"
+maximum_response_bytes = 402653184
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = []
+[sources.temporal]
+basis = "SOURCE_DATE"
+freshness_days = 581
+refresh_profile = "YEARLY"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 1000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "https://www.data.go.kr/data/15129688/fileData.do"
+terms_fingerprint = "dbbfb99778292bb3ec86360d9754f01e190fd55d1fc94145e49a96c682a10b58"
+reviewed_on = "2026-08-30"
+reviewed_by = "official-source-review-2026-08-30"
+attribution_text = "국가데이터처 SGIS"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "tourapi.place-intro"
+provider = "한국관광공사"
+source_name = "국문 관광정보 서비스 TourAPI 상세소개"
+landing_url = "https://www.data.go.kr/data/15101578/openapi.do"
+evidence_grade = "OFFICIAL_AGGREGATOR"
+owner = "data-importer"
+normalization_schema_version = "tour-place-intro-hours-v12"
+[sources.acquisition]
+mode = "API"
+base_url = "https://apis.data.go.kr/B551011/KorService2"
+allowed_hosts = ["apis.data.go.kr"]
+allowed_path_prefixes = ["/B551011/KorService2/"]
+format = "JSON"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 5242880
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = ["JEJU_TOURAPI_SERVICE_KEY"]
+[sources.temporal]
+basis = "OBSERVED_AT"
+freshness_days = 8
+refresh_profile = "WEEKLY"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 100000
+maximum_row_change_ratio = 1.0
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 1.0
+[sources.license]
+status = "APPROVED"
+terms_url = "https://www.data.go.kr/data/15101578/openapi.do"
+terms_fingerprint = "db6b27b7cd360c5710b9bf2d4c92f5ac7682acc70b7204cc02d48fe3dad070b6"
+reviewed_on = "2026-08-10"
+reviewed_by = "official-source-review-2026-08-10"
+attribution_text = "한국관광공사 TourAPI"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "tago.bus-stop"
+provider = "국토교통부"
+source_name = "TAGO 버스정류소정보"
+landing_url = "https://www.data.go.kr/data/15098534/openapi.do"
+evidence_grade = "OFFICIAL"
+owner = "data-importer"
+normalization_schema_version = "tago-stop-v1"
+[sources.acquisition]
+mode = "API"
+base_url = "https://apis.data.go.kr/1613000/BusSttnInfoInqireService"
+allowed_hosts = ["apis.data.go.kr"]
+allowed_path_prefixes = ["/1613000/BusSttnInfoInqireService/"]
+format = "JSON"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 20971520
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = ["JEJU_TAGO_SERVICE_KEY"]
+[sources.temporal]
+basis = "OBSERVED_AT"
+freshness_days = 45
+refresh_profile = "MONTHLY"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 1000000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.98
+maximum_rejected_ratio = 0.02
+[sources.license]
+status = "APPROVED"
+terms_url = "https://www.data.go.kr/data/15098534/openapi.do"
+terms_fingerprint = "ad7c38b21b42be1609a5b8e52ce4529e7695441eb603292a155edc6f1c48b2c4"
+reviewed_on = "2026-07-21"
+reviewed_by = "source-review-2026-07-21"
+attribution_text = "국토교통부 TAGO"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "transport.stop-identity-map"
+provider = "내부 검증"
+source_name = "정류장 canonical ID mapping"
+landing_url = "internal://transport/stop-identity-map"
+evidence_grade = "CURATED"
+owner = "data-importer"
+normalization_schema_version = "stop-identity-v1"
+[sources.acquisition]
+mode = "MANUAL"
+base_url = "internal://transport/stop-identity-map"
+allowed_hosts = []
+allowed_path_prefixes = []
+format = "NDJSON"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 10485760
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = []
+[sources.temporal]
+basis = "SOURCE_DATE"
+freshness_days = 3650
+refresh_profile = "MANUAL"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 100000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 1.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "internal://policy/curated-data"
+terms_fingerprint = "internal-v1"
+reviewed_on = "2026-07-20"
+reviewed_by = "project-owner"
+attribution_text = "내부 검증 데이터"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "tago.bus-route"
+provider = "국토교통부"
+source_name = "TAGO 버스노선정보"
+landing_url = "https://www.data.go.kr/data/15098529/openapi.do"
+evidence_grade = "OFFICIAL"
+owner = "data-importer"
+normalization_schema_version = "tago-route-v1"
+[sources.acquisition]
+mode = "API"
+base_url = "https://apis.data.go.kr/1613000/BusRouteInfoInqireService"
+allowed_hosts = ["apis.data.go.kr"]
+allowed_path_prefixes = ["/1613000/BusRouteInfoInqireService/"]
+format = "JSON"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 20971520
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = ["JEJU_TAGO_SERVICE_KEY"]
+[sources.temporal]
+basis = "OBSERVED_AT"
+freshness_days = 45
+refresh_profile = "MONTHLY"
+[sources.quality]
+minimum_rows = 50
+maximum_rows = 1000000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.02
+[sources.license]
+status = "APPROVED"
+terms_url = "https://www.data.go.kr/data/15098529/openapi.do"
+terms_fingerprint = "7eb307c0c724e75446c8e603ea50609122674a387eff8db1c1614bad594c9c13"
+reviewed_on = "2026-07-21"
+reviewed_by = "source-review-2026-07-21"
+attribution_text = "국토교통부 TAGO"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "jeju.bus-timetable"
+provider = "제주특별자치도"
+source_name = "제주 공식 버스 시간표"
+landing_url = "https://www.data.go.kr/data/3043887/fileData.do"
+evidence_grade = "OFFICIAL"
+owner = "data-importer"
+normalization_schema_version = "jeju-timetable-xlsx-v2"
+[sources.acquisition]
+mode = "MANUAL"
+base_url = "internal://jeju/bus-timetable"
+allowed_hosts = []
+allowed_path_prefixes = []
+format = "ZIP"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 104857600
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = []
+[sources.temporal]
+basis = "SOURCE_DATE"
+freshness_days = 45
+future_tolerance_days = 45
+refresh_profile = "MANUAL"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 5000000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.01
+[sources.license]
+status = "APPROVED"
+terms_url = "https://www.data.go.kr/data/3043887/fileData.do"
+terms_fingerprint = "6c72d40ca1ac50ac0268176db949e8d5d68c7dc67b4b93c52603d41fad16ea1e"
+reviewed_on = "2026-08-11"
+reviewed_by = "official-source-review-2026-08-11"
+attribution_text = "제주특별자치도 버스정보시스템"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "holiday.special-day"
+provider = "한국천문연구원"
+source_name = "특일 정보"
+landing_url = "https://www.data.go.kr/data/15012690/openapi.do"
+evidence_grade = "OFFICIAL"
+owner = "data-importer"
+normalization_schema_version = "special-day-v1"
+[sources.acquisition]
+mode = "API"
+base_url = "https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService"
+allowed_hosts = ["apis.data.go.kr"]
+allowed_path_prefixes = ["/B090041/openapi/service/SpcdeInfoService/"]
+format = "XML"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 5242880
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = ["JEJU_HOLIDAY_SERVICE_KEY"]
+[sources.temporal]
+basis = "SOURCE_DATE"
+freshness_days = 410
+refresh_profile = "YEARLY"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 10000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "https://www.data.go.kr/ugs/selectPortalPolicyView.do"
+terms_fingerprint = "b336a5fae898f31298e85d3d7bbf4a00cb1b8d64ca29a9729fc715c49f830e20"
+reviewed_on = "2026-08-10"
+reviewed_by = "official-source-review-2026-08-10"
+attribution_text = "한국천문연구원 특일 정보"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "tago.bus-arrival"
+provider = "국토교통부"
+source_name = "TAGO 버스도착정보"
+landing_url = "https://www.data.go.kr/data/15098530/openapi.do"
+evidence_grade = "OFFICIAL"
+owner = "mcp-runtime"
+normalization_schema_version = "tago-bus-arrival-v1"
+[sources.acquisition]
+mode = "ON_DEMAND"
+base_url = "https://apis.data.go.kr/1613000/ArvlInfoInqireService"
+allowed_hosts = ["apis.data.go.kr"]
+allowed_path_prefixes = ["/1613000/ArvlInfoInqireService/"]
+format = "JSON"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 5242880
+redirect_policy = "DENY"
+retention_policy = "MEMORY_ONLY_LT_24H"
+secret_names = ["JEJU_TAGO_SERVICE_KEY"]
+[sources.temporal]
+basis = "RETRIEVED_AT"
+freshness_days = 1
+refresh_profile = "ON_DEMAND"
+[sources.quality]
+minimum_rows = 0
+maximum_rows = 1000
+maximum_row_change_ratio = 1.0
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "https://www.data.go.kr/data/15098530/openapi.do"
+terms_fingerprint = "fd8921839c03519c7bddf7537b0c6e302ca6140b0b04f4fde4d3e6242054201d"
+reviewed_on = "2026-08-10"
+reviewed_by = "official-source-review-2026-08-10"
+attribution_text = "국토교통부 TAGO"
+raw_private_storage_allowed = false
+internal_derivative_allowed = false
+public_redistribution_allowed = false
+
+[[sources]]
+id = "tmap.pedestrian"
+provider = "TMAP Mobility"
+source_name = "TMAP 보행자 경로안내"
+landing_url = "https://tmapapi.tmapmobility.com/main.html"
+evidence_grade = "COMMERCIAL_ROUTING"
+owner = "mcp-runtime"
+normalization_schema_version = "tmap-pedestrian-v1"
+[sources.acquisition]
+mode = "ON_DEMAND"
+base_url = "https://apis.openapi.sk.com/tmap/routes/pedestrian"
+allowed_hosts = ["apis.openapi.sk.com"]
+allowed_path_prefixes = ["/tmap/routes/pedestrian"]
+format = "JSON"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 5242880
+redirect_policy = "DENY"
+retention_policy = "MEMORY_ONLY_LT_24H"
+secret_names = ["JEJU_TMAP_API_KEY"]
+[sources.temporal]
+basis = "RETRIEVED_AT"
+freshness_days = 1
+refresh_profile = "ON_DEMAND"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 10000
+maximum_row_change_ratio = 1.0
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "https://tmapapi.tmapmobility.com/terms.html"
+terms_fingerprint = "70894886c3907d9a5c0b4021ddf42d0c1d026f430e14ab7b8c6a363c446a4420"
+reviewed_on = "2026-08-10"
+reviewed_by = "official-source-review-2026-08-10"
+attribution_text = "TMAP Mobility"
+raw_private_storage_allowed = false
+internal_derivative_allowed = false
+public_redistribution_allowed = false
+
+[[sources]]
+id = "tmap.driving"
+provider = "TMAP Mobility"
+source_name = "TMAP 자동차 경로안내"
+landing_url = "https://tmapapi.tmapmobility.com/main.html"
+evidence_grade = "COMMERCIAL_ROUTING"
+owner = "mcp-runtime"
+normalization_schema_version = "tmap-driving-v1"
+[sources.acquisition]
+mode = "ON_DEMAND"
+base_url = "https://apis.openapi.sk.com/tmap/routes"
+allowed_hosts = ["apis.openapi.sk.com"]
+allowed_path_prefixes = ["/tmap/routes"]
+format = "JSON"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 5242880
+redirect_policy = "DENY"
+retention_policy = "MEMORY_ONLY_LT_24H"
+secret_names = ["JEJU_TMAP_API_KEY"]
+[sources.temporal]
+basis = "RETRIEVED_AT"
+freshness_days = 1
+refresh_profile = "ON_DEMAND"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 10000
+maximum_row_change_ratio = 1.0
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "https://tmapapi.tmapmobility.com/terms.html"
+terms_fingerprint = "e4cc7265adbd57a2a5ab9328bf344575e091a6cb7353ae4c4a04b00bb7292f2b"
+reviewed_on = "2026-08-10"
+reviewed_by = "official-source-review-2026-08-10"
+attribution_text = "TMAP Mobility"
+raw_private_storage_allowed = false
+internal_derivative_allowed = false
+public_redistribution_allowed = false
+
+[[sources]]
+id = "jeju.taxi-fare-policy"
+provider = "제주특별자치도"
+source_name = "제주 택시 운임 및 요율"
+landing_url = "https://bus.jeju.go.kr/publicTrafficInformation/taxiInfo"
+evidence_grade = "OFFICIAL"
+owner = "data-importer"
+normalization_schema_version = "jeju-taxi-fare-v1"
+[sources.acquisition]
+mode = "MANUAL"
+base_url = "internal://jeju/taxi-fare-policy"
+allowed_hosts = []
+allowed_path_prefixes = []
+format = "TOML"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 1048576
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = []
+[sources.temporal]
+basis = "SOURCE_DATE"
+freshness_days = 365
+refresh_profile = "YEARLY"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 100
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "https://bus.jeju.go.kr/publicTrafficInformation/taxiInfo"
+terms_fingerprint = "78d1bc6e8c12ef9fef25e0cd4fa74e05dd4ea6ec4e38ea204fdc10b85bced819"
+reviewed_on = "2026-08-10"
+reviewed_by = "official-source-review-2026-08-10"
+attribution_text = "제주특별자치도 버스정보시스템"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "travel.place-entrance-map"
+provider = "내부 검증"
+source_name = "장소 출입구 검증 mapping"
+landing_url = "internal://travel/place-entrance-map"
+evidence_grade = "CURATED"
+owner = "data-importer"
+normalization_schema_version = "place-entrance-v1"
+[sources.acquisition]
+mode = "MANUAL"
+base_url = "internal://travel/place-entrance-map"
+allowed_hosts = []
+allowed_path_prefixes = []
+format = "CSV"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 10485760
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = []
+[sources.temporal]
+basis = "SOURCE_DATE"
+freshness_days = 3650
+refresh_profile = "MANUAL"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 100000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 1.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "internal://policy/curated-data"
+terms_fingerprint = "internal-v1"
+reviewed_on = "2026-07-20"
+reviewed_by = "project-owner"
+attribution_text = "내부 검증 데이터"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "travel.place-hours-map"
+provider = "내부 검증"
+source_name = "공식 근거 기반 장소 운영시간 mapping"
+landing_url = "internal://travel/place-hours-map"
+evidence_grade = "CURATED"
+owner = "data-importer"
+normalization_schema_version = "place-hours-v1"
+[sources.acquisition]
+mode = "MANUAL"
+base_url = "internal://travel/place-hours-map"
+allowed_hosts = []
+allowed_path_prefixes = []
+format = "CSV"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 10485760
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = []
+[sources.temporal]
+basis = "SOURCE_DATE"
+freshness_days = 8
+refresh_profile = "WEEKLY"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 200000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "internal://policy/curated-data"
+terms_fingerprint = "internal-v1"
+reviewed_on = "2026-08-10"
+reviewed_by = "project-owner"
+attribution_text = "행별 source_reference의 공식 운영기관"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "travel.restaurant-dietary-map"
+provider = "내부 검증"
+source_name = "공식 근거 기반 식당 메뉴 식이 안전성 mapping"
+landing_url = "internal://travel/restaurant-dietary-map"
+evidence_grade = "CURATED"
+owner = "data-importer"
+normalization_schema_version = "restaurant-dietary-v1"
+[sources.acquisition]
+mode = "MANUAL"
+base_url = "internal://travel/restaurant-dietary-map"
+allowed_hosts = []
+allowed_path_prefixes = []
+format = "CSV"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 10485760
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = []
+[sources.temporal]
+basis = "SOURCE_DATE"
+freshness_days = 30
+refresh_profile = "MONTHLY"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 100000
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "internal://policy/curated-data"
+terms_fingerprint = "internal-v1"
+reviewed_on = "2026-08-30"
+reviewed_by = "project-owner"
+attribution_text = "행별 source_reference의 공식 메뉴·알레르기 근거"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
+id = "jeju.bus-fare-policy"
+provider = "제주특별자치도"
+source_name = "제주버스 이용요금"
+landing_url = "https://bus.jeju.go.kr/publicTrafficInformation/generalBusSchedule"
+evidence_grade = "OFFICIAL"
+owner = "data-importer"
+normalization_schema_version = "jeju-bus-fare-v1"
+[sources.acquisition]
+mode = "MANUAL"
+base_url = "internal://jeju/bus-fare-policy"
+allowed_hosts = []
+allowed_path_prefixes = []
+format = "TOML"
+encoding = "UTF-8"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 1048576
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = []
+[sources.temporal]
+basis = "SOURCE_DATE"
+freshness_days = 365
+refresh_profile = "YEARLY"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 100
+maximum_row_change_ratio = 0.5
+minimum_coordinate_ratio = 0.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "https://bus.jeju.go.kr/publicTrafficInformation/generalBusSchedule"
+terms_fingerprint = "bc9e5bb4c21f08d56d3f5b6acfe945fb9910b2720bd8169c2a2bd8e9f76d736d"
+reviewed_on = "2026-08-10"
+reviewed_by = "official-source-review-2026-08-10"
+attribution_text = "제주특별자치도 버스정보시스템"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false

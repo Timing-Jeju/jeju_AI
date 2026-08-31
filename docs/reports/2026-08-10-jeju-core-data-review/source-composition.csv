@@ -1,0 +1,4 @@
+role,source_count,approved_count,pending_count,scope
+공식·공공 사실,10,8,2,장소·버스·공휴일·요금·제주 경계
+상용 경로,2,2,0,보행·차량 문-to-문
+내부 검증,3,3,0,출입구·운영시간·정류장 동일성

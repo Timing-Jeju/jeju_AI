@@ -1,0 +1,154 @@
+{
+  "status": "staging_candidate_preview",
+  "production_recommendation": false,
+  "source_completion_ratio": 0.9214916584887144,
+  "accommodation": {
+    "place_fact_id": "tourapi.place:2757210",
+    "name": "플레이스 캠프 제주(Playce camp Jeju)",
+    "endpoint_status": "provisional_center_only"
+  },
+  "candidate_orders": [
+    {
+      "strategy": "balanced",
+      "places": [
+        {
+          "place_fact_id": "tourapi.place:126435",
+          "name": "성산일출봉 [유네스코 세계자연유산]",
+          "category": "12",
+          "activity_type": "visit",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2564158",
+          "name": "광치기해변",
+          "category": "12",
+          "activity_type": "visit",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2833201",
+          "name": "성산 부뚜막식당",
+          "category": "39",
+          "activity_type": "meal",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:127813",
+          "name": "섭지코지",
+          "category": "12",
+          "activity_type": "visit",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2742256",
+          "name": "오조포구",
+          "category": "12",
+          "activity_type": "visit",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2847829",
+          "name": "호랑호랑 성산카페",
+          "category": "39",
+          "activity_type": "rest",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        }
+      ]
+    },
+    {
+      "strategy": "relaxed",
+      "places": [
+        {
+          "place_fact_id": "tourapi.place:126435",
+          "name": "성산일출봉 [유네스코 세계자연유산]",
+          "category": "12",
+          "activity_type": "visit",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2742256",
+          "name": "오조포구",
+          "category": "12",
+          "activity_type": "visit",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2833201",
+          "name": "성산 부뚜막식당",
+          "category": "39",
+          "activity_type": "meal",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2564158",
+          "name": "광치기해변",
+          "category": "12",
+          "activity_type": "visit",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2830228",
+          "name": "도렐 제주 본점",
+          "category": "39",
+          "activity_type": "rest",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2847829",
+          "name": "호랑호랑 성산카페",
+          "category": "39",
+          "activity_type": "rest",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        }
+      ]
+    },
+    {
+      "strategy": "experience_max",
+      "places": [
+        {
+          "place_fact_id": "tourapi.place:126435",
+          "name": "성산일출봉 [유네스코 세계자연유산]",
+          "category": "12",
+          "activity_type": "visit",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:127813",
+          "name": "섭지코지",
+          "category": "12",
+          "activity_type": "visit",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2833201",
+          "name": "성산 부뚜막식당",
+          "category": "39",
+          "activity_type": "meal",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        },
+        {
+          "place_fact_id": "tourapi.place:2705373",
+          "name": "제주레일바이크",
+          "category": "28",
+          "activity_type": "visit",
+          "opening_hours_status": "source_query_missing"
+        },
+        {
+          "place_fact_id": "tourapi.place:2847829",
+          "name": "호랑호랑 성산카페",
+          "category": "39",
+          "activity_type": "rest",
+          "opening_hours_status": "unparseable_from_partial_snapshot"
+        }
+      ]
+    }
+  ],
+  "missing_evidence": [
+    "VERIFIED_ENTRANCE",
+    "PUBLISHED_OPENING_HOURS",
+    "DOOR_TO_DOOR_ROUTE_FACT",
+    "FULL_SOURCE_SNAPSHOT"
+  ],
+  "usage_restriction": "ORDER_INSPECTION_ONLY",
+  "generated_at": "2026-08-11T07:59:41.489858+00:00"
+}

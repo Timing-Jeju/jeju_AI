@@ -1,0 +1,9 @@
+{
+  "status": "staging_supplement_unavailable",
+  "place_fact_id": "tourapi.place:2705373",
+  "place_name": "제주레일바이크",
+  "reason_code": "PAGINATION_INTERRUPTED",
+  "raw_persisted": false,
+  "production_activation_allowed": false,
+  "generated_at": "2026-08-11T02:55:00+00:00"
+}

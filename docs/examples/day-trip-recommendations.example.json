@@ -1,0 +1,121 @@
+{
+  "schema_version": "0.5.0",
+  "request_id": "req-2dc7c64f-5974-4048-829d-097a34b3f419",
+  "generated_at": "2026-08-11T15:12:47.221125+09:00",
+  "status": "insufficient_feasible_routes",
+  "planning_context": {
+    "mode": "advance_planning",
+    "planned_at": "2026-08-11T15:12:47.221125+09:00",
+    "trip_date": "2026-08-15",
+    "days_before_trip": 4,
+    "schedule_basis": "service_calendar",
+    "realtime_used": false,
+    "plan_expires_at": "2026-08-12T15:12:47.221125+09:00",
+    "revalidate_at": []
+  },
+  "request": {
+    "schema_version": "0.5.0",
+    "request_mode": "generate",
+    "trip_date": "2026-08-15",
+    "timezone": "Asia/Seoul",
+    "accommodation": {
+      "place_id": null,
+      "name": "제주국제공항",
+      "address": null,
+      "coordinates": null
+    },
+    "activity_window": {
+      "start_at": "2026-08-15T09:00:00+09:00",
+      "end_at": "2026-08-15T20:00:00+09:00"
+    },
+    "party": {
+      "adults": 1,
+      "children": 0,
+      "seniors": 0,
+      "mobility_support_required": false
+    },
+    "transport": {
+      "allowed_modes": [
+        "bus",
+        "taxi",
+        "walk"
+      ],
+      "preferred_mode": "bus",
+      "selection_policy": "service_priority",
+      "fallback_order": [
+        "taxi",
+        "walk"
+      ],
+      "max_transfers_per_leg": 1
+    },
+    "walking": {
+      "allow_direct_walk": true,
+      "max_access_walk_minutes": 20,
+      "max_total_distance_meters": 6000,
+      "max_single_leg_minutes": 25,
+      "avoid_stairs_required": false
+    },
+    "rest": {
+      "pace": "normal",
+      "minimum_break_minutes": 20,
+      "max_continuous_activity_minutes": 120,
+      "seat_requirement": "not_needed",
+      "restroom_requirement": "not_needed",
+      "indoor_requirement": "not_needed",
+      "unreserved_bus_seat_counts_as_rest": false
+    },
+    "required_places": [],
+    "preferred_places": [],
+    "excluded_places": [],
+    "discovery": {
+      "allow_additional_attractions": true,
+      "preferred_categories": [],
+      "maximum_additional_places": 3
+    },
+    "food": {
+      "auto_schedule_meals": true,
+      "auto_schedule_cafe": true,
+      "excluded_foods": [],
+      "allergens": [],
+      "preferred_cuisines": []
+    },
+    "total_budget_krw": null,
+    "original_text": "제주 동부권을 버스로 여행하는 하루 일정을 추천해줘."
+  },
+  "assumptions": [],
+  "recommendations": [],
+  "evidence_facts": [],
+  "data_sources": [],
+  "place_decisions": [],
+  "capability_coverage": [],
+  "global_warnings": [
+    "공식 운영시간·시간표·검증된 입구·정류장 mapping publication이 준비되지 않았습니다."
+  ],
+  "validation": {
+    "schema_valid": true,
+    "timeline_valid": false,
+    "provenance_valid": false,
+    "transit_connections_valid": false,
+    "diversity_valid": false,
+    "checks": [
+      "NO_PARTIAL_SUCCESS",
+      "NO_ESTIMATED_EXTERNAL_FACTS"
+    ]
+  },
+  "failure": {
+    "code": "insufficient_feasible_routes",
+    "message": "검증된 추천 세 개를 만들 데이터가 충분하지 않습니다.",
+    "reason_codes": [
+      "OFFICIAL_TIMETABLE_PENDING",
+      "ACTIVE_PLACE_PUBLICATION_MISSING",
+      "CONFIRMED_STOP_MAPPING_MISSING",
+      "VERIFIED_ENTRANCE_MISSING"
+    ],
+    "missing_capabilities": [
+      "opening_hours",
+      "future_bus_schedule",
+      "verified_entrances",
+      "confirmed_stop_identity"
+    ]
+  }
+}

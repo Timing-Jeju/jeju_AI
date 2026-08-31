@@ -1,0 +1,99 @@
+schema_version = "planning-policy-v1"
+policy_version = "2026-08-11"
+effective_from = "2026-08-10"
+
+[walking_speed_multiplier]
+normal = 1.15
+relaxed = 1.25
+senior_or_child = 1.30
+mobility_support = 1.40
+
+[walking_route_prefilter]
+maximum_planning_speed_kph = 7.0
+
+[boarding_buffer_minutes]
+normal = 7
+transfer = 10
+last_or_low_frequency_extra = 15
+hotel_return = 20
+route_uncertainty = 3
+
+[taxi_pickup_buffer_minutes]
+balanced = 5
+relaxed = 10
+experience_max = 5
+
+[meal_windows]
+lunch_start = "11:30"
+lunch_end = "14:00"
+dinner_start = "17:30"
+dinner_end = "20:00"
+default_duration_minutes = 60
+
+[rest]
+minimum_break_minutes = 20
+
+[risk_slack_minutes]
+high_upper_exclusive = 10
+medium_upper_exclusive = 20
+
+[discovery_content_types]
+nature = ["12"]
+ocean = ["12"]
+museum = ["14"]
+experience = ["15", "28"]
+shopping = ["38"]
+
+[strategy_score_weights.balanced]
+preferred_places = 25
+travel_efficiency = 20
+reliability = 20
+comfort = 15
+cost_efficiency = 10
+data_confidence = 10
+
+[strategy_score_weights.relaxed]
+preferred_places = 15
+travel_efficiency = 15
+reliability = 25
+comfort = 25
+cost_efficiency = 10
+data_confidence = 10
+
+[strategy_score_weights.experience_max]
+preferred_places = 40
+travel_efficiency = 15
+reliability = 15
+comfort = 10
+cost_efficiency = 10
+data_confidence = 10
+
+[stay_minutes.viewpoint_or_beach]
+minimum = 45
+recommended = 60
+maximum = 90
+
+[stay_minutes.museum_or_exhibition]
+minimum = 60
+recommended = 90
+maximum = 120
+
+[stay_minutes.experience_or_theme]
+minimum = 90
+recommended = 120
+maximum = 180
+
+[stay_minutes.market_or_shopping]
+minimum = 45
+recommended = 60
+maximum = 90
+
+[stay_minutes.restaurant]
+minimum = 45
+recommended = 60
+maximum = 90
+
+[stay_minutes.cafe]
+minimum = 20
+recommended = 30
+maximum = 60
