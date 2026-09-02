@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
@@ -18,6 +19,8 @@ from jeju_trip.domain.models import (
     EvaluateJejuDayTripInput,
     EvaluationResponse,
     InspectBusStopInput,
+    McpInputHash,
+    McpRequestId,
     PreviewTransferInput,
     PreviewTransferResponse,
     RecommendDayTripsInput,
@@ -80,7 +83,10 @@ async def test_mcp_schemas_match_pydantic_contracts_without_drift() -> None:
     for tool in tools:
         input_model, output_model = TOOL_CONTRACTS[tool.name]
         expected_input = create_model(
-            f"{tool.name}Arguments", request=(input_model, ...)
+            f"{tool.name}Arguments",
+            requestId=(McpRequestId, ...),
+            inputHash=(McpInputHash, ...),
+            request=(input_model, ...),
         ).model_json_schema()
         assert tool.inputSchema == expected_input
         assert tool.outputSchema == output_model.model_json_schema()
@@ -101,9 +107,7 @@ def test_mcp_tool_checksum_manifest_matches_fresh_generation(tmp_path: Path) -> 
         check=True,
     )
 
-    assert generated.read_bytes() == (
-        ROOT / "docs/manifests/mcp-tools-v0.7.json"
-    ).read_bytes()
+    assert generated.read_bytes() == (ROOT / "docs/manifests/mcp-tools-v0.7.json").read_bytes()
 
 
 @pytest.mark.asyncio
@@ -111,14 +115,36 @@ async def test_mcp_returns_structured_three_route_response() -> None:
     """MCP 추천 도구는 검증된 추천 경로 세 개를 structuredContent로 반환해야 한다."""
 
     service = TripPlannerService(SuccessGateway())
-    result = await create_server(service).call_tool(
-        "recommend_jeju_day_trips",
-        {"request": make_request().model_dump(mode="json")},
-    )
+    arguments = {
+        "requestId": "request-0001",
+        "request": make_request().model_dump(mode="json"),
+    }
+    arguments["inputHash"] = hashlib.sha256(
+        json.dumps(arguments, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode(
+            "utf-8"
+        )
+    ).hexdigest()
+    result = await create_server(service).call_tool("recommend_jeju_day_trips", arguments)
     assert isinstance(result, tuple)
     structured = cast(dict[str, Any], result[1])
     assert structured["status"] == "success"
     assert len(structured["recommendations"]) == 3
+
+
+@pytest.mark.asyncio
+async def test_mcp_rejects_tampered_wire_input_hash_before_tool_execution() -> None:
+    """MCP는 inputHash가 실제 wire arguments와 다르면 도구 실행 전에 거부해야 한다."""
+
+    arguments = {
+        "requestId": "request-0001",
+        "inputHash": "0" * 64,
+        "request": make_request().model_dump(mode="json"),
+    }
+
+    with pytest.raises(Exception, match="MCP_INPUT_HASH_MISMATCH"):
+        await create_server(TripPlannerService(SuccessGateway())).call_tool(
+            "recommend_jeju_day_trips", arguments
+        )
 
 
 def test_insufficient_data_returns_structured_failure() -> None:

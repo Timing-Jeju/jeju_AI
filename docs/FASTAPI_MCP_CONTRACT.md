@@ -15,6 +15,12 @@ Streamable HTTP `/mcp`는 다음 여섯 도구를 동일 schema로 노출한다.
 실제 checksum은 `docs/manifests/mcp-tools-v0.7.json`에 생성한다. 호출자는 시작 시
 `initialize`와 `tools/list`를 수행하고 이름·input/output checksum이 다르면 fail-closed한다.
 
+모든 `tools/call` arguments는 top-level `requestId`, `inputHash`, `request`를 필수로 가진다.
+`requestId`는 1~128자의 제한된 ASCII 식별자이고 `inputHash`는 lowercase SHA-256 64자리다.
+`inputHash`는 자기 자신을 제외한 실제 raw arguments, 즉 `requestId`와 `request`를 UTF-8,
+object key 정렬, 공백 없는 JSON으로 canonicalize해 계산한다. FastAPI는 Pydantic 변환이나
+도구 실행 전에 같은 규칙으로 재계산하며 불일치는 `MCP_INPUT_HASH_MISMATCH`로 전체 거부한다.
+
 ## Transport와 인증
 
 - HTTP runtime: stateless Streamable HTTP, JSON response, path `/mcp`

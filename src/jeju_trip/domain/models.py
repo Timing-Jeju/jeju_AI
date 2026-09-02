@@ -12,6 +12,16 @@ SCHEMA_VERSION = "0.7.0"
 KST_NAME = "Asia/Seoul"
 KST_OFFSET = timedelta(hours=9)
 
+McpRequestId = Annotated[
+    str,
+    Field(
+        min_length=1,
+        max_length=128,
+        pattern=r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+    ),
+]
+McpInputHash = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
+
 
 class ContractModel(BaseModel):
     """알 수 없는 필드를 거부하는 공개 계약 기본형."""
@@ -419,15 +429,11 @@ def _validate_source_lineage(
     if len(source_ids) != len(known_sources):
         raise ValueError("data source ledger contains duplicate source IDs")
     referenced_sources = {
-        source_ref.source_id
-        for fact in evidence_facts
-        for source_ref in fact.source_refs
+        source_ref.source_id for fact in evidence_facts for source_ref in fact.source_refs
     }
     unknown_sources = referenced_sources - known_sources
     if unknown_sources:
-        raise ValueError(
-            f"evidence references unknown data source: {sorted(unknown_sources)}"
-        )
+        raise ValueError(f"evidence references unknown data source: {sorted(unknown_sources)}")
 
 
 class EndpointBasis(StrEnum):

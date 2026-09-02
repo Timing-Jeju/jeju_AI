@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -20,6 +21,16 @@ from jeju_trip.interfaces.mcp.http_server import (
     create_http_server,
 )
 from jeju_trip.interfaces.mcp.server import create_server
+
+
+def _wire_arguments(request: dict[str, Any]) -> dict[str, Any]:
+    arguments = {"requestId": "request-0001", "request": request}
+    arguments["inputHash"] = hashlib.sha256(
+        json.dumps(arguments, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode(
+            "utf-8"
+        )
+    ).hexdigest()
+    return arguments
 
 
 def _write_jwks(path: Path, private_key: rsa.RSAPrivateKey, kid: str) -> None:
@@ -154,9 +165,7 @@ async def test_stdio_and_http_expose_identical_six_tool_schemas(tmp_path: Path) 
     stdio_tools = await create_server().list_tools()
     http_tools = await create_http_server(settings=settings).list_tools()
 
-    assert [tool.model_dump() for tool in http_tools] == [
-        tool.model_dump() for tool in stdio_tools
-    ]
+    assert [tool.model_dump() for tool in http_tools] == [tool.model_dump() for tool in stdio_tools]
 
 
 def test_http_requires_bearer_and_supports_initialize_list_and_call(tmp_path: Path) -> None:
@@ -187,11 +196,14 @@ def test_http_requires_bearer_and_supports_initialize_list_and_call(tmp_path: Pa
     with TestClient(app, base_url="https://mcp.internal.example") as client:
         assert client.get("/health").json() == {"status": "ok"}
         assert client.get("/ready").json()["contractVersion"] == "0.7.0"
-        assert client.post(
-            "/mcp",
-            headers=common_headers,
-            json={"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}},
-        ).status_code == 401
+        assert (
+            client.post(
+                "/mcp",
+                headers=common_headers,
+                json={"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}},
+            ).status_code
+            == 401
+        )
 
         initialized = client.post(
             "/mcp",
@@ -221,7 +233,7 @@ def test_http_requires_bearer_and_supports_initialize_list_and_call(tmp_path: Pa
                 "method": "tools/call",
                 "params": {
                     "name": "inspect_jeju_bus_stop",
-                    "arguments": {"request": {"stop_id": "fixture-stop"}},
+                    "arguments": _wire_arguments({"stop_id": "fixture-stop"}),
                 },
             },
         )

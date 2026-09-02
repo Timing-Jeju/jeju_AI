@@ -8,32 +8,32 @@
   "tools": [
     {
       "name": "evaluate_jeju_day_trip",
-      "inputSchemaSha256": "4fe528a6727b6e5928c6b9cace747af595c8702d03775524baa2b529fa5f80a1",
+      "inputSchemaSha256": "b70e96dde802c7ab572c661cd0208dff90727ba8c73969885a1ffb952eeb0ac6",
       "outputSchemaSha256": "cca80cfc857e52104b19392204f64134549f86ddbee4748504ba34f6dfc125f0"
     },
     {
       "name": "inspect_jeju_bus_stop",
-      "inputSchemaSha256": "12f347d3d9055a7179d3ecb52b2e51e1df32fd598964fb609419011bdc47aaa6",
+      "inputSchemaSha256": "32a0cb262712ef82c8208951a5966d2ffefb55fb2a14cee18f472011724ddf27",
       "outputSchemaSha256": "9df6413400545e6014b23935b8b5e5708ff67f6001cc88e6ba0382233a8ec279"
     },
     {
       "name": "preview_jeju_transfer",
-      "inputSchemaSha256": "330669482f9d892502d7c72a90e01c9f3407c11da240814b5b496f482b6fb07f",
+      "inputSchemaSha256": "3ec347c462aa953e2630bb578b65e523de5fb3b69a5c7420e3af9c9e31cc3b77",
       "outputSchemaSha256": "07cd9c0edf58c2ade19be3b350ce9d91e1bf3238c54dfcc9b6e939eca97cd35a"
     },
     {
       "name": "recommend_jeju_day_trips",
-      "inputSchemaSha256": "1fc206e4ac6b3874c97a626613a04b5ba33067540f7e445edf04ae1802002060",
+      "inputSchemaSha256": "e0122abeba95276a42d8de9102e762429ac2fefa93772db3ebe26839d63f0aa7",
       "outputSchemaSha256": "0f9414be50430d5e36f7ffb3e2e2db1053e2ef72e1c2fdd2edd8335fadcb378e"
     },
     {
       "name": "revalidate_jeju_day_trip",
-      "inputSchemaSha256": "9024c7a8772289fe53557f82215bee38a180563d3d56ffd196ba96ea9fedc4dc",
+      "inputSchemaSha256": "6a5b3dc86ffb498b4a41d3f6389a691da4ef87b0130c79510ff35f2ef2014260",
       "outputSchemaSha256": "4e0749b523ef31d2bade0e02dfa4d9f35cab9a6652dbc6e7fdd7901586bed9ce"
     },
     {
       "name": "search_jeju_places",
-      "inputSchemaSha256": "a402dc15061d2edf4b3636d4ec5d84d3249bd0675daab0fb7503c46c2bb2b894",
+      "inputSchemaSha256": "541305c158d552586d6fede49bf3eb566a96b13db2223d665238e881d7e1582a",
       "outputSchemaSha256": "af15e015e6cd899acd155f5643ef9bd13b22bfe4baccbbe64aef3473d2f6507f"
     }
   ]

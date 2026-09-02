@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import os
 import shutil
 import sys
@@ -14,6 +16,19 @@ from mcp.client.stdio import stdio_client
 from tests.factories import make_request
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def _wire_arguments() -> dict[str, object]:
+    arguments: dict[str, object] = {
+        "requestId": "request-stdio-0001",
+        "request": make_request().model_dump(mode="json"),
+    }
+    arguments["inputHash"] = hashlib.sha256(
+        json.dumps(arguments, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode(
+            "utf-8"
+        )
+    ).hexdigest()
+    return arguments
 
 
 @pytest.mark.asyncio
@@ -35,7 +50,7 @@ async def test_stdio_mcp_lists_and_calls_structured_tool(tmp_path: Path) -> None
             assert len(tools.tools) == 6
             result = await session.call_tool(
                 "recommend_jeju_day_trips",
-                {"request": make_request().model_dump(mode="json")},
+                _wire_arguments(),
             )
         stderr.seek(0)
         stderr_text = stderr.read()
