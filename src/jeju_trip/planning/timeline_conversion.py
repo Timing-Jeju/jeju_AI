@@ -1,4 +1,4 @@
-"""생성 추천을 손실 없는 v0.6 full-timeline 판정 입력으로 변환한다."""
+"""생성 추천을 손실 없는 v0.7 full-timeline 판정 입력으로 변환한다."""
 
 from __future__ import annotations
 
@@ -38,16 +38,21 @@ def recommendation_to_full_timeline(
 ) -> FullTimelineEvaluationInput:
     """visit·meal·rest·transfer·buffer 및 버스 claim을 모두 보존한다."""
 
-    hotel_id = request.accommodation.place_id
-    if hotel_id is None:
-        raise ValueError("ACCOMMODATION_UNRESOLVED")
+    start_place_id = request.start_boundary.place_id
+    end_place_id = request.end_boundary.place_id
+    if start_place_id is None or end_place_id is None:
+        raise ValueError("DAY_BOUNDARY_UNRESOLVED")
     converted = []
     for index, event in enumerate(recommendation.timeline):
         if event.type == "transfer":
             if event.transfer is None:
                 raise ValueError("TRANSFER_DETAILS_MISSING")
-            from_id = _neighbor_place_id(recommendation.timeline, index, -1, hotel_id)
-            to_id = _neighbor_place_id(recommendation.timeline, index, 1, hotel_id)
+            from_id = _neighbor_place_id(
+                recommendation.timeline, index, -1, start_place_id
+            )
+            to_id = _neighbor_place_id(
+                recommendation.timeline, index, 1, end_place_id
+            )
             first_ride = event.transfer.bus_rides[0] if event.transfer.bus_rides else None
             last_ride = event.transfer.bus_rides[-1] if event.transfer.bus_rides else None
             converted.append(
@@ -117,6 +122,8 @@ def recommendation_to_full_timeline(
         timezone=request.timezone,
         accommodation=request.accommodation,
         activity_window=request.activity_window,
+        day_boundary=request.day_boundary,
+        place_duration_preferences=request.place_duration_preferences,
         party=request.party,
         transport=request.transport,
         walking=request.walking,

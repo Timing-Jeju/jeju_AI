@@ -746,6 +746,8 @@ class TripPlannerService:
                 start_at=request.checked_at,
                 end_at=itinerary.activity_window.end_at,
             ),
+            day_boundary=itinerary.day_boundary,
+            place_duration_preferences=itinerary.place_duration_preferences,
             party=itinerary.party,
             transport=itinerary.transport,
             walking=itinerary.walking,

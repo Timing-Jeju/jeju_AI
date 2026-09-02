@@ -63,6 +63,8 @@ class RequestPreparation:
     def _place_ids(request: RecommendDayTripsInput) -> tuple[str, ...]:
         values = (
             request.accommodation.place_id,
+            request.start_boundary.place_id,
+            request.end_boundary.place_id,
             *(item.place_id for item in request.required_places),
             *(item.place_id for item in request.preferred_places),
         )

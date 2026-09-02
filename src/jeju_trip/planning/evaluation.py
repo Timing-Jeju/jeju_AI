@@ -126,11 +126,12 @@ class ItineraryEvaluationEngine:
         issues: list[EvaluationIssue] = []
         normalized: list[NormalizedScheduleEvent] = []
         segments: list[SegmentEvaluation] = []
-        hotel_id = _place_id(request.accommodation.place_id)
+        start_boundary_id = _place_id(request.start_boundary.place_id)
+        end_boundary_id = _place_id(request.end_boundary.place_id)
         start_id = (
             _place_id(request.start_location.place_id)
             if request.start_location is not None
-            else hotel_id
+            else start_boundary_id
         )
 
         if not activities:
@@ -183,7 +184,7 @@ class ItineraryEvaluationEngine:
             endpoints.append(
                 (
                     _place_id(activities[-1].place.place_id),
-                    hotel_id,
+                    end_boundary_id,
                     activities[-1].end_at,
                     request.activity_window.end_at,
                     activities[-1].event_id,
@@ -542,7 +543,8 @@ class ItineraryEvaluationEngine:
         normalized: list[NormalizedScheduleEvent] = []
         issues: list[EvaluationIssue] = []
         segments: list[SegmentEvaluation] = []
-        hotel_id = _place_id(request.accommodation.place_id)
+        start_boundary_id = _place_id(request.start_boundary.place_id)
+        end_boundary_id = _place_id(request.end_boundary.place_id)
         transfer_items = [item for item in ordered if item.type == "transfer"]
         if not ordered:
             issues.append(
@@ -554,11 +556,12 @@ class ItineraryEvaluationEngine:
                 )
             )
         elif (
-            hotel_id is None
+            start_boundary_id is None
+            or end_boundary_id is None
             or not transfer_items
-            or _place_id(transfer_items[0].from_place.place_id) != hotel_id
+            or _place_id(transfer_items[0].from_place.place_id) != start_boundary_id
             or ordered[0].start_at != request.activity_window.start_at
-            or _place_id(transfer_items[-1].to_place.place_id) != hotel_id
+            or _place_id(transfer_items[-1].to_place.place_id) != end_boundary_id
             or ordered[-1].end_at > request.activity_window.end_at
         ):
             issues.append(
@@ -566,7 +569,7 @@ class ItineraryEvaluationEngine:
                     "hotel_return",
                     "critical",
                     "TIMELINE_BOUNDARY_INCOMPLETE",
-                    "전체 타임라인은 숙소 출발부터 숙소 복귀까지 완전해야 합니다.",
+                    "전체 타임라인은 하루 시작 장소부터 종료 장소까지 완전해야 합니다.",
                     tuple(item.event_id for item in ordered[:1] + ordered[-1:]),
                 )
             )

@@ -93,6 +93,7 @@ def test_conversion_preserves_mode_decision_alternatives_and_buffer_reason() -> 
     changed = recommendation.model_copy(
         update={
             "timeline": tuple(shifted),
+            "day_end_at": recommendation.day_end_at + timedelta(minutes=10),
             "accommodation_return_at": recommendation.accommodation_return_at
             + timedelta(minutes=10),
             "totals": recommendation.totals.model_copy(

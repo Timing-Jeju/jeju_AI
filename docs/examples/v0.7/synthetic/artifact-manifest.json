@@ -1,0 +1,19 @@
+{
+  "mode": "synthetic_contract_example",
+  "generator": "scripts/generate_v07_synthetic_examples.py",
+  "schema_version": "0.7.0",
+  "schema_sha256": "f99b219b5c974ad47bed7ddb1275cc55ab67bb61dac998fdd295f6725598a472",
+  "operational_fact": false,
+  "contains_live_tmap_or_tago_payload": false,
+  "generated_on": "2026-08-11",
+  "files": [
+    "evaluate.input.json",
+    "evaluate.output.json",
+    "recommend.input.json",
+    "recommend.output.json",
+    "revalidate-delay.input.json",
+    "revalidate-delay.output.json",
+    "revalidate-normal.input.json",
+    "revalidate-normal.output.json"
+  ]
+}

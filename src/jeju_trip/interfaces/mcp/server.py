@@ -2,13 +2,18 @@
 
 from __future__ import annotations
 
+import hashlib
+import hmac
+import json
 import os
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Iterator, Mapping
 from contextlib import ExitStack, contextmanager
 from pathlib import Path
+from typing import Any
 
 import httpx
 from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp.exceptions import ToolError
 
 from jeju_trip.application.preparation import RequestPreparation
 from jeju_trip.application.readiness import PostgresCapabilityReadiness
@@ -19,6 +24,8 @@ from jeju_trip.domain.models import (
     EvaluateJejuDayTripInput,
     EvaluationResponse,
     InspectBusStopInput,
+    McpInputHash,
+    McpRequestId,
     PreviewTransferInput,
     PreviewTransferResponse,
     RecommendDayTripsInput,
@@ -43,6 +50,34 @@ from jeju_trip.planning.policy import (
 )
 
 ROOT = Path(__file__).resolve().parents[4]
+
+
+class IntegrityCheckedFastMCP(FastMCP):
+    """inputHash를 raw JSON-RPC arguments에서 재검산하는 FastMCP 경계."""
+
+    async def call_tool(self, name: str, arguments: dict[str, Any]):
+        _verify_wire_input_hash(arguments)
+        return await super().call_tool(name, arguments)
+
+
+def _verify_wire_input_hash(arguments: Mapping[str, Any]) -> None:
+    supplied = arguments.get("inputHash")
+    if not isinstance(supplied, str) or len(supplied) != 64:
+        raise ToolError("MCP_INPUT_HASH_INVALID")
+    hashed_arguments = {key: value for key, value in arguments.items() if key != "inputHash"}
+    try:
+        canonical = json.dumps(
+            hashed_arguments,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+            allow_nan=False,
+        ).encode("utf-8")
+    except (TypeError, ValueError) as exception:
+        raise ToolError("MCP_INPUT_HASH_INVALID") from exception
+    actual = hashlib.sha256(canonical).hexdigest()
+    if not hmac.compare_digest(actual, supplied):
+        raise ToolError("MCP_INPUT_HASH_MISMATCH")
 
 
 def _build_runtime_service(
@@ -120,50 +155,85 @@ def managed_service(
         yield _build_runtime_service(stack, client_factory)
 
 
-def create_server(service: TripPlannerService | None = None) -> FastMCP:
+def create_server(
+    service: TripPlannerService | None = None,
+    *,
+    fastmcp_options: Mapping[str, Any] | None = None,
+) -> FastMCP:
     planner = service or TripPlannerService()
-    server = FastMCP(
+    server = IntegrityCheckedFastMCP(
         "jeju-day-trip-planner",
         instructions=(
             "제주 전역의 생성·사전 판정·실시간 재판정 도구입니다. "
             "검증된 세 경로가 없으면 전체 실패합니다."
         ),
+        **dict(fastmcp_options or {}),
     )
 
     @server.tool()
-    def recommend_jeju_day_trips(request: RecommendDayTripsInput) -> DayTripResponse:
+    def recommend_jeju_day_trips(
+        requestId: McpRequestId,
+        inputHash: McpInputHash,
+        request: RecommendDayTripsInput,
+    ) -> DayTripResponse:
         """검증된 balanced·relaxed·experience_max 하루 일정을 정확히 세 개 추천한다."""
 
+        del requestId, inputHash
         return planner.recommend(request)
 
     @server.tool()
-    def evaluate_jeju_day_trip(request: EvaluateJejuDayTripInput) -> EvaluationResponse:
+    def evaluate_jeju_day_trip(
+        requestId: McpRequestId,
+        inputHash: McpInputHash,
+        request: EvaluateJejuDayTripInput,
+    ) -> EvaluationResponse:
         """정확한 활동 일정 또는 전체 타임라인을 공식 근거로 판정한다."""
 
+        del requestId, inputHash
         return planner.evaluate(request)
 
     @server.tool()
-    def revalidate_jeju_day_trip(request: RevalidateJejuDayTripInput) -> RevalidationResponse:
+    def revalidate_jeju_day_trip(
+        requestId: McpRequestId,
+        inputHash: McpInputHash,
+        request: RevalidateJejuDayTripInput,
+    ) -> RevalidationResponse:
         """현재 진행상태와 선택적 위치로 남은 일정의 위험을 다시 판정한다."""
 
+        del requestId, inputHash
         return planner.revalidate(request)
 
     @server.tool()
-    def search_jeju_places(request: SearchPlacesInput) -> SearchPlacesResponse:
+    def search_jeju_places(
+        requestId: McpRequestId,
+        inputHash: McpInputHash,
+        request: SearchPlacesInput,
+    ) -> SearchPlacesResponse:
         """활성 publication의 제주 장소와 검증된 출입구 보유 여부를 검색한다."""
 
+        del requestId, inputHash
         return planner.search_places(request)
 
     @server.tool()
-    def inspect_jeju_bus_stop(request: InspectBusStopInput) -> BusStopInspection:
+    def inspect_jeju_bus_stop(
+        requestId: McpRequestId,
+        inputHash: McpInputHash,
+        request: InspectBusStopInput,
+    ) -> BusStopInspection:
         """활성 정류장의 provider ID, 방향, canonical mapping 근거를 조회한다."""
 
+        del requestId, inputHash
         return planner.inspect_bus_stop(request)
 
     @server.tool()
-    def preview_jeju_transfer(request: PreviewTransferInput) -> PreviewTransferResponse:
+    def preview_jeju_transfer(
+        requestId: McpRequestId,
+        inputHash: McpInputHash,
+        request: PreviewTransferInput,
+    ) -> PreviewTransferResponse:
         """검증된 입구와 정류장 사이의 이동 연결을 영속화 없이 미리 본다."""
 
+        del requestId, inputHash
         return planner.preview_transfer(request)
 
     return server

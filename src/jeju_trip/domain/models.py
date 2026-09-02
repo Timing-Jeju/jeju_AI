@@ -8,9 +8,19 @@ from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-SCHEMA_VERSION = "0.6.0"
+SCHEMA_VERSION = "0.7.0"
 KST_NAME = "Asia/Seoul"
 KST_OFFSET = timedelta(hours=9)
+
+McpRequestId = Annotated[
+    str,
+    Field(
+        min_length=1,
+        max_length=128,
+        pattern=r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+    ),
+]
+McpInputHash = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
 
 
 class ContractModel(BaseModel):
@@ -66,6 +76,70 @@ class ActivityWindow(ContractModel):
         if self.end_at - self.start_at > timedelta(hours=24):
             raise ValueError("activity window cannot exceed 24 hours")
         return self
+
+
+class DayBoundary(ContractModel):
+    """숙소 왕복으로 제한하지 않는 하루의 canonical 시작·종료 장소."""
+
+    start_place: PlaceReference
+    end_place: PlaceReference
+
+
+class PlaceDurationPreference(ContractModel):
+    """사용자가 장소별로 고정한 체류시간 제약."""
+
+    place_id: Annotated[str, Field(min_length=1)]
+    requested_stay_minutes: Annotated[int, Field(gt=0, le=24 * 60)]
+
+
+class BoundaryTripInput(ContractModel):
+    """생성·판정이 공유하는 활동창, 숙소, 하루 경계와 체류시간 입력."""
+
+    accommodation: AccommodationInput
+    activity_window: ActivityWindow
+    day_boundary: DayBoundary | None = None
+    place_duration_preferences: tuple[PlaceDurationPreference, ...] = Field(
+        default=(), max_length=40
+    )
+
+    @model_validator(mode="after")
+    def validate_duration_preferences(self) -> BoundaryTripInput:
+        place_ids = tuple(item.place_id for item in self.place_duration_preferences)
+        if len(place_ids) != len(set(place_ids)):
+            raise ValueError("place duration preference IDs must be unique")
+        return self
+
+    @property
+    def start_boundary(self) -> PlaceReference:
+        if self.day_boundary is not None:
+            return self.day_boundary.start_place
+        return PlaceReference(
+            place_id=self.accommodation.place_id,
+            name=self.accommodation.name,
+            address=self.accommodation.address,
+            coordinates=self.accommodation.coordinates,
+        )
+
+    @property
+    def end_boundary(self) -> PlaceReference:
+        if self.day_boundary is not None:
+            return self.day_boundary.end_place
+        return PlaceReference(
+            place_id=self.accommodation.place_id,
+            name=self.accommodation.name,
+            address=self.accommodation.address,
+            coordinates=self.accommodation.coordinates,
+        )
+
+    def requested_stay_minutes(self, place_id: str) -> int | None:
+        return next(
+            (
+                item.requested_stay_minutes
+                for item in self.place_duration_preferences
+                if item.place_id == place_id
+            ),
+            None,
+        )
 
 
 class Party(ContractModel):
@@ -193,13 +267,11 @@ class SelectedDayHistory(ContractModel):
         return self
 
 
-class RecommendDayTripsInput(ContractModel):
-    schema_version: Literal["0.6.0"] = SCHEMA_VERSION
+class RecommendDayTripsInput(BoundaryTripInput):
+    schema_version: Literal["0.7.0"] = SCHEMA_VERSION
     request_mode: Literal["generate"] = "generate"
     trip_date: date
     timezone: Literal["Asia/Seoul"] = KST_NAME
-    accommodation: AccommodationInput
-    activity_window: ActivityWindow
     party: Party = Field(default_factory=Party)
     transport: TransportPreferences = Field(default_factory=TransportPreferences)
     walking: WalkingPreferences = Field(default_factory=WalkingPreferences)
@@ -357,15 +429,11 @@ def _validate_source_lineage(
     if len(source_ids) != len(known_sources):
         raise ValueError("data source ledger contains duplicate source IDs")
     referenced_sources = {
-        source_ref.source_id
-        for fact in evidence_facts
-        for source_ref in fact.source_refs
+        source_ref.source_id for fact in evidence_facts for source_ref in fact.source_refs
     }
     unknown_sources = referenced_sources - known_sources
     if unknown_sources:
-        raise ValueError(
-            f"evidence references unknown data source: {sorted(unknown_sources)}"
-        )
+        raise ValueError(f"evidence references unknown data source: {sorted(unknown_sources)}")
 
 
 class EndpointBasis(StrEnum):
@@ -783,6 +851,10 @@ class Recommendation(ContractModel):
     required_place_ids_included: tuple[str, ...] = ()
     preferred_place_ids_included: tuple[str, ...] = ()
     preferred_place_ids_excluded: tuple[str, ...] = ()
+    day_start_at: datetime
+    day_end_at: datetime
+    start_place_id: Annotated[str, Field(min_length=1)]
+    end_place_id: Annotated[str, Field(min_length=1)]
     accommodation_departure_at: datetime
     accommodation_return_at: datetime
     timeline: tuple[TimelineEvent, ...] = Field(min_length=1)
@@ -806,6 +878,12 @@ class Recommendation(ContractModel):
             raise ValueError("accommodation return must match last timeline event")
         if self.accommodation_return_at <= self.accommodation_departure_at:
             raise ValueError("accommodation return must follow departure")
+        if self.day_start_at != self.timeline[0].start_at:
+            raise ValueError("day start must match first timeline event")
+        if self.day_end_at != self.timeline[-1].end_at:
+            raise ValueError("day end must match last timeline event")
+        if self.day_end_at <= self.day_start_at:
+            raise ValueError("day end must follow day start")
         for event in self.timeline:
             if event.visit is None:
                 continue
@@ -949,7 +1027,7 @@ class CapabilityCoverage(ContractModel):
 
 
 class DayTripResponse(ContractModel):
-    schema_version: Literal["0.6.0"] = SCHEMA_VERSION
+    schema_version: Literal["0.7.0"] = SCHEMA_VERSION
     request_id: str
     generated_at: datetime
     status: Literal["success", "insufficient_feasible_routes"]
@@ -1083,14 +1161,12 @@ class PreviewTransferResponse(ContractModel):
         return self
 
 
-class CommonTripInput(ContractModel):
-    """생성·판정이 공유하는 숙소 왕복 여행 조건."""
+class CommonTripInput(BoundaryTripInput):
+    """생성·판정이 공유하는 하루 시작·종료 경계 여행 조건."""
 
-    schema_version: Literal["0.6.0"] = SCHEMA_VERSION
+    schema_version: Literal["0.7.0"] = SCHEMA_VERSION
     trip_date: date
     timezone: Literal["Asia/Seoul"] = KST_NAME
-    accommodation: AccommodationInput
-    activity_window: ActivityWindow
     party: Party = Field(default_factory=Party)
     transport: TransportPreferences = Field(default_factory=TransportPreferences)
     walking: WalkingPreferences = Field(default_factory=WalkingPreferences)
@@ -1352,7 +1428,7 @@ class EvaluationTotals(ContractModel):
 
 
 class EvaluationResponse(ContractModel):
-    schema_version: Literal["0.6.0"] = SCHEMA_VERSION
+    schema_version: Literal["0.7.0"] = SCHEMA_VERSION
     status: Literal["feasible", "feasible_with_caution", "infeasible", "unverifiable"]
     timing_status: Literal["on_schedule", "at_risk", "disrupted", "unknown"]
     evidence_status: Literal["verified", "partial", "unavailable"]
@@ -1425,7 +1501,7 @@ class ProgressInput(ContractModel):
 
 
 class RevalidateJejuDayTripInput(ContractModel):
-    schema_version: Literal["0.6.0"] = SCHEMA_VERSION
+    schema_version: Literal["0.7.0"] = SCHEMA_VERSION
     checked_at: datetime
     current_position: Coordinates | None = None
     progress: ProgressInput
@@ -1460,7 +1536,7 @@ class RecoveryOption(ContractModel):
 
 
 class RevalidationResponse(ContractModel):
-    schema_version: Literal["0.6.0"] = SCHEMA_VERSION
+    schema_version: Literal["0.7.0"] = SCHEMA_VERSION
     status: Literal["on_schedule", "at_risk", "disrupted", "data_unavailable"]
     timing_status: Literal["on_schedule", "at_risk", "disrupted", "unknown"]
     evidence_status: Literal["verified", "partial", "unavailable"]
