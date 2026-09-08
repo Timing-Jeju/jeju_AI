@@ -107,3 +107,30 @@ Pydantic facts 및 MCP 0.8 → BE wire/hash/evidence guard → worker atomic com
 후속 PR은 선행 반영 후 새 develop/main base에서 만들고 대응 PR·계약 checksum·SHA를 기록한다.
 
 전체 목표의 6개 완료 조건 중 어느 것도 이 문서의 부분 구현만으로 충족됐다고 표시하지 않는다.
+
+## 후속 작업: 저장 정책 근거 재확인 (2026-09-08)
+
+공식 [TMAP API 약관](https://tmapapi.tmapmobility.com/terms.html)의
+준수사항/제약사항을 다시 조회했다. 해당 페이지는 API로 얻은 데이터를 저장한 뒤
+24시간 이상 사용할 수 없다는 제한을 명시한다. 이 문장은 개별 결과를 최종 일정에
+영구 보관할 수 있다는 승인을 제공하지 않는다. 적용 상품·개별 계약의 예외도
+이 조회만으로 확인되지 않았다.
+
+| 필드/산출물 | 현재 프로젝트 정책 | 추가로 필요한 근거 |
+|---|---|---|
+| TMAP raw·geometry·polyline | 영속화 금지 | 이번 계획에서 저장 대상으로 전환하지 않음 |
+| 개별 route duration/distance/fare | 메모리만 허용 | 필드별 저장·사용 기간과 적용 상품의 명시 근거 |
+| route 수치로 파생한 도착시각·위험·일정 합계 | 저장 승인 미확인 | 파생 결과 및 최종 일정 보관 범위 |
+| 사용자가 직접 선택한 canonical 장소·숙소·터미널 참조 | 사용자 계획 데이터 | provider 결과와 분리한 provenance 및 version lineage |
+| source/run/snapshot 식별자 | allowlist 계약 필요 | 식별자만으로 원문·위치·비밀이 재유입되지 않는 검증 |
+
+`config/data_sources.toml`의 `tmap.pedestrian`·`tmap.driving`은 여전히
+`MEMORY_ONLY_LT_24H`, `raw_private_storage_allowed=false`,
+`internal_derivative_allowed=false`다. 약관 페이지를 읽었다는 이유로 이 정책을
+완화하지 않았다. [BE #216](https://github.com/Timing-Jeju/jeju_BE/issues/216)의
+field allowlist와 owner 합의·Notion/Figma readback은 아직 미완료다.
+후보 저장·적용 및 영구 복원 기능을 출시 가능으로 표시하지 않는다.
+
+BE에서는 #220의 미래 계약을 현재 Swagger에 투영하는 선행 오류 #226을 별도
+브랜치에서 수정 중이다. 이는 위 FE/AI 초기 변경의 검증 결과와 별도이며,
+#220 자체의 공개 계약 전환·위치 제거 완료를 뜻하지 않는다.
