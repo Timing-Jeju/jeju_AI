@@ -134,3 +134,16 @@ field allowlist와 owner 합의·Notion/Figma readback은 아직 미완료다.
 BE에서는 #220의 미래 계약을 현재 Swagger에 투영하는 선행 오류 #226을 별도
 브랜치에서 수정 중이다. 이는 위 FE/AI 초기 변경의 검증 결과와 별도이며,
 #220 자체의 공개 계약 전환·위치 제거 완료를 뜻하지 않는다.
+
+## 후속 작업: OpenAPI 선행 수정 반영
+
+2026-09-08, [BE PR #227](https://github.com/Timing-Jeju/jeju_BE/pull/227)이
+`develop`에 병합됐다(`b0c490f8a6ea1b2d3beb8e400a179055f3099bbe`). 구현된 domain만
+canonical 계약을 runtime OpenAPI에 투영하고 미구현 v2 계약은 기존 runtime 문서와
+분리한다. 검증 대상 `da4ef990998bc40e61d91bc2e402fa90d8601108`의 전체 로컬 gate,
+독립 reviewer, 원격 CI를 확인했다. 이는 위치 비수집 runtime 제거 완료를 뜻하지 않는다.
+
+#220의 v2 Places/Weather/FCM 및 진행 요청 명세는 별도 브랜치에서 전체 검증 중이다.
+#221의 장소 목록 위치 제거도 독립 작업으로 준비 중이며, 선행 계약 병합 후 최신
+base에서 최종 검증한다. 위 최초 감사 기록의 미구현·미실행 항목을 묵시적으로
+완료 상태로 바꾸지 않는다. MCP 버전과 TMAP 저장 정책은 변경하지 않았다.
