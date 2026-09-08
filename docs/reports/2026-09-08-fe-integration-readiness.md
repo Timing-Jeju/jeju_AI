@@ -27,7 +27,7 @@ REST는 `/api/v1` 기준이다. 상태는 이 작업 종료 시점의 코드 기
 | mypage 로그아웃 | Supabase Auth local scope signOut | 없음 | 성공 후 사용자·여행·찜·검토 메모리 초기화 |
 | trip-conditions 저장 | POST `/trips`, PUT preferences/place-preferences/transport-event, POST accommodations | 없음 | BE 구현 존재, **FE 미연결**. 로컬 임시 보관과 서버 저장 상태 분리 |
 | 장소 검색·선택 | GET `/places`, `/places/{placeId}` | 없음 | BE 구현 존재, **FE canonical ID 미연결**. 현재 이름 기반 항목은 이관 대상 아님 |
-| 찜 목록·변경 | `/saved-places` | 없음 | BE 구현 존재, FE 로컬 편집. 초기 mock 찜 목록 제거 |
+| 찜 목록·변경 | `/me/saved-places` | 없음 | BE 구현 존재, FE 로컬 편집. 초기 mock 찜 목록 제거 |
 | calendar Day 생성 | POST `/trips/{tripId}/generation-runs` | `recommend_jeju_day_trips` | **BE 미구현**. FE 생성 차단, 임의 공항 anchor와 모의 수치 계산 제거 |
 | schedule-loading 진행 | GET `/trips/{tripId}/generation-runs/{runId}` | 직접 호출 없음 | **BE 미구현**. FE 준비 중 표시, 자동 타이머·진행률 제거 |
 | schedule-review 후보 3개 비교 | 생성 run 결과 GET | 생성 후 후보별 `evaluate_jeju_day_trip` | **미구현**. 저장 허용 정책 및 생성 계약에 막힘 |
