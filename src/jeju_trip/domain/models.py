@@ -949,25 +949,36 @@ class Recommendation(ContractModel):
 
 
 def recommendations_are_materially_different(first: Recommendation, second: Recommendation) -> bool:
-    first_places = set(first.place_ids)
-    second_places = set(second.place_ids)
+    def signature(
+        value: Recommendation,
+    ) -> tuple[tuple[str, ...], tuple[str, ...], tuple[int, ...]]:
+        return (
+            value.place_ids,
+            tuple(
+                e.transfer.mode for e in value.timeline if e.transfer and e.transfer.mode != "walk"
+            ),
+            tuple(
+                e.duration_minutes for e in value.timeline if e.type in {"visit", "meal", "rest"}
+            ),
+        )
+    return route_signatures_are_materially_different(signature(first), signature(second))
+
+
+def route_signatures_are_materially_different(
+    first: tuple[tuple[str, ...], tuple[str, ...], tuple[int, ...]],
+    second: tuple[tuple[str, ...], tuple[str, ...], tuple[int, ...]],
+) -> bool:
+    first_order, first_modes, first_stays = first
+    second_order, second_modes, second_stays = second
+    first_places = set(first_order)
+    second_places = set(second_order)
     union = first_places | second_places
     jaccard = len(first_places & second_places) / len(union) if union else 1.0
-    longest = max(len(first.place_ids), len(second.place_ids), 1)
+    longest = max(len(first_order), len(second_order), 1)
     same_positions = sum(
-        left == right for left, right in zip(first.place_ids, second.place_ids, strict=False)
+        left == right for left, right in zip(first_order, second_order, strict=False)
     )
     order_similarity = same_positions / longest
-    first_modes = tuple(
-        event.transfer.mode
-        for event in first.timeline
-        if event.transfer is not None and event.transfer.mode != "walk"
-    )
-    second_modes = tuple(
-        event.transfer.mode
-        for event in second.timeline
-        if event.transfer is not None and event.transfer.mode != "walk"
-    )
     mode_count = max(len(first_modes), len(second_modes))
     if mode_count:
         same_modes = sum(
@@ -976,16 +987,6 @@ def recommendations_are_materially_different(first: Recommendation, second: Reco
         different_mode_ratio = 1 - same_modes / mode_count
     else:
         different_mode_ratio = 0.0
-    first_stays = tuple(
-        event.duration_minutes
-        for event in first.timeline
-        if event.type in {"visit", "meal", "rest"}
-    )
-    second_stays = tuple(
-        event.duration_minutes
-        for event in second.timeline
-        if event.type in {"visit", "meal", "rest"}
-    )
     return (
         jaccard <= 0.8
         or order_similarity <= 0.7

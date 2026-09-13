@@ -1,0 +1,457 @@
+{
+  "$defs": {
+    "CostRange": {
+      "additionalProperties": false,
+      "properties": {
+        "min_krw": {
+          "minimum": 0,
+          "title": "Min Krw",
+          "type": "integer"
+        },
+        "max_krw": {
+          "minimum": 0,
+          "title": "Max Krw",
+          "type": "integer"
+        },
+        "is_estimated": {
+          "title": "Is Estimated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "min_krw",
+        "max_krw",
+        "is_estimated"
+      ],
+      "title": "CostRange",
+      "type": "object"
+    },
+    "DurableCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "route_id": {
+          "title": "Route Id",
+          "type": "string"
+        },
+        "place_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Place Ids",
+          "type": "array"
+        },
+        "rank": {
+          "maximum": 3,
+          "minimum": 1,
+          "title": "Rank",
+          "type": "integer"
+        },
+        "strategy": {
+          "$ref": "#/$defs/Strategy"
+        },
+        "feasibility": {
+          "enum": [
+            "feasible",
+            "feasible_with_caution"
+          ],
+          "title": "Feasibility",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        },
+        "start_place_id": {
+          "title": "Start Place Id",
+          "type": "string"
+        },
+        "end_place_id": {
+          "title": "End Place Id",
+          "type": "string"
+        },
+        "events": {
+          "items": {
+            "$ref": "#/$defs/DurableEvent"
+          },
+          "minItems": 1,
+          "title": "Events",
+          "type": "array"
+        },
+        "totals": {
+          "$ref": "#/$defs/Totals"
+        },
+        "segment_risks": {
+          "items": {
+            "$ref": "#/$defs/RecommendationSegmentRisk"
+          },
+          "title": "Segment Risks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "route_id",
+        "place_ids",
+        "rank",
+        "strategy",
+        "feasibility",
+        "score",
+        "start_place_id",
+        "end_place_id",
+        "events",
+        "totals",
+        "segment_risks"
+      ],
+      "title": "DurableCandidate",
+      "type": "object"
+    },
+    "DurableEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "sequence": {
+          "exclusiveMinimum": 0,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "type": {
+          "enum": [
+            "visit",
+            "transfer",
+            "rest",
+            "meal",
+            "buffer"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "start_at": {
+          "format": "date-time",
+          "title": "Start At",
+          "type": "string"
+        },
+        "end_at": {
+          "format": "date-time",
+          "title": "End At",
+          "type": "string"
+        },
+        "duration_minutes": {
+          "minimum": 0,
+          "title": "Duration Minutes",
+          "type": "integer"
+        },
+        "place_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Place Id"
+        },
+        "mode": {
+          "anyOf": [
+            {
+              "enum": [
+                "walk",
+                "bus",
+                "taxi"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mode"
+        },
+        "distance_meters": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Distance Meters"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "sequence",
+        "type",
+        "start_at",
+        "end_at",
+        "duration_minutes",
+        "place_id",
+        "mode",
+        "distance_meters",
+        "evidence_fact_ids"
+      ],
+      "title": "DurableEvent",
+      "type": "object"
+    },
+    "FactProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "title": "Fact Id",
+          "type": "string"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "input_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "fact_id",
+        "source_ids",
+        "input_fact_ids"
+      ],
+      "title": "FactProvenance",
+      "type": "object"
+    },
+    "RecommendationSegmentRisk": {
+      "additionalProperties": false,
+      "properties": {
+        "event_id": {
+          "title": "Event Id",
+          "type": "string"
+        },
+        "risk": {
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low",
+            "unknown"
+          ],
+          "title": "Risk",
+          "type": "string"
+        },
+        "slack_minutes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slack Minutes"
+        },
+        "reason_codes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Reason Codes",
+          "type": "array"
+        },
+        "evidence_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "risk"
+      ],
+      "title": "RecommendationSegmentRisk",
+      "type": "object"
+    },
+    "Strategy": {
+      "enum": [
+        "balanced",
+        "relaxed",
+        "experience_max"
+      ],
+      "title": "Strategy",
+      "type": "string"
+    },
+    "Totals": {
+      "additionalProperties": false,
+      "properties": {
+        "total_minutes": {
+          "minimum": 0,
+          "title": "Total Minutes",
+          "type": "integer"
+        },
+        "visit_minutes": {
+          "minimum": 0,
+          "title": "Visit Minutes",
+          "type": "integer"
+        },
+        "transfer_minutes": {
+          "minimum": 0,
+          "title": "Transfer Minutes",
+          "type": "integer"
+        },
+        "rest_minutes": {
+          "minimum": 0,
+          "title": "Rest Minutes",
+          "type": "integer"
+        },
+        "meal_minutes": {
+          "minimum": 0,
+          "title": "Meal Minutes",
+          "type": "integer"
+        },
+        "buffer_minutes": {
+          "minimum": 0,
+          "title": "Buffer Minutes",
+          "type": "integer"
+        },
+        "walking_minutes": {
+          "minimum": 0,
+          "title": "Walking Minutes",
+          "type": "integer"
+        },
+        "walking_distance_meters": {
+          "minimum": 0,
+          "title": "Walking Distance Meters",
+          "type": "integer"
+        },
+        "taxi_pickup_buffer_minutes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Taxi Pickup Buffer Minutes",
+          "type": "integer"
+        },
+        "bus_wait_minutes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Bus Wait Minutes",
+          "type": "integer"
+        },
+        "estimated_cost": {
+          "$ref": "#/$defs/CostRange"
+        },
+        "bus_distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Bus Distance Meters",
+          "type": "integer"
+        },
+        "taxi_distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Taxi Distance Meters",
+          "type": "integer"
+        },
+        "total_distance_meters": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Total Distance Meters",
+          "type": "integer"
+        },
+        "bus_cost": {
+          "$ref": "#/$defs/CostRange"
+        },
+        "taxi_cost": {
+          "$ref": "#/$defs/CostRange"
+        },
+        "derivation_evidence_fact_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Derivation Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "total_minutes",
+        "visit_minutes",
+        "transfer_minutes",
+        "rest_minutes",
+        "meal_minutes",
+        "buffer_minutes",
+        "walking_minutes",
+        "walking_distance_meters",
+        "estimated_cost"
+      ],
+      "title": "Totals",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "projection_version": {
+      "const": "schedule-projection.v1",
+      "default": "schedule-projection.v1",
+      "title": "Projection Version",
+      "type": "string"
+    },
+    "request_id": {
+      "title": "Request Id",
+      "type": "string"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "title": "Expires At",
+      "type": "string"
+    },
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/DurableCandidate"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Candidates",
+      "type": "array"
+    },
+    "provenance": {
+      "items": {
+        "$ref": "#/$defs/FactProvenance"
+      },
+      "title": "Provenance",
+      "type": "array"
+    }
+  },
+  "required": [
+    "request_id",
+    "generated_at",
+    "expires_at",
+    "candidates",
+    "provenance"
+  ],
+  "title": "DurableCandidateSet",
+  "type": "object"
+}
