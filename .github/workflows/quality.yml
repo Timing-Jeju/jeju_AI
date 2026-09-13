@@ -58,7 +58,7 @@ jobs:
       - name: Sync locked environment
         run: uv sync --locked
       - name: Start ephemeral services
-        run: docker compose -f infra/compose.local.yml --profile test up -d postgres-test minio-test
+        run: uv run python scripts/start_ci_services.py
       - name: Run isolated live integration tests
         run: uv run pytest tests/integration -q -rs
       - name: Stop ephemeral services

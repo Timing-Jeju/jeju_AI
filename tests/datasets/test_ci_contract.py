@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from scripts.start_ci_services import COMPOSE, SERVICES
+
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = ROOT / ".github/workflows/quality.yml"
 
@@ -39,5 +41,12 @@ def test_ci_live_tests_use_only_ephemeral_service_endpoints() -> None:
     assert "jeju_trip_test" in workflow
     assert "127.0.0.1:55433" in workflow
     assert "http://127.0.0.1:59010" in workflow
-    assert "--profile test up -d" in workflow
+    assert "uv run python scripts/start_ci_services.py" in workflow
+    assert COMPOSE == [
+        "docker", "compose", "--parallel", "1", "-f", "infra/compose.local.yml",
+        "--profile", "test",
+    ]
+    assert SERVICES == ["postgres-test", "minio-test"]
+    assert "if: always()" in workflow
+    assert "--profile test down" in workflow
     assert "tests/integration" in workflow

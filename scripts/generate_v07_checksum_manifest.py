@@ -24,6 +24,8 @@ FIXED_PATHS = (
     Path("scripts/generate_v07_checksum_manifest.py"),
     Path("scripts/generate_v07_synthetic_examples.py"),
     Path("src/jeju_trip/domain/models.py"),
+    Path("src/jeju_trip/domain/durable_projection.py"),
+    Path("src/jeju_trip/application/durable_projection.py"),
     Path("src/jeju_trip/interfaces/mcp/codex_launcher.py"),
     Path("src/jeju_trip/interfaces/mcp/http_launcher.py"),
     Path("src/jeju_trip/interfaces/mcp/http_server.py"),

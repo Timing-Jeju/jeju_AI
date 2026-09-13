@@ -8,6 +8,7 @@ from pathlib import Path
 
 from pydantic import TypeAdapter
 
+from jeju_trip.domain.durable_projection import DurableCandidateSet
 from jeju_trip.domain.models import (
     BusStopInspection,
     DayTripResponse,
@@ -26,6 +27,7 @@ from jeju_trip.domain.models import (
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_DIRECTORY = ROOT / "docs" / "contracts"
 MODELS = {
+    "durable-candidate-set.schema.json": DurableCandidateSet,
     "recommend-day-trips.input.schema.json": RecommendDayTripsInput,
     "day-trip-recommendations.schema.json": DayTripResponse,
     "evaluate-day-trip.input.schema.json": TypeAdapter(EvaluateJejuDayTripInput),
