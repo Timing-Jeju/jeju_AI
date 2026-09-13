@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from datetime import timedelta
 from pathlib import Path
 
 import pytest
@@ -59,3 +60,33 @@ def test_example_manifest_marks_synthetic_data_and_archived_schema() -> None:
     assert manifest["contains_live_tmap_or_tago_payload"] is False
     assert manifest["schema_version"] == "0.5.0"
     assert len(manifest["schema_sha256"]) == len(hashlib.sha256().hexdigest())
+
+
+def test_v07_synthetic_bus_timeline_matches_door_to_door_components() -> None:
+    """합성 버스의 전체 시간과 대기는 접근 도보·예정 운행·도착 도보와 일치해야 한다."""
+
+    response = DayTripResponse.model_validate_json(
+        (CURRENT_EXAMPLES / "recommend.output.json").read_text(encoding="utf-8")
+    )
+    bus_events = [
+        event
+        for candidate in response.recommendations
+        for event in candidate.timeline
+        if event.transfer is not None and event.transfer.mode == "bus"
+    ]
+    assert bus_events
+    for event in bus_events:
+        transfer = event.transfer
+        assert transfer is not None
+        assert transfer.access_walk is not None
+        assert transfer.egress_walk is not None
+        assert transfer.mode_decision is not None
+        first, last = transfer.bus_rides[0], transfer.bus_rides[-1]
+        stop_arrival = event.start_at + timedelta(minutes=transfer.access_walk.planned_minutes)
+        assert event.end_at == last.scheduled_arrival_at + timedelta(
+            minutes=transfer.egress_walk.planned_minutes
+        )
+        assert (
+            transfer.mode_decision.bus_wait_minutes
+            == (first.scheduled_departure_at - stop_arrival).total_seconds() / 60
+        )
