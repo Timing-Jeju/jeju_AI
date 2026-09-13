@@ -32,6 +32,7 @@ from jeju_trip.domain.models import (
     VisitDetails,
     WalkConnection,
 )
+from jeju_trip.infrastructure.tmap_cache import MAX_TTL_SECONDS
 
 KST = timezone(timedelta(hours=9))
 TRIP_DATE = date(2026, 8, 15)
@@ -238,7 +239,7 @@ def make_success_response() -> DayTripResponse:
             trip_date=TRIP_DATE,
             days_before_trip=25,
             schedule_basis="future_timetable",
-            plan_expires_at=now + timedelta(days=1),
+            plan_expires_at=now + timedelta(seconds=MAX_TTL_SECONDS),
         ),
         request=make_request(),
         recommendations=tuple(

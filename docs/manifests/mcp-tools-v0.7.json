@@ -23,8 +23,8 @@
     },
     {
       "name": "recommend_jeju_day_trips",
-      "inputSchemaSha256": "e0122abeba95276a42d8de9102e762429ac2fefa93772db3ebe26839d63f0aa7",
-      "outputSchemaSha256": "0f9414be50430d5e36f7ffb3e2e2db1053e2ef72e1c2fdd2edd8335fadcb378e"
+      "inputSchemaSha256": "bdee203887eb769eb28906f5aae68378ecc7ffc855f38e8d1abd474f13353852",
+      "outputSchemaSha256": "2f3a382869601455f97184135e2ab8dbf0ec5127bd43998a0ea12fa83994409e"
     },
     {
       "name": "revalidate_jeju_day_trip",

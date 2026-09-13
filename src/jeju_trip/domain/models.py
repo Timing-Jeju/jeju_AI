@@ -249,21 +249,52 @@ class MultiDayPreferences(ContractModel):
     trip_transport_budget_krw: Annotated[int | None, Field(ge=0)] = None
 
 
-class SelectedDayHistory(ContractModel):
-    """사용자가 실제로 선택한 이전 날짜의 완전한 계획."""
+class SelectedPlaceHistory(ContractModel):
+    """다음 날짜 중복 정책에 필요한 선택 장소와 폐쇄된 근거 참조."""
 
-    day_conditions: CommonTripInput
-    selected_recommendation: Recommendation
+    place_id: Annotated[str, Field(min_length=1)]
+    role: Literal["visit", "meal", "rest"]
+    evidence_fact_ids: tuple[str, ...] = Field(min_length=1, max_length=64)
+
+
+class SelectedDayHistory(ContractModel):
+    """전체 타임라인·설명·원문을 제외한 이전 날짜의 최소 적용 결과."""
+
+    trip_date: date
+    activity_window: ActivityWindow
+    day_start_at: datetime
+    day_end_at: datetime
+    selected_places: tuple[SelectedPlaceHistory, ...] = Field(min_length=1, max_length=40)
+    totals: Totals
+    evidence_fact_ids: tuple[str, ...] = Field(min_length=1, max_length=256)
 
     @model_validator(mode="after")
     def validate_history_day(self) -> SelectedDayHistory:
-        timeline = self.selected_recommendation.timeline
-        if len(timeline) > 40:
-            raise ValueError("previous day timeline cannot exceed 40 events")
-        if not timeline or any(
-            event.start_at.date() != self.day_conditions.trip_date for event in timeline
+        _require_kst(self.day_start_at, "previous_days.day_start_at")
+        _require_kst(self.day_end_at, "previous_days.day_end_at")
+        if self.activity_window.start_at.date() != self.trip_date:
+            raise ValueError("previous day activity window must use trip_date")
+        if self.day_start_at.date() != self.trip_date or self.day_end_at.date() != self.trip_date:
+            raise ValueError("previous day boundaries must use trip_date")
+        if not (
+            self.activity_window.start_at
+            <= self.day_start_at
+            < self.day_end_at
+            <= self.activity_window.end_at
         ):
-            raise ValueError("previous day timeline date must match day_conditions.trip_date")
+            raise ValueError("previous day boundaries must fit activity window")
+        if len(self.evidence_fact_ids) != len(set(self.evidence_fact_ids)):
+            raise ValueError("previous day evidence fact IDs must be unique")
+        known_fact_ids = set(self.evidence_fact_ids)
+        referenced_fact_ids = {
+            fact_id for place in self.selected_places for fact_id in place.evidence_fact_ids
+        }
+        referenced_fact_ids.update(self.totals.derivation_evidence_fact_ids)
+        if not referenced_fact_ids.issubset(known_fact_ids):
+            raise ValueError("previous day place references unknown evidence fact")
+        identities = tuple((place.role, place.place_id) for place in self.selected_places)
+        if len(identities) != len(set(identities)):
+            raise ValueError("previous day selected place roles must be unique")
         return self
 
 
@@ -290,7 +321,7 @@ class RecommendDayTripsInput(BoundaryTripInput):
     def validate_request_time(self) -> RecommendDayTripsInput:
         if self.activity_window.start_at.date() != self.trip_date:
             raise ValueError("activity_window.start_at must use trip_date")
-        dates = tuple(day.day_conditions.trip_date for day in self.previous_days)
+        dates = tuple(day.trip_date for day in self.previous_days)
         if len(dates) != len(set(dates)):
             raise ValueError("previous day dates must be unique")
         if dates != tuple(sorted(dates)):
@@ -298,12 +329,11 @@ class RecommendDayTripsInput(BoundaryTripInput):
         if any(day >= self.trip_date for day in dates):
             raise ValueError("previous days must be earlier than trip_date")
         visited = {
-            event.place_id or (event.visit.place_id if event.visit is not None else None)
+            place.place_id
             for day in self.previous_days
-            for event in day.selected_recommendation.timeline
-            if event.type == "visit"
+            for place in day.selected_places
+            if place.role == "visit"
         }
-        visited.discard(None)
         required = {place.place_id for place in self.required_places if place.place_id is not None}
         if visited & required:
             raise ValueError("PLACE_ALREADY_VISITED_CONFLICT")

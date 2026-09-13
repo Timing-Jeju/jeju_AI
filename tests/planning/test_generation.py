@@ -20,6 +20,7 @@ from jeju_trip.domain.models import (
     Transfer,
     WalkConnection,
 )
+from jeju_trip.infrastructure.tmap_cache import MAX_TTL_SECONDS
 from jeju_trip.planning.generation import (
     DeterministicDayTripGenerator,
     DynamicClusterCandidateAssembler,
@@ -332,6 +333,21 @@ def test_generator_tries_only_bounded_fallback_for_failed_strategy_candidate() -
 
     assert response.status == "success", response.failure
     assert len(response.recommendations) == 3
+
+
+def test_generated_plan_expires_with_ephemeral_route_evidence() -> None:
+    """생성 결과의 만료시각은 TMAP 파생 근거의 23시간 50분 메모리 TTL을 넘지 않아야 한다."""
+
+    generated_at = datetime(2026, 8, 10, 10, tzinfo=KST)
+    response = DeterministicDayTripGenerator(
+        FixedGenerationGateway(),
+        FixedOrderProposer(),
+        load_planning_policy(ROOT / "config/policies/planning_policy_v1.toml"),
+    ).generate(_request(), now=generated_at)
+
+    assert response.planning_context.plan_expires_at <= generated_at + timedelta(
+        seconds=MAX_TTL_SECONDS
+    )
 
 
 def test_experience_max_uses_versioned_maximum_for_last_rest() -> None:

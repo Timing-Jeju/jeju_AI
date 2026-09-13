@@ -37,6 +37,7 @@ from jeju_trip.domain.models import (
     ValidationSummary,
     VisitDetails,
 )
+from jeju_trip.infrastructure.tmap_cache import MAX_TTL_SECONDS
 from jeju_trip.planning.execution_budget import (
     ExecutionBudget,
     PlanningBudgetExceeded,
@@ -1660,7 +1661,10 @@ class DeterministicDayTripGenerator:
             trip_date=request.trip_date,
             days_before_trip=max(0, (request.trip_date - generated_at.date()).days),
             schedule_basis="service_calendar",
-            plan_expires_at=min(trip_start, generated_at + timedelta(days=1)),
+            plan_expires_at=min(
+                trip_start,
+                generated_at + timedelta(seconds=MAX_TTL_SECONDS),
+            ),
         )
 
     @staticmethod

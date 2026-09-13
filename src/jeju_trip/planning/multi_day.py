@@ -15,22 +15,12 @@ class HistoryPlacePolicy:
 
 
 def history_place_policy(request: RecommendDayTripsInput) -> HistoryPlacePolicy:
-    """이전 타임라인의 역할별 장소 ID를 공개 중복 정책으로 분류한다."""
+    """이전 최소 이력의 역할별 장소 ID를 공개 중복 정책으로 분류한다."""
 
     by_type: dict[str, set[str]] = {"visit": set(), "meal": set(), "rest": set()}
     for day in request.previous_days:
-        for event in day.selected_recommendation.timeline:
-            if event.type not in by_type:
-                continue
-            place_id = event.place_id
-            if place_id is None and event.visit is not None:
-                place_id = event.visit.place_id
-            elif place_id is None and event.meal is not None:
-                place_id = event.meal.place_id
-            elif place_id is None and event.rest is not None:
-                place_id = event.rest.place_id
-            if place_id is not None:
-                by_type[event.type].add(place_id)
+        for place in day.selected_places:
+            by_type[place.role].add(place.place_id)
     return HistoryPlacePolicy(
         excluded_visit_ids=frozenset(by_type["visit"]),
         avoided_meal_ids=frozenset(by_type["meal"]),
@@ -41,20 +31,18 @@ def history_place_policy(request: RecommendDayTripsInput) -> HistoryPlacePolicy:
 def daily_load(day: SelectedDayHistory) -> float:
     """기존 수치만으로 날짜별 도보·이동 부하를 계산한다."""
 
-    recommendation = day.selected_recommendation
     available = max(
         1,
         int(
             (
-                day.day_conditions.activity_window.end_at
-                - day.day_conditions.activity_window.start_at
+                day.activity_window.end_at
+                - day.activity_window.start_at
             ).total_seconds()
             // 60
         ),
     )
-    maximum_walk = max(1, day.day_conditions.walking.max_total_distance_meters)
-    walking_load = recommendation.totals.walking_distance_meters / maximum_walk
-    transfer_load = recommendation.totals.transfer_minutes / available
+    walking_load = day.totals.walking_minutes / available
+    transfer_load = day.totals.transfer_minutes / available
     return 0.5 * min(walking_load, 2.0) + 0.5 * min(transfer_load, 2.0)
 
 
@@ -86,7 +74,7 @@ def previous_transport_cost_max(request: RecommendDayTripsInput) -> int:
     """이전 선택 일정의 이동비 최대값만 누적한다."""
 
     return sum(
-        day.selected_recommendation.totals.estimated_cost.max_krw for day in request.previous_days
+        day.totals.estimated_cost.max_krw for day in request.previous_days
     )
 
 
@@ -95,6 +83,6 @@ def overnight_rest_below_preference(request: RecommendDayTripsInput) -> bool:
 
     if not request.previous_days:
         return False
-    previous_return = request.previous_days[-1].selected_recommendation.accommodation_return_at
+    previous_return = request.previous_days[-1].day_end_at
     minutes = int((request.activity_window.start_at - previous_return).total_seconds() // 60)
     return minutes < request.multi_day.minimum_overnight_rest_minutes

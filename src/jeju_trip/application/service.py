@@ -38,6 +38,7 @@ from jeju_trip.domain.models import (
     SearchPlacesResponse,
     ValidationSummary,
 )
+from jeju_trip.infrastructure.tmap_cache import MAX_TTL_SECONDS
 from jeju_trip.planning.evaluation import EvaluationEvidence, ItineraryEvaluationEngine
 from jeju_trip.planning.execution_budget import (
     ExecutionBudget,
@@ -193,7 +194,7 @@ class TripPlannerService:
         now = datetime.now(UTC).astimezone(KST)
         trip_start = datetime.combine(request.trip_date, time.min, tzinfo=KST)
         days_before = max(0, (trip_start.date() - now.date()).days)
-        expires_at = min(trip_start, now + timedelta(days=1))
+        expires_at = min(trip_start, now + timedelta(seconds=MAX_TTL_SECONDS))
         return DayTripResponse(
             request_id=f"req-{uuid4()}",
             generated_at=now,

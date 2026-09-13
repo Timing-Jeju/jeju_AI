@@ -10,7 +10,7 @@
     "days_before_trip": 4,
     "schedule_basis": "service_calendar",
     "realtime_used": false,
-    "plan_expires_at": "2026-08-12T12:00:00+09:00",
+    "plan_expires_at": "2026-08-12T11:50:00+09:00",
     "revalidate_at": []
   },
   "request": {

@@ -10,10 +10,10 @@ import pytest
 from pydantic import ValidationError
 
 from jeju_trip.domain.models import (
-    CommonTripInput,
     ProgressInput,
     RecommendDayTripsInput,
     SelectedDayHistory,
+    SelectedPlaceHistory,
     Strategy,
 )
 from tests.factories import make_recommendation, make_request
@@ -24,23 +24,19 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def _history() -> SelectedDayHistory:
     request = make_request()
+    recommendation = make_recommendation(Strategy.BALANCED, 1)
     return SelectedDayHistory(
-        day_conditions=CommonTripInput.model_validate(
-            request.model_dump(
-                mode="python",
-                exclude={
-                    "request_mode",
-                    "required_places",
-                    "preferred_places",
-                    "excluded_places",
-                    "discovery",
-                    "original_text",
-                    "previous_days",
-                    "multi_day",
-                },
-            )
+        trip_date=request.trip_date,
+        activity_window=request.activity_window,
+        day_start_at=recommendation.day_start_at,
+        day_end_at=recommendation.day_end_at,
+        selected_places=(
+            SelectedPlaceHistory(
+                place_id="place-1", role="visit", evidence_fact_ids=("fact-place-open",)
+            ),
         ),
-        selected_recommendation=make_recommendation(Strategy.BALANCED, 1),
+        totals=recommendation.totals,
+        evidence_fact_ids=("fact-place-open",),
     )
 
 
@@ -95,16 +91,15 @@ def test_required_previous_visit_is_a_hard_conflict() -> None:
         RecommendDayTripsInput.model_validate(payload)
 
 
-def test_required_previous_visit_uses_nested_visit_identity() -> None:
-    """이전 관광 이벤트의 공통 장소 ID가 비어도 상세 방문 ID로 중복을 차단해야 한다."""
+def test_previous_history_rejects_unknown_fields() -> None:
+    """이전 날짜 최소 이력은 과거 전체 타임라인 필드를 추가로 받지 않아야 한다."""
 
     payload = _next_day_payload()
     previous_days = payload["previous_days"]
     assert isinstance(previous_days, list)
-    previous_days[0]["selected_recommendation"]["timeline"][0]["place_id"] = None
-    payload["required_places"] = [{"place_id": "place-1"}]
+    previous_days[0]["day_conditions"] = make_request().model_dump(mode="python")
 
-    with pytest.raises(ValidationError, match="PLACE_ALREADY_VISITED_CONFLICT"):
+    with pytest.raises(ValidationError, match="day_conditions"):
         RecommendDayTripsInput.model_validate(payload)
 
 
