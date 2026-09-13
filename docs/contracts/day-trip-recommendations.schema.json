@@ -322,90 +322,6 @@
       "title": "CapabilityCoverage",
       "type": "object"
     },
-    "CommonTripInput": {
-      "additionalProperties": false,
-      "description": "생성·판정이 공유하는 하루 시작·종료 경계 여행 조건.",
-      "properties": {
-        "accommodation": {
-          "$ref": "#/$defs/AccommodationInput"
-        },
-        "activity_window": {
-          "$ref": "#/$defs/ActivityWindow"
-        },
-        "day_boundary": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/DayBoundary"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null
-        },
-        "place_duration_preferences": {
-          "default": [],
-          "items": {
-            "$ref": "#/$defs/PlaceDurationPreference"
-          },
-          "maxItems": 40,
-          "title": "Place Duration Preferences",
-          "type": "array"
-        },
-        "schema_version": {
-          "const": "0.7.0",
-          "default": "0.7.0",
-          "title": "Schema Version",
-          "type": "string"
-        },
-        "trip_date": {
-          "format": "date",
-          "title": "Trip Date",
-          "type": "string"
-        },
-        "timezone": {
-          "const": "Asia/Seoul",
-          "default": "Asia/Seoul",
-          "title": "Timezone",
-          "type": "string"
-        },
-        "party": {
-          "$ref": "#/$defs/Party"
-        },
-        "transport": {
-          "$ref": "#/$defs/TransportPreferences"
-        },
-        "walking": {
-          "$ref": "#/$defs/WalkingPreferences"
-        },
-        "rest": {
-          "$ref": "#/$defs/RestPreferences"
-        },
-        "food": {
-          "$ref": "#/$defs/FoodPreferences"
-        },
-        "total_budget_krw": {
-          "anyOf": [
-            {
-              "minimum": 0,
-              "type": "integer"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Total Budget Krw"
-        }
-      },
-      "required": [
-        "accommodation",
-        "activity_window",
-        "trip_date"
-      ],
-      "title": "CommonTripInput",
-      "type": "object"
-    },
     "Coordinates": {
       "additionalProperties": false,
       "properties": {
@@ -2296,20 +2212,94 @@
     },
     "SelectedDayHistory": {
       "additionalProperties": false,
-      "description": "사용자가 실제로 선택한 이전 날짜의 완전한 계획.",
+      "description": "전체 타임라인·설명·원문을 제외한 이전 날짜의 최소 적용 결과.",
       "properties": {
-        "day_conditions": {
-          "$ref": "#/$defs/CommonTripInput"
+        "trip_date": {
+          "format": "date",
+          "title": "Trip Date",
+          "type": "string"
         },
-        "selected_recommendation": {
-          "$ref": "#/$defs/Recommendation"
+        "activity_window": {
+          "$ref": "#/$defs/ActivityWindow"
+        },
+        "day_start_at": {
+          "format": "date-time",
+          "title": "Day Start At",
+          "type": "string"
+        },
+        "day_end_at": {
+          "format": "date-time",
+          "title": "Day End At",
+          "type": "string"
+        },
+        "selected_places": {
+          "items": {
+            "$ref": "#/$defs/SelectedPlaceHistory"
+          },
+          "maxItems": 40,
+          "minItems": 1,
+          "title": "Selected Places",
+          "type": "array"
+        },
+        "totals": {
+          "$ref": "#/$defs/Totals"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 256,
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
         }
       },
       "required": [
-        "day_conditions",
-        "selected_recommendation"
+        "trip_date",
+        "activity_window",
+        "day_start_at",
+        "day_end_at",
+        "selected_places",
+        "totals",
+        "evidence_fact_ids"
       ],
       "title": "SelectedDayHistory",
+      "type": "object"
+    },
+    "SelectedPlaceHistory": {
+      "additionalProperties": false,
+      "description": "다음 날짜 중복 정책에 필요한 선택 장소와 폐쇄된 근거 참조.",
+      "properties": {
+        "place_id": {
+          "minLength": 1,
+          "title": "Place Id",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "visit",
+            "meal",
+            "rest"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "evidence_fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 64,
+          "minItems": 1,
+          "title": "Evidence Fact Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "place_id",
+        "role",
+        "evidence_fact_ids"
+      ],
+      "title": "SelectedPlaceHistory",
       "type": "object"
     },
     "SourceRef": {

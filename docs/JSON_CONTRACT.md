@@ -35,7 +35,9 @@ timezone은 `Asia/Seoul`만 허용하고 모든 datetime은 `+09:00`이어야 �
 - `rest`: 강도, 최소 휴식, 연속 활동과 호환용 편의조건
 - `food`, `total_budget_krw`(버스·택시 이동비 한도)
 - `original_text`: 선택 보조 원문
-- `previous_days`: 날짜 조건·전체 타임라인·totals를 포함한 최대 4개의 선택 이력
+- `previous_days`: 날짜·활동창·실제 시작/종료·역할별 canonical 장소·totals·폐쇄된
+  evidence fact ID만 포함한 최대 4개의 최소 선택 이력. 이전 전체 타임라인·설명·사용자
+  원문은 받지 않는다.
 - `multi_day`: 관광지 중복 금지, 식사·휴식 soft avoid, 숙박 간격, 여행 전체 이동비 정책
 
 택시비는 공식 요율과 경로 fact에서 범위로 제공하지만 택시 전용 상한으로 후보를
@@ -108,6 +110,11 @@ GPS·정류장·노선 정보가 모두 없으면 위치 기반 재경로를 만
 - `global_warnings`, `validation`, `failure`
 
 부분 성공 상태는 없다. 성공은 `balanced`, `relaxed`, `experience_max`가 각각 한 개씩인 정확히 세 추천을 요구한다. 세 추천의 장소 순서 또는 이동 방식이 실질적으로 달라야 한다. 한 전략이라도 유효 후보가 없으면 추천 배열을 비우고 `insufficient_feasible_routes`를 반환한다.
+
+TMAP 파생 경로 근거가 포함된 생성 후보는 프로세스 메모리에서 최대 23시간 50분만
+유효하다. `plan_expires_at`은 이 한도를 넘지 않는다. 프로세스 재시작이나 만료로 후보
+본문이 사라지면 기존 후보를 복구했다고 주장하지 않고 `CANDIDATE_EVIDENCE_UNAVAILABLE`로
+재생성을 요구한다. 승인된 durable projection이 생기기 전에는 후보 적용 기능을 기본 OFF로 둔다.
 
 이전 날짜의 `visit`은 다시 추천하지 않는다. `meal`과 `rest`는 새 후보가 없을 때만
 `REPEAT_MEAL_FALLBACK` 또는 `REPEAT_REST_FALLBACK`과 함께 재사용한다. 각 추천의

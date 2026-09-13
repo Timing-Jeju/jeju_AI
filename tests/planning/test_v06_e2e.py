@@ -10,12 +10,12 @@ from jeju_trip.application.service import TripPlannerService
 from jeju_trip.domain.models import (
     ActivityWindow,
     BusRide,
-    CommonTripInput,
     Coordinates,
     ProgressInput,
     RecommendDayTripsInput,
     RevalidateJejuDayTripInput,
     SelectedDayHistory,
+    SelectedPlaceHistory,
     Strategy,
     Transfer,
     WalkConnection,
@@ -119,20 +119,30 @@ def _history(day: date, visited_place_id: str, index: int) -> SelectedDayHistory
             "timeline": tuple(shifted),
         }
     )
-    current = _request()
     return SelectedDayHistory(
-        day_conditions=CommonTripInput(
-            trip_date=day,
-            accommodation=current.accommodation.model_copy(
-                update={"place_id": f"history-hotel-{index}"}
+        trip_date=day,
+        activity_window=ActivityWindow(
+            start_at=datetime.combine(day, datetime.min.time(), tzinfo=KST)
+            + timedelta(hours=9),
+            end_at=datetime.combine(day, datetime.min.time(), tzinfo=KST) + timedelta(hours=20),
+        ),
+        day_start_at=recommendation.day_start_at,
+        day_end_at=recommendation.day_end_at,
+        selected_places=(
+            SelectedPlaceHistory(
+                place_id=visited_place_id,
+                role="visit",
+                evidence_fact_ids=("fact-place-open",),
             ),
-            activity_window=ActivityWindow(
-                start_at=datetime.combine(day, datetime.min.time(), tzinfo=KST)
-                + timedelta(hours=9),
-                end_at=datetime.combine(day, datetime.min.time(), tzinfo=KST) + timedelta(hours=20),
+            SelectedPlaceHistory(
+                place_id="meal-1", role="meal", evidence_fact_ids=("fact-place-open",)
+            ),
+            SelectedPlaceHistory(
+                place_id="rest-1", role="rest", evidence_fact_ids=("fact-place-open",)
             ),
         ),
-        selected_recommendation=recommendation,
+        totals=recommendation.totals,
+        evidence_fact_ids=("fact-place-open",),
     )
 
 

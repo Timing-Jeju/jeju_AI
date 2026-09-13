@@ -6,9 +6,9 @@ from datetime import date, datetime, timedelta, timezone
 
 from jeju_trip.domain.models import (
     ActivityWindow,
-    CommonTripInput,
     MultiDayPreferences,
     SelectedDayHistory,
+    SelectedPlaceHistory,
     Strategy,
 )
 from jeju_trip.planning.multi_day import (
@@ -25,23 +25,25 @@ KST = timezone(timedelta(hours=9))
 
 def _request_with_history():
     base = make_request()
+    recommendation = make_recommendation(Strategy.BALANCED, 1)
     history = SelectedDayHistory(
-        day_conditions=CommonTripInput.model_validate(
-            base.model_dump(
-                mode="python",
-                exclude={
-                    "request_mode",
-                    "required_places",
-                    "preferred_places",
-                    "excluded_places",
-                    "discovery",
-                    "original_text",
-                    "previous_days",
-                    "multi_day",
-                },
-            )
+        trip_date=base.trip_date,
+        activity_window=base.activity_window,
+        day_start_at=recommendation.day_start_at,
+        day_end_at=recommendation.day_end_at,
+        selected_places=(
+            SelectedPlaceHistory(
+                place_id="place-1", role="visit", evidence_fact_ids=("fact-place-open",)
+            ),
+            SelectedPlaceHistory(
+                place_id="meal-1", role="meal", evidence_fact_ids=("fact-place-open",)
+            ),
+            SelectedPlaceHistory(
+                place_id="rest-1", role="rest", evidence_fact_ids=("fact-place-open",)
+            ),
         ),
-        selected_recommendation=make_recommendation(Strategy.BALANCED, 1),
+        totals=recommendation.totals,
+        evidence_fact_ids=("fact-place-open",),
     )
     return base.model_copy(
         update={
