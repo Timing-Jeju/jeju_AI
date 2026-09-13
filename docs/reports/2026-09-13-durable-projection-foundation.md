@@ -33,3 +33,16 @@ First RED: 변환기 import 실패. GREEN: 신규 테스트 4개 및 대상 Ruff
 정류장별 이동 상세, 구간별 요금, 근거 값 재평가, previous_days 재조립,
 후보 24시간 수명 계약 및 워커/조회/원자적 적용은 후속 구현이 필요하다.
 그러므로 이 변경만으로 전체 연결이나 재시작 복구를 완료했다고 볼 수 없다.
+
+## PR #18 CI 다운로드 실패 보완
+
+첫 CI는 이미지 layer 다운로드 중 unexpected EOF로 실패했고 통합 pytest는 실행되지 않았다.
+GitHub rerun 요청도 HTTP 500으로 실패했다. 같은 PR에서 다운로드만 최대 3회,
+각 120초 제한과 5/10초 대기로 재시도한다. 서비스 기동은 단회이며 건강 상태를 기다린다.
+통합 pytest의 실패는 재시도하지 않고 기존 always 정리를 유지한다.
+
+First RED는 helper 누락 import 오류 및 기존 workflow 계약 불일치다.
+GREEN은 helper 4개 테스트와 고정 test profile/service 계약 갱신으로 확인했다.
+최종 한글 설명/Ruff/Pyright 통과, pytest 586 passed / 9 skipped.
+독립 리뷰의 관련 7개 테스트도 통과했고 필수 finding 0이다.
+실제 이미지 다운로드 및 격리 통합 실행 결과는 새 PR CI로 확인한다.
