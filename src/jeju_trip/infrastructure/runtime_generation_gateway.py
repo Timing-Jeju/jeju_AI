@@ -2011,7 +2011,7 @@ class PostgresGenerationGateway:
                 self._add_source_fact(
                     entrance.evidence_fact_ids[0],
                     "place_entrance",
-                    {"entrance_id": entrance.entrance_id},
+                    {"entrance_id": entrance.entrance_id, "place_id": entrance.place_id},
                     "travel.place-entrance-map",
                     publication_by_fact_id[entrance.evidence_fact_ids[0]],
                     verified_by_fact_id[entrance.evidence_fact_ids[0]] or request.trip_date,
