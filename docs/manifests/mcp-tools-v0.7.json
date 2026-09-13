@@ -8,7 +8,7 @@
   "tools": [
     {
       "name": "evaluate_jeju_day_trip",
-      "inputSchemaSha256": "b70e96dde802c7ab572c661cd0208dff90727ba8c73969885a1ffb952eeb0ac6",
+      "inputSchemaSha256": "f44269b408dcf35579c108503e5b0227569cfd1565515960ddd08494d72fd979",
       "outputSchemaSha256": "cca80cfc857e52104b19392204f64134549f86ddbee4748504ba34f6dfc125f0"
     },
     {
@@ -23,12 +23,12 @@
     },
     {
       "name": "recommend_jeju_day_trips",
-      "inputSchemaSha256": "bdee203887eb769eb28906f5aae68378ecc7ffc855f38e8d1abd474f13353852",
-      "outputSchemaSha256": "2f3a382869601455f97184135e2ab8dbf0ec5127bd43998a0ea12fa83994409e"
+      "inputSchemaSha256": "4defe7054c75658dc88b450faff0b4addceac503e4d37c1a3c1f991f1ccf24c7",
+      "outputSchemaSha256": "b2b6509948001492b90b21aab03f99d1573f16e9adf548a0897d481c19b52b45"
     },
     {
       "name": "revalidate_jeju_day_trip",
-      "inputSchemaSha256": "6a5b3dc86ffb498b4a41d3f6389a691da4ef87b0130c79510ff35f2ef2014260",
+      "inputSchemaSha256": "f5ab1bf243102f04dfb0422aecce464d50e925e8dbb32a98fa18098fcb5a9285",
       "outputSchemaSha256": "4e0749b523ef31d2bade0e02dfa4d9f35cab9a6652dbc6e7fdd7901586bed9ce"
     },
     {

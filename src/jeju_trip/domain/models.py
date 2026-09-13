@@ -6,7 +6,7 @@ from datetime import date, datetime, timedelta
 from enum import StrEnum
 from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, model_validator
 
 SCHEMA_VERSION = "0.7.0"
 KST_NAME = "Asia/Seoul"
@@ -86,10 +86,22 @@ class DayBoundary(ContractModel):
 
 
 class PlaceDurationPreference(ContractModel):
-    """사용자가 장소별로 고정한 체류시간 제약."""
+    """사용자 지정 또는 서버가 선택한 검증 정책의 고정 체류시간 제약."""
 
     place_id: Annotated[str, Field(min_length=1)]
     requested_stay_minutes: Annotated[int, Field(gt=0, le=24 * 60)]
+    source: Literal["user_requested", "place_override", "category_default"] = "user_requested"
+    policy_version: Annotated[str | None, Field(pattern=r"^[a-z0-9][a-z0-9._-]{0,63}$")] = None
+    policy_effective_at: AwareDatetime | None = None
+
+    @model_validator(mode="after")
+    def validate_policy_provenance(self) -> PlaceDurationPreference:
+        if self.source == "user_requested":
+            if self.policy_version is not None or self.policy_effective_at is not None:
+                raise ValueError("user duration must not claim server policy provenance")
+        elif self.policy_version is None or self.policy_effective_at is None:
+            raise ValueError("server duration requires policy version and effective time")
+        return self
 
 
 class BoundaryTripInput(ContractModel):
@@ -961,6 +973,7 @@ def recommendations_are_materially_different(first: Recommendation, second: Reco
                 e.duration_minutes for e in value.timeline if e.type in {"visit", "meal", "rest"}
             ),
         )
+
     return route_signatures_are_materially_different(signature(first), signature(second))
 
 

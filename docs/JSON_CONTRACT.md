@@ -22,6 +22,15 @@ timezone은 `Asia/Seoul`만 허용하고 모든 datetime은 `+09:00`이어야 �
 사용자 값은 전략 차별화나 자동 repair 과정에서 축소할 수 없다. 이 값 때문에 일정이 맞지
 않으면 후보를 실패시키거나 evidence로 닫힌 repair option만 제안한다.
 
+`source`는 기본 `user_requested`이며 기존 두 필드 입력은 그대로 호환한다. BE가 사용자 값
+부재 시 검증된 추천값을 선택했다면 `place_override` 또는 `category_default`와
+`policy_version`, timezone-aware `policy_effective_at`을 함께 보낸다. 이 경우에도 숫자는
+서버가 선택한 고정 체류 제약이며 AI가 새 추천 시간으로 조정하지 않는다. 사용자 출처에는
+서버 정책 메타데이터를 섞을 수 없다. 원문 정책명·설명이나 임의 60분 기본값은 받지 않는다.
+필드명 `requested_stay_minutes`는 wire 호환을 유지하되 사용자 또는 서버가 확정해 요청한
+체류시간을 뜻한다. 정책 메타데이터는 제공자가 검증한 출처 식별 정보이며 독립 외부 검증을
+했다는 주장이 아니다.
+
 ## 추천 입력
 
 `RecommendDayTripsInput`은 다음 구조화 값을 받으며 `schema_version=0.7.0`만 허용한다.
