@@ -110,7 +110,7 @@ class SyntheticEastGateway(FixedGenerationGateway):
             origin_basis=EndpointBasis.VERIFIED_ENTRANCE,
             destination_basis=EndpointBasis.VERIFIED_ENTRANCE,
             planned_walk_minutes=10,
-            bus_wait_minutes=8,
+            bus_wait_minutes=15,
             deadline_slack_minutes=20,
             reason_codes=("BUS_WITHIN_30_MINUTES",),
             evidence_fact_ids=(fact_id,),
@@ -118,7 +118,7 @@ class SyntheticEastGateway(FixedGenerationGateway):
         return VerifiedRouteOption(
             from_id=from_id,
             to_id=to_id,
-            duration_minutes=45,
+            duration_minutes=40,
             walking_minutes=10,
             walking_distance_meters=400,
             cost_min_krw=1_200,
@@ -144,7 +144,7 @@ class SyntheticEvaluationEvidence:
         if mode == "bus":
             return RouteEvidence(
                 mode="bus",
-                duration_minutes=45,
+                duration_minutes=40,
                 distance_meters=13_400,
                 cost_krw=1_200,
                 walking_minutes=10,

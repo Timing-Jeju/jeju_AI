@@ -22,6 +22,33 @@ ROOT = Path(__file__).resolve().parents[2]
 KST = timezone(timedelta(hours=9))
 
 
+def test_verified_entrance_fact_preserves_canonical_place_binding(monkeypatch) -> None:
+    """검증 입구 근거는 좌표 없이 canonical 장소와 입구의 연결을 함께 전달해야 한다."""
+
+    gateway = object.__new__(PostgresGenerationGateway)
+    gateway._facts = {}
+    gateway._entrance_rows = {
+        "tourapi.place:123": (
+            ("entrance-fact-123", "entrance-123", 33.45, 126.7,
+             ["walk", "bus"], "publication-123", date(2026, 8, 1)),
+        )
+    }
+    observed_sources = []
+    monkeypatch.setattr(
+        gateway, "_add_source_metadata",
+        lambda source_id, publication_id: observed_sources.append((source_id, publication_id)),
+    )
+
+    endpoints = gateway._load_entrances("tourapi.place:123", make_request())
+
+    assert endpoints[0].place_id == "tourapi.place:123"
+    fact = gateway._facts["entrance-fact-123"]
+    assert fact.value == {"entrance_id": "entrance-123", "place_id": "tourapi.place:123"}
+    assert fact.derivation.kind == "source"
+    assert fact.source_refs[0].source_id == "travel.place-entrance-map"
+    assert observed_sources == [("travel.place-entrance-map", "publication-123")]
+
+
 def test_official_cafe_category_uses_cafe_stay_policy() -> None:
     """TourAPI 카페/전통찻집 코드는 이름과 무관하게 카페 체류 정책을 선택해야 한다."""
 

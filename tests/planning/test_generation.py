@@ -7,6 +7,8 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from threading import Barrier
 
+import pytest
+
 from jeju_trip.domain.models import (
     Coordinates,
     Derivation,
@@ -279,9 +281,7 @@ def test_dynamic_cluster_assembler_uses_exact_bus_candidate_orders() -> None:
             return {
                 Strategy.RELAXED: (("required", "meal", "b", "rest"),),
                 Strategy.BALANCED: (("required", "meal", "a", "rest"),),
-                Strategy.EXPERIENCE_MAX: (
-                    ("required", "meal", "a", "b", "rest"),
-                ),
+                Strategy.EXPERIENCE_MAX: (("required", "meal", "a", "b", "rest"),),
             }
 
     payload = _request().model_dump(mode="python")
@@ -295,9 +295,9 @@ def test_dynamic_cluster_assembler_uses_exact_bus_candidate_orders() -> None:
     request = RecommendDayTripsInput.model_validate(payload)
     gateway = FixedGenerationGateway()
 
-    candidates = DynamicClusterCandidateAssembler(
-        BusCandidateGateway()
-    ).propose_candidates(request, tuple(gateway._places.values()))
+    candidates = DynamicClusterCandidateAssembler(BusCandidateGateway()).propose_candidates(
+        request, tuple(gateway._places.values())
+    )
 
     assert candidates[Strategy.RELAXED][0] == ("required", "meal", "b", "rest")
     assert candidates[Strategy.BALANCED][0] == ("required", "meal", "a", "rest")
@@ -373,8 +373,30 @@ def test_experience_max_uses_versioned_maximum_for_last_rest() -> None:
     assert adjusted["rest"].stay_minutes == 60
 
 
-def test_distinct_day_boundaries_and_requested_stay_are_preserved() -> None:
-    """terminal 시작·종료와 사용자 체류시간은 세 전략 생성에서 그대로 유지해야 한다."""
+@pytest.mark.parametrize(
+    "metadata",
+    [
+        pytest.param({}, id="기존_사용자_지정"),
+        pytest.param(
+            {
+                "source": "place_override",
+                "policy_version": "stay-v1",
+                "policy_effective_at": "2026-08-01T00:00:00Z",
+            },
+            id="서버_장소별_정책",
+        ),
+        pytest.param(
+            {
+                "source": "category_default",
+                "policy_version": "stay-v1",
+                "policy_effective_at": "2026-08-01T00:00:00Z",
+            },
+            id="서버_분류별_정책",
+        ),
+    ],
+)
+def test_distinct_day_boundaries_and_requested_stay_are_preserved(metadata: dict[str, str]) -> None:
+    """terminal 경계와 사용자 또는 검증된 서버 체류시간은 세 전략 모두 보존해야 한다."""
 
     payload = _request().model_dump(mode="python")
     payload["day_boundary"] = {
@@ -390,7 +412,7 @@ def test_distinct_day_boundaries_and_requested_stay_are_preserved() -> None:
         },
     }
     payload["place_duration_preferences"] = [
-        {"place_id": "required", "requested_stay_minutes": 90}
+        {"place_id": "required", "requested_stay_minutes": 90, **metadata}
     ]
     request = RecommendDayTripsInput.model_validate(payload)
 

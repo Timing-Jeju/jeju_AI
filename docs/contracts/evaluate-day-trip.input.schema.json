@@ -1197,7 +1197,7 @@
     },
     "PlaceDurationPreference": {
       "additionalProperties": false,
-      "description": "사용자가 장소별로 고정한 체류시간 제약.",
+      "description": "사용자 지정 또는 서버가 선택한 검증 정책의 고정 체류시간 제약.",
       "properties": {
         "place_id": {
           "minLength": 1,
@@ -1209,6 +1209,42 @@
           "maximum": 1440,
           "title": "Requested Stay Minutes",
           "type": "integer"
+        },
+        "source": {
+          "default": "user_requested",
+          "enum": [
+            "user_requested",
+            "place_override",
+            "category_default"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "policy_version": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Policy Version"
+        },
+        "policy_effective_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Policy Effective At"
         }
       },
       "required": [
