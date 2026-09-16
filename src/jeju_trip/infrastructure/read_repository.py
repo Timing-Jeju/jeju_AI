@@ -217,7 +217,9 @@ class ActiveTravelReadRepository:
         CROSS JOIN travel_read.active_service_area_boundary boundary
         JOIN travel_read.active_source_metadata boundary_metadata
           ON boundary_metadata.publication_id = boundary.publication_id
-        WHERE place.observed_at >= now() - make_interval(days => %(freshness_days)s)
+        WHERE place.observed_at >= now() - make_interval(days =>
+            CASE WHEN place.source_id = 'kac.airport' THEN %(airport_freshness_days)s
+                 ELSE %(freshness_days)s END)
           AND place.observed_at <= now() + interval '5 minutes'
           AND ST_Covers(boundary.geometry, place.position::geometry)
           AND (place.name ILIKE %(query)s OR place.address ILIKE %(query)s)
@@ -230,6 +232,9 @@ class ActiveTravelReadRepository:
                     "query": f"%{request.query}%",
                     "limit": request.limit,
                     "freshness_days": freshness_days,
+                    "airport_freshness_days": self._source_catalog.require(
+                        "kac.airport"
+                    ).temporal.freshness_days,
                 },
             ).fetchall()
         places = tuple(

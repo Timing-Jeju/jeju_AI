@@ -428,6 +428,7 @@ def test_bus_only_candidates_require_exact_service_day_stops_near_hotel_and_plac
             assert "active_place_schedule_exception closure" in query
             assert "active_place_weekly_closure weekly_closure" in query
             assert "candidate.category <> '15' OR candidate.has_applicable_hours" in query
+            assert "place.category NOT IN ('32', 'airport')" in query
             assert "CASE WHEN %(bus_only)s" in query
             assert "CASE WHEN NOT %(bus_only)s" in query
             assert query.count("clustered.hotel_distance") >= 2

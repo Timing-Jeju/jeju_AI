@@ -1,6 +1,47 @@
 catalog_version = "3"
 
 [[sources]]
+id = "kac.airport"
+provider = "한국공항공사"
+source_name = "한국공항공사 공항 위치정보"
+landing_url = "https://www.data.go.kr/data/15002851/fileData.do"
+evidence_grade = "OFFICIAL"
+owner = "data-importer"
+normalization_schema_version = "airport-place-v1"
+[sources.acquisition]
+mode = "FILE"
+base_url = "https://www.data.go.kr/cmm/cmm/fileDownload.do"
+allowed_hosts = ["www.data.go.kr"]
+allowed_path_prefixes = ["/cmm/cmm/fileDownload.do"]
+format = "CSV"
+encoding = "CP949"
+source_crs = "EPSG:4326"
+maximum_response_bytes = 1048576
+redirect_policy = "DENY"
+retention_policy = "PRIVATE_INDEFINITE"
+secret_names = []
+[sources.temporal]
+basis = "RETRIEVED_AT"
+freshness_days = 30
+refresh_profile = "MONTHLY"
+[sources.quality]
+minimum_rows = 1
+maximum_rows = 100
+maximum_row_change_ratio = 1.0
+minimum_coordinate_ratio = 1.0
+maximum_rejected_ratio = 0.0
+[sources.license]
+status = "APPROVED"
+terms_url = "https://www.data.go.kr/data/15002851/fileData.do"
+terms_fingerprint = "0842b3fa95d03ccd1ac5aac6bef83712a85f89d2a9582950ddeee979b3317617"
+reviewed_on = "2026-09-16"
+reviewed_by = "airport-source-review-2026-09-16"
+attribution_text = "한국공항공사 공항 위치정보 (공공데이터포털)"
+raw_private_storage_allowed = true
+internal_derivative_allowed = true
+public_redistribution_allowed = false
+
+[[sources]]
 id = "tourapi.place"
 provider = "한국관광공사"
 source_name = "국문 관광정보 서비스 TourAPI"

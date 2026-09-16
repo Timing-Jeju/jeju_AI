@@ -1380,7 +1380,7 @@ class PostgresGenerationGateway:
                                 ::geography) AS hotel_distance
                      FROM travel_read.active_place place
                      CROSS JOIN travel_read.active_service_area_boundary boundary
-                     WHERE place.category <> '32'
+                     WHERE place.category NOT IN ('32', 'airport')
                        AND NOT (place.fact_id = ANY(%(excluded)s::text[]))
                        AND (%(allow_visits)s OR place.category = '39'
                             OR place.fact_id = ANY(%(required)s::text[]))

@@ -12,6 +12,7 @@ import psycopg
 from psycopg import sql
 from psycopg.types.json import Jsonb
 
+from jeju_trip.infrastructure.airport_source import AirportPlaceRecord
 from jeju_trip.infrastructure.public_data_normalizers import (
     BusRouteStopRecord,
     HolidayRecord,
@@ -76,6 +77,7 @@ class SourceCoverageRecord:
 
 
 CAPABILITY_SOURCE_IDS: dict[str, frozenset[str]] = {
+    "airport_anchor_ready": frozenset({"kac.airport"}),
     "service_area_ready": frozenset({"spatial.jeju-boundary"}),
     "place_search_ready": frozenset({"tourapi.place"}),
     "opening_hours_ready": frozenset({"tourapi.place-intro", "travel.place-hours-map"}),
@@ -189,7 +191,7 @@ class PostgresProjectionPublisher:
         self._assume_role = assume_role
 
     def publish_places(
-        self, acquisition_id: UUID, records: Iterable[TourPlaceRecord]
+        self, acquisition_id: UUID, records: Iterable[TourPlaceRecord | AirportPlaceRecord]
     ) -> ProjectionPublication:
         materialized = tuple(records)
 

@@ -8,6 +8,39 @@ from jeju_trip.infrastructure.read_repository import ActiveTravelReadRepository
 from tests.factories import make_request
 
 
+def test_airport_search_uses_its_own_approved_freshness(monkeypatch) -> None:
+    """공항 검색에 관광공사의 팔일 유효기간을 잘못 적용하지 않는다."""
+
+    class Connection:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return None
+
+        def execute(self, statement, parameters):
+            assert "kac.airport" in statement
+            assert parameters["airport_freshness_days"] == 30
+            return self
+
+        def fetchall(self):
+            return []
+
+    monkeypatch.setattr(
+        "jeju_trip.infrastructure.read_repository.psycopg.connect", lambda _: Connection()
+    )
+    repository = ActiveTravelReadRepository("postgresql://runtime")
+    monkeypatch.setattr(
+        repository,
+        "capability_states",
+        lambda _: {
+            "place_search_ready": CapabilityState.available(),
+            "service_area_ready": CapabilityState.available(),
+        },
+    )
+    assert repository.search_places(SearchPlacesInput(query="제주국제공항")).status == "success"
+
+
 def test_place_search_uses_active_boundary_and_returns_boundary_provenance(monkeypatch) -> None:
     """장소 검색은 ST_Covers를 적용하고 geometry 대신 경계 fact/publication만 반환해야 한다."""
 
@@ -312,9 +345,7 @@ def test_capability_states_split_legacy_fares_and_preserve_stale_reason(monkeypa
     states = repository.capability_states(date(2026, 8, 15))
 
     assert states["bus_fare_policy_ready"] == CapabilityState.available()
-    assert states["taxi_fare_policy_ready"] == CapabilityState.unavailable(
-        CapabilityReason.STALE
-    )
+    assert states["taxi_fare_policy_ready"] == CapabilityState.unavailable(CapabilityReason.STALE)
 
 
 def test_capability_states_distinguish_incomplete_scope_from_stale_source(monkeypatch) -> None:
@@ -357,9 +388,9 @@ def test_capability_states_distinguish_incomplete_scope_from_stale_source(monkey
         now=lambda: datetime(2026, 8, 25, 0, 0, tzinfo=UTC),
     )
 
-    state = repository.capability_states(
-        date(2026, 8, 15), "JEJU_EAST", "POC_V1"
-    )["future_bus_planning_ready"]
+    state = repository.capability_states(date(2026, 8, 15), "JEJU_EAST", "POC_V1")[
+        "future_bus_planning_ready"
+    ]
 
     assert state == CapabilityState.unavailable(CapabilityReason.COVERAGE_INCOMPLETE)
 
@@ -398,9 +429,7 @@ def test_exact_bus_probe_requires_confirmed_service_day_stop_near_every_request_
         }
     )
 
-    ready = ActiveTravelReadRepository(
-        "postgresql://runtime"
-    ).exact_bus_planning_available(request)
+    ready = ActiveTravelReadRepository("postgresql://runtime").exact_bus_planning_available(request)
 
     assert ready is True
     query, parameters = captured[0]

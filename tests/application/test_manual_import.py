@@ -28,6 +28,30 @@ from tests.datasets.test_refresh_service import (
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def test_airport_original_csv_is_preserved_before_publication(tmp_path: Path) -> None:
+    """공항 CSV는 인코딩과 전체 원본을 보존한 뒤 별도 출처로 발행한다."""
+    raw = (
+        "공항명,행정구역,위도(WGS84좌표),경도(WGS84좌표)\n"
+        "제주,제주 제주시 공항로 2,33.511111,126.492778\n"
+    ).encode("cp949")
+    path = tmp_path / "airport.csv"
+    path.write_bytes(raw)
+    raw_store = FakeRawStore()
+    admin = FakeSourceAdmin()
+    published = []
+    result = ManualCsvImportService(raw_store, admin).import_airport(
+        SourceCatalog.load(ROOT / "config/data_sources.toml").require("kac.airport"),
+        path,
+        date(2025, 8, 1),
+        lambda acquisition, records: (
+            published.extend(records) or FakePublication(uuid4(), "airport-test")
+        ),
+    )
+    assert result.status == "STAGED"
+    assert raw_store.archives == [raw]
+    assert published[0].fact_id == "kac.airport:CJU"
+
+
 def _entrance_csv(path: Path) -> None:
     path.write_text(
         "place_fact_id,entrance_id,entrance_type,latitude,longitude,"

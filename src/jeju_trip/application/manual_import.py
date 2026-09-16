@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from jeju_trip.application.refresh_service import RefreshOutcome
+from jeju_trip.infrastructure.airport_source import normalize_airport_csv
 from jeju_trip.infrastructure.normalization_spool import NormalizationSpool
 from jeju_trip.infrastructure.official_timetable_bundle import build_weekday_timetable_bundle
 from jeju_trip.infrastructure.projection_publisher import (
@@ -140,9 +141,7 @@ def validate_scope_manifest_bundle(bundle: ScopeManifestBundle) -> None:
         for item in bundle.members
         if item.member_type == "PLACE"
     }
-    groups = {
-        (item.region_code, item.grid_id, item.candidate_group) for item in bundle.steps
-    }
+    groups = {(item.region_code, item.grid_id, item.candidate_group) for item in bundle.steps}
     if any(
         (item.region_code, item.grid_id, item.candidate_group) not in groups
         for item in bundle.candidates
@@ -177,6 +176,37 @@ class ManualCsvImportService:
     def __init__(self, raw_store: Any, source_admin: Any) -> None:
         self._raw_store = raw_store
         self._source_admin = source_admin
+
+    def import_airport(
+        self,
+        contract: TravelSourceContract,
+        path: Path,
+        source_date: date,
+        publisher: Callable[[Any, tuple[Any, ...]], Any],
+    ) -> RefreshOutcome:
+        """공식 공항 파일 전체를 raw-first로 보존하고 제주 한 건만 정규화한다."""
+        if (
+            contract.id != "kac.airport"
+            or contract.license.status != "APPROVED"
+            or contract.acquisition.mode != "FILE"
+            or contract.acquisition.format != "CSV"
+        ):
+            raise ValueError("AIRPORT_SOURCE_NOT_APPROVED")
+        raw = path.read_bytes()
+        if len(raw) > contract.acquisition.maximum_response_bytes:
+            raise ValueError("AIRPORT_SOURCE_TOO_LARGE")
+        return self._validate_and_publish(
+            contract,
+            source_date,
+            raw,
+            1,
+            (),
+            (),
+            publisher,
+            extension="csv",
+            content_type="text/csv",
+            normalizer_after_store=lambda: normalize_airport_csv(raw),
+        )
 
     def import_single(
         self,
