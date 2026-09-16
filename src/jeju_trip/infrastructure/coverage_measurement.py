@@ -112,6 +112,20 @@ class PostgresCoverageMeasurer:
                 (publication_id,),
             ).fetchone()[0]
             return int(count), 1
+        if capability == "airport_anchor_ready" and source_id == "kac.airport":
+            count = connection.execute(
+                """SELECT count(*) FROM travel_projection.place_fact p
+                   WHERE p.publication_id = %s AND p.fact_id = 'kac.airport:CJU'
+                     AND p.source_id = 'kac.airport' AND p.source_record_id = '제주'
+                     AND p.category = 'airport'
+                     AND EXISTS (
+                         SELECT 1 FROM travel_projection.service_area_boundary b
+                         JOIN source_admin.active_snapshot active
+                           ON active.publication_id = b.publication_id
+                         WHERE ST_Covers(b.geometry, p.position::geometry))""",
+                (publication_id,),
+            ).fetchone()[0]
+            return (1 if int(count) == 1 else 0), 1
         if capability == "place_search_ready" and source_id == "tourapi.place":
             count = connection.execute(
                 "SELECT count(*) FROM travel_projection.place_fact WHERE publication_id = %s",

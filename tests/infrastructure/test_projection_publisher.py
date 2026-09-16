@@ -63,6 +63,13 @@ def test_coverage_capability_must_match_publication_source() -> None:
     )
 
 
+def test_airport_coverage_does_not_claim_tourism_catalog_readiness() -> None:
+    """공항 한 건을 관광지 전체 준비 상태로 오인하지 않는다."""
+    validate_coverage_source("kac.airport", (SourceCoverageRecord("airport_anchor_ready", 1),))
+    with pytest.raises(ValueError, match="COVERAGE_SOURCE_MISMATCH"):
+        validate_coverage_source("kac.airport", (SourceCoverageRecord("place_search_ready", 1),))
+
+
 def test_fare_capability_is_bound_to_its_own_policy_source() -> None:
     """버스·택시 요금 readiness는 서로의 policy publication으로 발행할 수 없어야 한다."""
 

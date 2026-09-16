@@ -130,7 +130,7 @@ class TravelSourceContract(CatalogModel):
     def assert_network_request_allowed(self, url: str) -> None:
         if self.license.status != "APPROVED":
             raise SourceNotApprovedError(f"SOURCE_NOT_APPROVED:{self.id}")
-        if self.acquisition.mode not in {"API", "ON_DEMAND"}:
+        if self.acquisition.mode not in {"API", "ON_DEMAND", "FILE"}:
             raise SourceUrlRejectedError(f"SOURCE_NOT_NETWORKED:{self.id}")
         parsed = urlparse(url)
         if parsed.scheme != "https":

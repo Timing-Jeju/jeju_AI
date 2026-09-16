@@ -1,8 +1,10 @@
 """projection 기반 capability coverage 계산 테스트."""
 
+from uuid import uuid4
+
 import pytest
 
-from jeju_trip.infrastructure.coverage_measurement import coverage_ratio
+from jeju_trip.infrastructure.coverage_measurement import PostgresCoverageMeasurer, coverage_ratio
 
 
 class _SingleRowResult:
@@ -31,6 +33,18 @@ def test_coverage_ratio_requires_nonempty_complete_measurement() -> None:
     assert coverage_ratio(0, 0) == (0.0, "COVERAGE_DENOMINATOR_EMPTY")
     assert coverage_ratio(8, 10) == (0.8, "COVERAGE_INCOMPLETE")
     assert coverage_ratio(10, 10) == (1.0, None)
+
+
+def test_airport_coverage_uses_importer_projection_permissions() -> None:
+    """공항 게시 검증은 runtime 전용 뷰 권한을 추가하지 않고 수행한다."""
+    connection = _StopCoverageConnection()
+    connection.result = (1, 1)
+    assert PostgresCoverageMeasurer._counts(
+        connection, uuid4(), "kac.airport", "airport_anchor_ready", "JEJU_ALL", "ALL"
+    ) == (1, 1)
+    assert "travel_read" not in connection.query
+    assert "source_admin.active_snapshot" in connection.query
+    assert "ST_Covers" in connection.query
 
 
 def test_coverage_ratio_rejects_orphan_numerator_instead_of_clamping() -> None:
